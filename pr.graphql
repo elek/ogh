@@ -1,0 +1,79 @@
+{
+    repository(owner: "apache", name: "hadoop-ozone") {
+        pullRequests(last: 100, states: OPEN, orderBy: {field: UPDATED_AT, direction: DESC}) {
+            edges {
+                node {
+                    title
+                    number
+                    mergeable
+                    author {
+                        login
+                    }
+                    updatedAt
+                    reviews(last:100) {
+                        nodes {
+                            updatedAt,
+                            author {
+                                login
+                            },
+                            state
+                        }
+                    }
+                    commits(last: 1) {
+                        edges {
+                            node {
+                                commit {
+                                    checkSuites(last:1,filterBy: {appId: 15368}) {
+                                        edges {
+                                            node {
+                                                app {
+                                                    name,
+                                                    slug,
+                                                    id,
+                                                    databaseId,
+                                                },
+                                                checkRuns (last: 20) {
+                                                    edges {
+                                                        node {
+                                                            name,
+                                                            conclusion,
+                                                            summary,
+                                                            status,
+                                                            text,
+                                                            title
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                    message
+                                    status {
+                                        contexts {
+                                            state
+                                            description
+                                            id
+                                            context
+                                            creator {
+                                                login
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    participants(last: 100) {
+                        edges {
+                            node {
+                                company
+                                login
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
