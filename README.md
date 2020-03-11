@@ -26,12 +26,13 @@ Ozone GH is a simple script to make it easier the development of [Apache Hadoop 
 Legend: 
  * `[C]` means a conflict
  *  Participants can be prefixed with a review flag (✓ approved, ✕ change requested)
+   * Upper case login name means a real review, lower case is a comment
  * The last column show the results of the checks
    * `_` means a passed build
    * `.` means a missing build
    * `%` means an in-progress builds
    * any letter (eg. `b`,`c`) means a failing test (`b` -> build, `u` -> unit test ,etc). 
-   * The second part of the checks display all the integrations tests.
+   * The second part of the checks display all the integrations tests. 
 
 ### Print out all the available pull requests
 

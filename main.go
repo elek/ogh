@@ -191,6 +191,13 @@ func getParticipants(pr interface{}, author string) []string {
 	participants = append(participants, filterReviews(reviews, "CHANGES_REQUESTED", "✕")...)
 	participants = append(participants, filterReviews(reviews, "APPROVED", "✓")...)
 	participants = append(participants, filterReviews(reviews, "COMMENTED", "")...)
+
+	for _, participant := range l(m(pr, "participants", "edges")) {
+		login := ms(participant, "node", "login")
+		if _, ok := reviews[login]; !ok && login != author {
+			participants = append(participants, limit(login, 5))
+		}
+	}
 	return participants
 }
 
@@ -226,7 +233,7 @@ func filterReviews(reviews map[string]interface{}, status string, symbol string)
 	for _, review := range reviews {
 		state := ms(review, "state")
 		if state == status {
-			result = append(result, symbol+limit(ms(review, "author", "login"), 5))
+			result = append(result, symbol+limit(strings.ToUpper(ms(review, "author", "login")), 5))
 		}
 	}
 	return result
