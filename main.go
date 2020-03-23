@@ -47,36 +47,36 @@ func main() {
 			},
 		},
 		{
+			Name:  "artifacts",
+			Usage: "Download build arfitacts",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "user",
+					Usage: "Github user or organization name",
+					Value: "apache",
+				},
+			},
+			Action: func(c *cli.Context) error {
+				buildId, err := strconv.Atoi(c.Args().Get(0))
+				if err != nil {
+					return err
+				}
+				return downloadArtifacts(c.String("user"), buildId)
+			},
+		},
+		{
 			Name:    "builds",
 			Aliases: []string{"b"},
-			Usage:   "Print out github action related information",
-			Subcommands: []cli.Command{
-				{
-					Name:  "master",
-					Usage: "Show all the available pull requests",
-					Subcommands: []cli.Command{
-
-					},
-					Action: func(c *cli.Context) error {
-						return listBuilds("apache", "master", 8247)
-					},
+			Usage:   "Print results of branch builds.",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "user",
+					Usage: "Github user or organization name",
+					Value: "apache",
 				},
-				{
-					Name:  "fork",
-					Usage: "Show the builds from a specified forked repository",
-					Flags: []cli.Flag{
-						cli.StringFlag{
-							Name:  "user",
-							Usage: "Github user name",
-						},
-					},
-					Subcommands: []cli.Command{
-
-					},
-					Action: func(c *cli.Context) error {
-						return listBuilds(c.String("user"), "", -1)
-					},
-				},
+			},
+			Action: func(c *cli.Context) error {
+				return listBuilds(c.String("user"), "", -1)
 			},
 		},
 	}

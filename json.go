@@ -50,6 +50,11 @@ func mns(data interface{}, keys ...string) string {
 
 }
 
+func mn(data interface{}, keys ...string) int {
+	return int(m(data, keys...).(float64))
+
+}
+
 func l(data interface{}) []interface{} {
 	if data == nil {
 		return make([]interface{}, 0)
