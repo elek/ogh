@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/user"
 	"path"
 	"strconv"
 	"strings"
@@ -52,6 +53,28 @@ func main() {
 			},
 			Action: func(c *cli.Context) error {
 				return run(true, c.String("user"))
+			},
+		},
+		{
+			Name:    "mine",
+			Aliases: []string{"pr"},
+			Usage:   "Show results of the pr from the current user",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "user",
+					Usage: "Github user name. (Default: current user)",
+					Value: "",
+				},
+			},
+			Action: func(c *cli.Context) error {
+				userName := c.String("user")
+				if userName == "" {
+					user, err := user.Current()
+					if err == nil {
+						userName = user.Username
+					}
+				}
+				return run(true, userName)
 			},
 		},
 		{
