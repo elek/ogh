@@ -83,7 +83,15 @@ func main() {
 				},
 			},
 			Action: func(c *cli.Context) error {
-				return listBuilds(c.String("user"), "", -1)
+				return listBuilds(c.String("user"), "master", 8247)
+			},
+		},
+		{
+			Name:    "rerun",
+			Aliases: []string{"rr"},
+			Usage:   "Rerun a build of the specific PR.",
+			Action: func(c *cli.Context) error {
+				return rerun("apache", c.Args().Get(0))
 			},
 		},
 	}
