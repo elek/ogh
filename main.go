@@ -65,11 +65,7 @@ func main() {
 				},
 			},
 			Action: func(c *cli.Context) error {
-				buildId, err := strconv.Atoi(c.Args().Get(0))
-				if err != nil {
-					return err
-				}
-				return downloadArtifacts(c.String("user"), buildId)
+				return downloadArtifacts(c.String("user"), c.Args().Get(0))
 			},
 		},
 		{

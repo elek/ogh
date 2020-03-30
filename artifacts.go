@@ -2,57 +2,97 @@ package main
 
 import (
 	"archive/zip"
+	"errors"
 	"io"
 	"os"
 	"path"
 	"path/filepath"
-	"strconv"
+	"strings"
 )
 
-func downloadArtifacts(org string, buildId int) error {
-	fork := org
+func downloadArtifacts(org string, buildIdExpression string) error {
 
-	cacheKey := "runs-" + org + "-"
+	if strings.HasPrefix(buildIdExpression, "pr/") {
+		commits, err := GetPrCommits(org, "hadoop-ozone", buildIdExpression[3:])
+		if err != nil {
+			return err
+		}
+		lastCommit := ms(commits[len(commits)-1], "sha")
 
-	apiUrl := "https://api.github.com/repos/" + fork + "/hadoop-ozone/actions/"
-	apiUrl += "runs?per_page=20"
-	apiGetter := func() ([]byte, error) {
-		return readGithubApiV3(apiUrl)
-	}
-	runs, err := asJson(cachedGet(apiGetter, cacheKey))
-	if err != nil {
-		return err
-	}
-
-	for _, run := range l(m(runs, "workflow_runs")) {
-		if mn(run, "run_number") == buildId {
-			id := strconv.Itoa(mn(run, "id"))
-
-			apiGetter := func() ([]byte, error) {
-				return readGithubApiV3("https://api.github.com/repos/" + fork + "/hadoop-ozone/actions/runs/" + id + "/artifacts")
+		workflowRuns, err := GetWorkflowRuns(org, "hadoop-ozone", "4453")
+		for _, workflowRun := range l(m(workflowRuns, "workflow_runs")) {
+			if ms(workflowRun, "head_sha") == lastCommit {
+				return downloadArtifactsOfRun(org, mns(workflowRun, "id"), buildIdExpression)
 			}
-			artifacts, err := asJson(cachedGet(apiGetter, fork+"-artifact-"+id))
-			if err != nil {
-				return err
-			}
+		}
+		return errors.New("Couldn't find recent workflow run with the SHA of the last commit in the PR " + lastCommit)
+	} else if strings.HasPrefix(buildIdExpression, "#") {
+		return downloadArtifactsOfRun(org, buildIdExpression[1:], buildIdExpression[1:])
+	} else {
+		workflowRuns, err := GetWorkflowRuns(org, "hadoop-ozone", "4453")
 
-			for _, artifact := range l(m(artifacts, "artifacts")) {
-				name := ms(artifact, "name")
-				destDir := path.Join("/tmp/" + strconv.Itoa(buildId))
-				err := os.MkdirAll(destDir, 0755)
-				if err != nil {
-					return err
-				}
-				println("Downloading results of " + name + " to " + destDir)
-				err = downloadAndExtract(name, ms(artifact, "archive_download_url"), destDir)
-				if err != nil {
-					return err
-				}
+		if err != nil {
+			return err
+		}
+
+		for _, run := range l(m(workflowRuns, "workflow_runs")) {
+			if mns(run, "run_number") == buildIdExpression {
+				runId := mns(run, "id")
+				return downloadArtifactsOfRun(org, runId, runId)
+			}
+		}
+
+		workflowRuns, err = GetWorkflowRuns(org, "hadoop-ozone", "8247")
+		if err != nil {
+			return err
+		}
+
+		for _, run := range l(m(workflowRuns, "workflow_runs")) {
+			if mns(run, "run_number") == buildIdExpression {
+				runId := mns(run, "id")
+				return downloadArtifactsOfRun(org, runId, "build-branch/"+buildIdExpression)
 			}
 		}
 	}
 
-	return err
+	return errors.New("Unknown id format: " + buildIdExpression)
+}
+
+func downloadArtifactsOfRun(org string, runId string, dirPrefix string) error {
+
+	apiGetter := func() ([]byte, error) {
+		return readGithubApiV3("https://api.github.com/repos/" + org + "/hadoop-ozone/actions/runs/" + runId + "/artifacts")
+	}
+	artifacts, err := asJson(cachedGet(apiGetter, org+"-actions-runs-"+runId+"-artifacts"))
+	if err != nil {
+		return err
+	}
+
+	results := make(map[string]interface{})
+	jobs, err := GetWorkflowRunJobs(org, "hadoop-ozone", runId)
+	if err != nil {
+		return err
+	}
+	for _, job := range l(m(jobs, "jobs")) {
+		results[ms(job, "name")] = ms(job, "conclusion")
+	}
+
+	for _, artifact := range l(m(artifacts, "artifacts")) {
+		name := ms(artifact, "name")
+		if results[name] == "failure" {
+			destDir := path.Join("/tmp/" + dirPrefix)
+			err := os.MkdirAll(destDir, 0755)
+			if err != nil {
+				return err
+			}
+			println("Downloading results of " + name + " to " + destDir)
+			err = downloadAndExtract(name, ms(artifact, "archive_download_url"), destDir)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }
 
 func downloadAndExtract(name string, url string, destinationDir string) error {
@@ -60,7 +100,7 @@ func downloadAndExtract(name string, url string, destinationDir string) error {
 	zipPath := path.Join(destinationDir, name+".zip")
 
 	if _, err := os.Stat(zipPath); os.IsNotExist(err) {
-		resp, err := callGithubApiV3(url)
+		resp, err := callGithubApiV3("GET", url)
 		if err != nil {
 			return err
 		}
@@ -94,7 +134,7 @@ func downloadAndExtract(name string, url string, destinationDir string) error {
 				return err
 			}
 		} else {
-			println("Exctracting " + f.FileInfo().Name() + " to " + destFile)
+			println("Extracting " + f.FileInfo().Name() + " to " + destFile)
 			err = os.MkdirAll(path.Dir(destFile), 0755)
 			if err != nil {
 				return err
