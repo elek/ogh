@@ -17,7 +17,7 @@ func listBuilds(org string, branch string, workflowId int) error {
 		cacheKey += "-" + strconv.Itoa(workflowId)
 		apiUrl += "workflows/" + strconv.Itoa(workflowId) + "/"
 	}
-	apiUrl += "runs?per_page=20"
+	apiUrl += "runs?per_page=50"
 	if branch != "" {
 		cacheKey += "-" + branch
 		apiUrl = apiUrl + "&branch=" + branch
@@ -86,6 +86,8 @@ var transmap = map[string]statusTransform{
 	"it-filesystem":          statusTransform{9, 's'},
 	"it-filesystem-contract": statusTransform{10, 'c'},
 	"it-client-and-hdds":     statusTransform{11, 'h'},
+	"it-client":              statusTransform{11, 'c'},
+	"it-hdds-om":             statusTransform{12, 'm'},
 	"it-om":                  statusTransform{12, 'm'},
 	"it-ozone":               statusTransform{13, 'o'},
 }
