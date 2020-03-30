@@ -12,10 +12,10 @@ import (
 	"path"
 )
 
-func callGithubApiV3(url string) (*http.Response, error) {
+func callGithubApiV3(method string, url string) (*http.Response, error) {
 	client := &http.Client{}
 
-	req, err := http.NewRequest("GET", url, nil)
+	req, err := http.NewRequest(method, url, nil)
 	req.Header.Add("Authorization", "token "+GetToken())
 	req.Header.Add("Accept", "application/vnd.github.antiope-preview+json")
 	if err != nil {
@@ -30,7 +30,7 @@ func callGithubApiV3(url string) (*http.Response, error) {
 
 func readGithubApiV3(url string) ([]byte, error) {
 	client := &http.Client{}
-
+	println(url)
 	req, err := http.NewRequest("GET", url, nil)
 	req.Header.Add("Authorization", "token "+GetToken())
 	req.Header.Add("Accept", "application/vnd.github.antiope-preview+json")
