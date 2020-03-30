@@ -13,6 +13,15 @@ func min(a, b int) int {
 	return b
 }
 
+func asJsonList(data []byte, err error) ([]interface{}, error) {
+	result := make([]interface{}, 0)
+	err = json.Unmarshal(data, &result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func asJson(data []byte, err error) (map[string]interface{}, error) {
 	result := make(map[string]interface{})
 	err = json.Unmarshal(data, &result)
