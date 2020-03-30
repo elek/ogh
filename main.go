@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 	"time"
@@ -106,8 +107,21 @@ type getter func() ([]byte, error)
 
 func cachedGet(getter getter, key string) ([]byte, error) {
 	oghCache := os.Getenv("OGH_CACHE")
-	cacheFile := oghCache + "." + key
+
+	if oghCache == "" {
+		home, err := os.UserHomeDir()
+		if err == nil {
+			oghCache = path.Join(home, ".cache", "ogh")
+		}
+	}
+	cacheFile := ""
 	if oghCache != "" {
+		cacheFile = path.Join(oghCache, key)
+	}
+
+	if cacheFile != "" {
+		_ = os.MkdirAll(oghCache, 0700)
+
 		if stat, err := os.Stat(cacheFile); !os.IsNotExist(err) {
 			if stat.ModTime().Add(3 * time.Minute).After(time.Now()) {
 				return ioutil.ReadFile(cacheFile)
@@ -115,7 +129,7 @@ func cachedGet(getter getter, key string) ([]byte, error) {
 		}
 	}
 	result, err := getter()
-	if oghCache != "" {
+	if cacheFile != "" {
 		err = ioutil.WriteFile(cacheFile, result, 0600)
 		if err != nil {
 			return nil, err
