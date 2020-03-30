@@ -35,15 +35,22 @@ func main() {
 			Aliases: []string{"r"},
 			Usage:   "Show the review queue (all READY pull requests)",
 			Action: func(c *cli.Context) error {
-				return run(false)
+				return run(false, "")
 			},
 		},
 		{
 			Name:    "pull-requests",
 			Aliases: []string{"pr"},
 			Usage:   "Show all the available pull requests",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "user",
+					Usage: "Github user or organization name",
+					Value: "",
+				},
+			},
 			Action: func(c *cli.Context) error {
-				return run(true)
+				return run(true, c.String("user"))
 			},
 		},
 		{
@@ -109,7 +116,7 @@ func cachedGet(getter getter, key string) ([]byte, error) {
 	return result, err
 }
 
-func run(all bool) error {
+func run(all bool, authorFilter string) error {
 	var key string
 	if all {
 		key = "pr"
@@ -140,16 +147,22 @@ func run(all bool) error {
 		author := ms(pr, "author", "login")
 		participants := getParticipants(pr, author)
 		mergeableMark := ""
+		destMark := ""
+		if ms(pr, "baseRefName") != "master" {
+			destMark = "(->" + ms(pr, "baseRefName") + ")"
+		}
 		if ms(pr, "mergeable") == "CONFLICTING" {
 			mergeableMark = "[C] "
 		}
-		table.Append([]string{
-			fmt.Sprintf("%d", int(m(pr, "number").(float64))),
-			">" + limit(author, 12),
-			limit(mergeableMark+ms(pr, "title"), 50),
-			limit(strings.Join(participants, ","), 35),
-			buildStatus(pr),
-		})
+		if authorFilter == "" || authorFilter == author {
+			table.Append([]string{
+				fmt.Sprintf("%d", int(m(pr, "number").(float64))),
+				">" + limit(author, 12),
+				limit(mergeableMark+destMark+ms(pr, "title"), 50),
+				limit(strings.Join(participants, ","), 35),
+				buildStatus(pr),
+			})
+		}
 	}
 	table.Render() // Send output
 
