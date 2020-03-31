@@ -38,9 +38,11 @@ func listBuilds(org string, branch string, workflowId int) error {
 	for _, run := range l(m(runs, "workflow_runs")) {
 
 		jobsUrl := ms(run, "jobs_url")
-		jobs, err := asJson(cachedGet3min(func() ([]byte, error) {
+		jobs, err := asJson(cachedGet(func() ([]byte, error) {
 			return readGithubApiV3(jobsUrl)
-		}, "job-"+part(jobsUrl, -2)))
+		},
+			org+"-"+"hadoop-ozone"+"-"+"-actions-runs-"+part(jobsUrl, -2)+"-jobs",
+			buildResultCache))
 		if err != nil {
 			return err
 		}
@@ -48,7 +50,7 @@ func listBuilds(org string, branch string, workflowId int) error {
 		workflowUrl := ms(run, "workflow_url")
 		workflow, err := asJson(cachedGet3min(func() ([]byte, error) {
 			return readGithubApiV3(workflowUrl)
-		}, "workflow-"+part(workflowUrl, -1)))
+		}, org+"-"+"hadoop-ozone"+"workflow-"+part(workflowUrl, -1)))
 		if err != nil {
 			return err
 		}
