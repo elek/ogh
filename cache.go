@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"github.com/pkg/errors"
+	"github.com/rs/zerolog/log"
 	"io/ioutil"
 	"os"
 	"path"
@@ -72,6 +73,7 @@ func cachedGet(getter getter, key string, cacheValidator isCacheValid) ([]byte, 
 			println("Couldn't validate cache file " + cacheFile + " " + err.Error())
 		}
 		if err == nil && valid {
+			log.Debug().Msgf("'%s' is read from the cache", key)
 			return ioutil.ReadFile(cacheFile)
 		}
 	}

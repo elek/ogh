@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/olekukonko/tablewriter"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/skratchdot/open-golang/open"
 	"github.com/urfave/cli"
-	"log"
 	"os"
 	"os/user"
 	"strconv"
@@ -15,12 +16,15 @@ import (
 )
 
 func main() {
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	if len(os.Args) == 2 {
 		_, err := strconv.Atoi(os.Args[1])
 		if err == nil {
 			err := open.Start("http://github.com/apache/hadoop-ozone/pull/" + os.Args[1])
 			if err != nil {
-				log.Fatal(err)
+				panic(err)
 			}
 			return
 		}
@@ -115,7 +119,7 @@ func main() {
 	}
 	err := app.Run(os.Args)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
 }

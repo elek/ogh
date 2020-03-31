@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/markbates/pkger"
+	"github.com/rs/zerolog/log"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"net/http"
@@ -12,8 +13,10 @@ import (
 	"path"
 )
 
+
 func callGithubApiV3(method string, url string) (*http.Response, error) {
 	client := &http.Client{}
+	log.Debug().Msgf("Reading url from GITHUB api: %s ", url)
 
 	req, err := http.NewRequest(method, url, nil)
 	req.Header.Add("Authorization", "token "+GetToken())
@@ -30,7 +33,8 @@ func callGithubApiV3(method string, url string) (*http.Response, error) {
 
 func readGithubApiV3(url string) ([]byte, error) {
 	client := &http.Client{}
-	println(url)
+	log.Debug().Msgf("Reading url from GITHUB api: %s ", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.Header.Add("Authorization", "token "+GetToken())
 	req.Header.Add("Accept", "application/vnd.github.antiope-preview+json")
