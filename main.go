@@ -6,11 +6,9 @@ import (
 	"github.com/olekukonko/tablewriter"
 	"github.com/skratchdot/open-golang/open"
 	"github.com/urfave/cli"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
-	"path"
 	"strconv"
 	"strings"
 	"time"
@@ -122,40 +120,7 @@ func main() {
 
 }
 
-type getter func() ([]byte, error)
 
-func cachedGet(getter getter, key string) ([]byte, error) {
-	oghCache := os.Getenv("OGH_CACHE")
-
-	if oghCache == "" {
-		home, err := os.UserHomeDir()
-		if err == nil {
-			oghCache = path.Join(home, ".cache", "ogh")
-		}
-	}
-	cacheFile := ""
-	if oghCache != "" {
-		cacheFile = path.Join(oghCache, key)
-	}
-
-	if cacheFile != "" {
-		_ = os.MkdirAll(oghCache, 0700)
-
-		if stat, err := os.Stat(cacheFile); !os.IsNotExist(err) {
-			if stat.ModTime().Add(3 * time.Minute).After(time.Now()) {
-				return ioutil.ReadFile(cacheFile)
-			}
-		}
-	}
-	result, err := getter()
-	if cacheFile != "" {
-		err = ioutil.WriteFile(cacheFile, result, 0600)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return result, err
-}
 
 func run(all bool, authorFilter string) error {
 	var key string
@@ -164,7 +129,7 @@ func run(all bool, authorFilter string) error {
 	} else {
 		key = "review"
 	}
-	body, err := cachedGet(readGithubApiV4, key)
+	body, err := cachedGet3min(readGithubApiV4, key)
 	if err != nil {
 		return err
 	}

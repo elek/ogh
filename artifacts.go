@@ -63,7 +63,7 @@ func downloadArtifactsOfRun(org string, runId string, dirPrefix string) error {
 	apiGetter := func() ([]byte, error) {
 		return readGithubApiV3("https://api.github.com/repos/" + org + "/hadoop-ozone/actions/runs/" + runId + "/artifacts")
 	}
-	artifacts, err := asJson(cachedGet(apiGetter, org+"-actions-runs-"+runId+"-artifacts"))
+	artifacts, err := asJson(cachedGet3min(apiGetter, org+"-actions-runs-"+runId+"-artifacts"))
 	if err != nil {
 		return err
 	}

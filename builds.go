@@ -25,20 +25,20 @@ func listBuilds(org string, branch string, workflowId int) error {
 	apiGetter := func() ([]byte, error) {
 		return readGithubApiV3(apiUrl)
 	}
-	runs, err := asJson(cachedGet(apiGetter, cacheKey))
+	runs, err := asJson(cachedGet3min(apiGetter, cacheKey))
 	if err != nil {
 		return err
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"id", "created", "workflow", "repo", "branch", "commit", "Checks"})
+	table.SetHeader([]string{"id", "created", "workflow", "branch", "commit", "Checks"})
 	table.SetAutoWrapText(false)
 	println()
 
 	for _, run := range l(m(runs, "workflow_runs")) {
 
 		jobsUrl := ms(run, "jobs_url")
-		jobs, err := asJson(cachedGet(func() ([]byte, error) {
+		jobs, err := asJson(cachedGet3min(func() ([]byte, error) {
 			return readGithubApiV3(jobsUrl)
 		}, "job-"+part(jobsUrl, -2)))
 		if err != nil {
@@ -46,7 +46,7 @@ func listBuilds(org string, branch string, workflowId int) error {
 		}
 
 		workflowUrl := ms(run, "workflow_url")
-		workflow, err := asJson(cachedGet(func() ([]byte, error) {
+		workflow, err := asJson(cachedGet3min(func() ([]byte, error) {
 			return readGithubApiV3(workflowUrl)
 		}, "workflow-"+part(workflowUrl, -1)))
 		if err != nil {
@@ -56,9 +56,8 @@ func listBuilds(org string, branch string, workflowId int) error {
 			mns(run, "run_number"),
 			ms(run, "created_at"),
 			ms(workflow, "name"),
-			ms(run, "repository", "full_name"),
 			ms(run, "head_branch"),
-			limit(ms(run, "head_commit", "message"), 50),
+			limit(strings.Split(ms(run, "head_commit", "message"), "\n")[0], 50),
 			stepsAsString(l(m(jobs, "jobs"))),
 		})
 
