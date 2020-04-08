@@ -88,9 +88,13 @@ func main() {
 					Usage: "Github user or organization name",
 					Value: "apache",
 				},
+				cli.BoolFlag{
+					Name:  "all",
+					Usage: "If not used, only the failed artifacts will be downloaded.",
+				},
 			},
 			Action: func(c *cli.Context) error {
-				return downloadArtifacts(c.String("user"), c.Args().Get(0))
+				return downloadArtifacts(c.String("user"), c.Args().Get(0), c.Bool("all"))
 			},
 		},
 		{
@@ -106,6 +110,18 @@ func main() {
 			},
 			Action: func(c *cli.Context) error {
 				return listBuilds(c.String("user"), "master", 8247)
+			},
+		},
+		{
+			Name:      "archive",
+			Usage:     "Save artifacts and build results of master builds to a specific dir.",
+			ArgsUsage: "destination directory to save the artifacts",
+			Action: func(c *cli.Context) error {
+				dir := "/tmp"
+				if c.NArg() > 0 {
+					dir = c.Args().Get(0)
+				}
+				return archiveBuilds(dir)
 			},
 		},
 		{

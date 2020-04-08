@@ -2,15 +2,17 @@ package main
 
 import (
 	"archive/zip"
-	"errors"
+	"encoding/json"
+	"github.com/pkg/errors"
 	"io"
+	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
 )
 
-func downloadArtifacts(org string, buildIdExpression string) error {
+func downloadArtifacts(org string, buildIdExpression string, all bool) error {
 
 	if strings.HasPrefix(buildIdExpression, "pr/") {
 		commits, err := GetPrCommits(org, "hadoop-ozone", buildIdExpression[3:])
@@ -22,12 +24,12 @@ func downloadArtifacts(org string, buildIdExpression string) error {
 		workflowRuns, err := GetWorkflowRuns(org, "hadoop-ozone", "4453")
 		for _, workflowRun := range l(m(workflowRuns, "workflow_runs")) {
 			if ms(workflowRun, "head_sha") == lastCommit {
-				return downloadArtifactsOfRun(org, mns(workflowRun, "id"), buildIdExpression)
+				return downloadArtifactsOfRun(org, mns(workflowRun, "id"), "/tmp/"+buildIdExpression, false)
 			}
 		}
 		return errors.New("Couldn't find recent workflow run with the SHA of the last commit in the PR " + lastCommit)
 	} else if strings.HasPrefix(buildIdExpression, "#") {
-		return downloadArtifactsOfRun(org, buildIdExpression[1:], buildIdExpression[1:])
+		return downloadArtifactsOfRun(org, buildIdExpression[1:], "/tmp"+buildIdExpression[1:], all)
 	} else {
 		workflowRuns, err := GetWorkflowRuns(org, "hadoop-ozone", "4453")
 
@@ -38,7 +40,7 @@ func downloadArtifacts(org string, buildIdExpression string) error {
 		for _, run := range l(m(workflowRuns, "workflow_runs")) {
 			if mns(run, "run_number") == buildIdExpression {
 				runId := mns(run, "id")
-				return downloadArtifactsOfRun(org, runId, runId)
+				return downloadArtifactsOfRun(org, runId, "/tmp/"+runId, all)
 			}
 		}
 
@@ -50,7 +52,7 @@ func downloadArtifacts(org string, buildIdExpression string) error {
 		for _, run := range l(m(workflowRuns, "workflow_runs")) {
 			if mns(run, "run_number") == buildIdExpression {
 				runId := mns(run, "id")
-				return downloadArtifactsOfRun(org, runId, "build-branch/"+buildIdExpression)
+				return downloadArtifactsOfRun(org, runId, "/tmp/build-branch/"+buildIdExpression, all)
 			}
 		}
 	}
@@ -58,7 +60,7 @@ func downloadArtifacts(org string, buildIdExpression string) error {
 	return errors.New("Unknown id format: " + buildIdExpression)
 }
 
-func downloadArtifactsOfRun(org string, runId string, dirPrefix string) error {
+func downloadArtifactsOfRun(org string, runId string, destinationDir string, all bool) error {
 
 	apiGetter := func() ([]byte, error) {
 		return readGithubApiV3("https://api.github.com/repos/" + org + "/hadoop-ozone/actions/runs/" + runId + "/artifacts")
@@ -77,16 +79,28 @@ func downloadArtifactsOfRun(org string, runId string, dirPrefix string) error {
 		results[ms(job, "name")] = ms(job, "conclusion")
 	}
 
+	_ = os.RemoveAll(destinationDir)
+	err = os.MkdirAll(destinationDir, 0755)
+	if err != nil {
+		return errors.Wrap(err, "Can't created destination directory: "+destinationDir)
+	}
+	niceJobJson, err := json.MarshalIndent(jobs, "", "   ")
+	if err != nil {
+		return errors.Wrap(err, "Can't parse job API, runId="+runId)
+	}
+	jsonJobFile := path.Join(destinationDir, "job.json")
+
+	err = ioutil.WriteFile(jsonJobFile, niceJobJson, 0755)
+	if err != nil {
+		return errors.Wrap(err, "Can't write out job file to "+jsonJobFile)
+	}
+
 	for _, artifact := range l(m(artifacts, "artifacts")) {
 		name := ms(artifact, "name")
-		if results[name] == "failure" {
-			destDir := path.Join("/tmp/" + dirPrefix)
-			err := os.MkdirAll(destDir, 0755)
-			if err != nil {
-				return err
-			}
-			println("Downloading results of " + name + " to " + destDir)
-			err = downloadAndExtract(name, ms(artifact, "archive_download_url"), destDir)
+		if all || results[name] == "failure" {
+
+			println("Downloading results of " + name + " to " + destinationDir)
+			err = downloadAndExtract(name, ms(artifact, "archive_download_url"), destinationDir)
 			if err != nil {
 				return err
 			}
@@ -120,6 +134,7 @@ func downloadAndExtract(name string, url string, destinationDir string) error {
 		return err
 	}
 	defer r.Close()
+	defer os.Remove(zipPath)
 
 	for _, f := range r.File {
 		rc, err := f.Open()
