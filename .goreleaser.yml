@@ -8,10 +8,17 @@ archive:
     darwin: Darwin
     linux: Linux
     amd64: x86_64
+
 checksum:
   name_template: 'checksums.txt'
+
 snapshot:
   name_template: "{{ .Tag }}-next"
+
+dockers:
+   - image_templates:
+       - elek/ogh
+
 changelog:
   sort: asc
   filters:
