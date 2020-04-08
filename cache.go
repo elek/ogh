@@ -78,7 +78,7 @@ func cachedGet(getter getter, key string, cacheValidator isCacheValid) ([]byte, 
 		}
 	}
 	result, err := getter()
-	if cacheFile != "" {
+	if err == nil && cacheFile != "" {
 		err = ioutil.WriteFile(cacheFile, result, 0600)
 		if err != nil {
 			return nil, err
