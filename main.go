@@ -15,6 +15,10 @@ import (
 	"time"
 )
 
+var version string
+var commit string
+var date string
+
 func main() {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
@@ -32,7 +36,8 @@ func main() {
 
 	app := cli.NewApp()
 	app.Name = "ogh"
-	app.Usage = "Ozone Github Development helper"
+	app.Description = "Ozone Github Development helper"
+	app.Version = fmt.Sprintf("%s (%s, %s)", version, commit, date)
 	app.Commands = []cli.Command{
 		{
 			Name:    "review",
