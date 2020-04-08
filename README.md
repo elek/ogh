@@ -2,9 +2,49 @@
 
 Ozone GH is a simple script to make it easier the development of [Apache Hadoop Ozone](https://hadoop.apache.org/ozone)
 
+
+## Install
+
+OSX:
+
+```
+brew install elek/brew/ogh
+```
+
+Linux
+
+```
+go get github.com/elek/ogh
+```
+
+
+## Configuration
+
+If you have ever used `hub` or `gh`, you don't need to set the GITHUB_TOKEN:
+
+Github token can be set by
+
+ * setting `GITHUB_TOKEN` environment variable
+ * Setting it in `.config/hub` used by `hub`
+ * Setting it in `.config/gh/config.yaml`
+
+## Interactive
+
+You can use it as an interactive command with `fzf`
+
+```
+ogh review | fzf --reverse | awk '{print $2}' | xargs -n1 ogh
+```
+
+## Caching
+
+Github calls are cached for 3-5 minutes, by default. (Cache stored in stander `~/.cache/ogh` locations).
+
+Results of finished builds are cached forever.
+
 ## Usage
 
-### Print out ready pull requests
+### Print out READY pull requests
 
 ```
 > ogh review
@@ -23,21 +63,23 @@ Ozone GH is a simple script to make it easier the development of [Apache Hadoop 
 +-----+--------------+----------------------------------------------------+------------------------+----------------+
 ```
 
-Legend: 
+**Legend (IMPORTANT)**: 
+
  * `[C]` means a conflict
  *  Participants can be prefixed with a review flag (✓ approved, ✕ change requested)
    * Upper case login name means a real review, lower case is a comment
- * The last column show the results of the checks
-   * `_` means a passed build
+ * The last column (*CHECK*) shows the results of the checks
+   * `_` means a passed
    * `.` means a missing build
    * `%` means an in-progress builds
    * any letter (eg. `b`,`c`) means a failing test (`b` -> build, `u` -> unit test ,etc). 
-   * The second part of the checks display all the integrations tests. 
+   * The second part (after the space) of the checks display all the integrations tests. 
 
-### Print out all the available pull requests
+### Print out all the available pull requests (including failiing / conflicted ones)
 
 ```
 ogh pr
+
 +-----+---------------+----------------------------------------------------+---------------------------------+----------------+
 | ID  |    AUTHOR     |                      SUMMARY                       |          PARTICIPANTS           |     CHECK      |
 +-----+---------------+----------------------------------------------------+---------------------------------+----------------+
@@ -72,40 +114,10 @@ ogh builds master
 | 570 | 2020-03-06T14:45:47Z | build-branch | apache/hadoop-ozone | master | HDDS-3131. Disable TestMiniChaosOzoneCluster (#644 | _______ ______ |
 ```
 
-### Configuration
 
-If you have ever used `hub` or `gh`, you don't need to set the GITHUB_TOKEN:
+### Download an artifacts
 
-Github token can be set by
+Use `ogh artifacts pr/717` (to download the last build of a PR) or `ogh artifacts 579` to download results of a specific line (see previous) table.
 
- * setting `GITHUB_TOKEN` environment variable
- * Setting it in `.config/hub` used by `hub`
- * Setting it in `.config/gh/config.yaml`
+Without the `--all` flag, only the failing tests are downloaded.  
 
-Use `OGH_CACHE` environment variable to defined a file (prefix) for cache files. Results will be cached for a short time (<5 mins)
-
-```
-OGH_CACHE=/tmp/ogh ogh pr
- ```
-
-### Interactive
-
-You can use it as an interactive command with `fzf`
-
-```
-ogh review | fzf --reverse | awk '{print $2}' | xargs -n1 ogh
-```
-
-## Install
-
-OSX:
-
-```
-brew install elek/brew/ogh
-```
-
-Linux
-
-```
-go get github.com/elek/ogh
-```
