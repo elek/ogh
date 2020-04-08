@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/markbates/pkger"
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -16,7 +17,7 @@ import (
 
 func callGithubApiV3(method string, url string) (*http.Response, error) {
 	client := &http.Client{}
-	log.Debug().Msgf("Reading url from GITHUB api: %s ", url)
+	log.Debug().Msgf("%s url from GITHUB api: %s ", method, url)
 
 	req, err := http.NewRequest(method, url, nil)
 	req.Header.Add("Authorization", "token "+GetToken())
@@ -27,6 +28,16 @@ func callGithubApiV3(method string, url string) (*http.Response, error) {
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
+	}
+	if resp.StatusCode > 299 {
+		defer resp.Body.Close()
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Error().Msg("Can't read the body of the response: " + err.Error())
+		} else {
+			log.Error().Msgf(string(body))
+		}
+		return nil, errors.New(method + " url is failed (" + resp.Status + "): " + url)
 	}
 	return resp, nil
 }
@@ -49,6 +60,10 @@ func readGithubApiV3(url string) ([]byte, error) {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
+	}
+	if resp.StatusCode > 299 {
+		log.Error().Msgf(string(body))
+		return nil, errors.New("Reading url is failed (" + resp.Status + "): " + url)
 	}
 	return body, nil
 }
