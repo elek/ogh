@@ -36,7 +36,8 @@ func main() {
 
 	app := cli.NewApp()
 	app.Name = "ogh"
-	app.Description = "Ozone Github Development helper"
+	app.Usage = "Helper cli for Apache Hadoop Ozone development"
+	app.Description = "Various helper scripts to query github API to make the development faster."
 	app.Version = fmt.Sprintf("%s (%s, %s)", version, commit, date)
 	app.Commands = []cli.Command{
 		{
