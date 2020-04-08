@@ -24,6 +24,9 @@ func asJsonList(data []byte, err error) ([]interface{}, error) {
 
 func asJson(data []byte, err error) (map[string]interface{}, error) {
 	result := make(map[string]interface{})
+	if err != nil {
+		return nil, err
+	}
 	err = json.Unmarshal(data, &result)
 	if err != nil {
 		return result, err
