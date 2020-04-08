@@ -2,9 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
-	"io"
-	"os"
 )
 
 func rerun(org string, prId string) error {
@@ -18,13 +15,9 @@ func rerun(org string, prId string) error {
 	workflowRuns, err := GetWorkflowRuns(org, "hadoop-ozone", "4453")
 	for _, workflowRun := range l(m(workflowRuns, "workflow_runs")) {
 		if ms(workflowRun, "head_sha") == lastCommit {
-			resp, err := callGithubApiV3("POST", ms(workflowRun, "rerun_url"))
+			_, err := callGithubApiV3("POST", ms(workflowRun, "rerun_url"))
 			if err != nil {
 				return err
-			}
-			if resp.StatusCode != 200 {
-				fmt.Println(resp.Status)
-				io.Copy(os.Stderr, resp.Body)
 			}
 			return nil
 		}
