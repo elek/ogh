@@ -114,10 +114,18 @@ ogh builds master
 | 570 | 2020-03-06T14:45:47Z | build-branch | apache/hadoop-ozone | master | HDDS-3131. Disable TestMiniChaosOzoneCluster (#644 | _______ ______ |
 ```
 
-
 ### Download an artifacts
 
 Use `ogh artifacts pr/717` (to download the last build of a PR) or `ogh artifacts 579` to download results of a specific line (see previous) table.
 
 Without the `--all` flag, only the failing tests are downloaded.  
 
+### Rerun build
+
+Usually it's better to do with an empty commit, but you can trigger rerun from the API (use PR number): 
+
+```
+ogh rerun 123
+```
+
+For some reason Github usually returns with 500 and starts the rerun.
