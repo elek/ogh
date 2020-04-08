@@ -88,13 +88,18 @@ func main() {
 					Usage: "Github user or organization name",
 					Value: "apache",
 				},
+				cli.StringFlag{
+					Name:  "dir",
+					Usage: "Destination dir to save the downloaded artifacts",
+					Value: "/tmp",
+				},
 				cli.BoolFlag{
 					Name:  "all",
 					Usage: "If not used, only the failed artifacts will be downloaded.",
 				},
 			},
 			Action: func(c *cli.Context) error {
-				return downloadArtifacts(c.String("user"), c.Args().Get(0), c.Bool("all"))
+				return downloadArtifacts(c.String("user"), c.Args().Get(0), c.String("dir"), c.Bool("all"))
 			},
 		},
 		{

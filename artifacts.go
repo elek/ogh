@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-func downloadArtifacts(org string, buildIdExpression string, all bool) error {
+func downloadArtifacts(org string, buildIdExpression string, destinationDir string, all bool) error {
 
 	if strings.HasPrefix(buildIdExpression, "pr/") {
 		commits, err := GetPrCommits(org, "hadoop-ozone", buildIdExpression[3:])
@@ -24,12 +24,12 @@ func downloadArtifacts(org string, buildIdExpression string, all bool) error {
 		workflowRuns, err := GetWorkflowRuns(org, "hadoop-ozone", "4453")
 		for _, workflowRun := range l(m(workflowRuns, "workflow_runs")) {
 			if ms(workflowRun, "head_sha") == lastCommit {
-				return downloadArtifactsOfRun(org, mns(workflowRun, "id"), "/tmp/"+buildIdExpression, false)
+				return downloadArtifactsOfRun(org, mns(workflowRun, "id"), destinationDir+buildIdExpression, false)
 			}
 		}
 		return errors.New("Couldn't find recent workflow run with the SHA of the last commit in the PR " + lastCommit)
 	} else if strings.HasPrefix(buildIdExpression, "#") {
-		return downloadArtifactsOfRun(org, buildIdExpression[1:], "/tmp"+buildIdExpression[1:], all)
+		return downloadArtifactsOfRun(org, buildIdExpression[1:], destinationDir+"/"+buildIdExpression[1:], all)
 	} else {
 		workflowRuns, err := GetWorkflowRuns(org, "hadoop-ozone", "4453")
 
@@ -40,7 +40,7 @@ func downloadArtifacts(org string, buildIdExpression string, all bool) error {
 		for _, run := range l(m(workflowRuns, "workflow_runs")) {
 			if mns(run, "run_number") == buildIdExpression {
 				runId := mns(run, "id")
-				return downloadArtifactsOfRun(org, runId, "/tmp/"+runId, all)
+				return downloadArtifactsOfRun(org, runId, destinationDir+"/"+runId, all)
 			}
 		}
 
@@ -52,7 +52,7 @@ func downloadArtifacts(org string, buildIdExpression string, all bool) error {
 		for _, run := range l(m(workflowRuns, "workflow_runs")) {
 			if mns(run, "run_number") == buildIdExpression {
 				runId := mns(run, "id")
-				return downloadArtifactsOfRun(org, runId, "/tmp/build-branch/"+buildIdExpression, all)
+				return downloadArtifactsOfRun(org, runId, destinationDir+"/build-branch/"+buildIdExpression, all)
 			}
 		}
 	}
