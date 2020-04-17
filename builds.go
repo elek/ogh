@@ -50,7 +50,7 @@ func listBuilds(org string, branch string, workflowId int) error {
 		workflowUrl := ms(run, "workflow_url")
 		workflow, err := asJson(cachedGet3min(func() ([]byte, error) {
 			return readGithubApiV3(workflowUrl)
-		}, org+"-"+"hadoop-ozone"+"workflow-"+part(workflowUrl, -1)))
+		}, org+"-"+"hadoop-ozone-"+"workflow-"+part(workflowUrl, -1)))
 		if err != nil {
 			return err
 		}

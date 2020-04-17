@@ -45,3 +45,10 @@ func GetChecksForCommits(org string, repo string, commitId string) (map[string]i
 	}
 	return asJson(cachedGet3min(apiGetter, org+"-"+repo+"-commits-"+commitId+"-check-runs"))
 }
+
+func GetAllWorkflowRuns(org string, repo string) (map[string]interface{}, error) {
+	apiGetter := func() ([]byte, error) {
+		return readGithubApiV3("https://api.github.com/repos/" + org + "/" + repo + "/actions/runs?per_page=100")
+	}
+	return asJson(cachedGet(apiGetter, org+"-"+repo+"-actions-runs", buildResultCache))
+}

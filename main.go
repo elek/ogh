@@ -118,9 +118,19 @@ func main() {
 					Usage: "Github user or organization name",
 					Value: "apache",
 				},
+				cli.StringFlag{
+					Name:  "workflow",
+					Usage: "Id of the workflow to list the builds",
+					Value: "8247",
+				},
+				cli.StringFlag{
+					Name:  "branch",
+					Usage: "Check the builds of this specific run",
+					Value: "master",
+				},
 			},
 			Action: func(c *cli.Context) error {
-				return listBuilds(c.String("user"), "master", 8247)
+				return listBuilds(c.String("user"), c.String("branch"), c.Int("workflow"))
 			},
 		},
 		{
