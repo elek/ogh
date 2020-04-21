@@ -191,7 +191,7 @@ func run(all bool, authorFilter string) error {
 			continue
 		}
 
-		author := ms(pr, "author", "login")
+		author := prAuthor(pr)
 		participants := getParticipants(pr, author)
 		mergeableMark := ""
 		destMark := ""
@@ -262,6 +262,7 @@ func getParticipants(pr interface{}, author string) []string {
 }
 
 func lastReviewsPerUser(pr interface{}) map[string]interface{} {
+	prAuthor := prAuthor(pr)
 	reviewers := make(map[string]interface{})
 	for _, review := range l(m(pr, "reviews", "nodes")) {
 		author := ms(review, "author", "login")
@@ -281,7 +282,7 @@ func lastReviewsPerUser(pr interface{}) map[string]interface{} {
 				reviewers[author] = review
 			}
 
-		} else {
+		} else if author != prAuthor {
 			reviewers[author] = review
 		}
 	}
@@ -297,6 +298,10 @@ func filterReviews(reviews map[string]interface{}, status string, symbol string)
 		}
 	}
 	return result
+}
+
+func prAuthor(pr interface{}) string {
+	return ms(pr, "author", "login")
 }
 
 type statusTransform struct {
