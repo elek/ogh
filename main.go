@@ -265,7 +265,7 @@ func getParticipants(pr interface{}, author string) []string {
 		_, reviewed := reviews[login]
 		_, commented := commenters[login]
 		if !reviewed && !commented && login != author {
-			participants = append(participants, limit("?" + strings.ToUpper(login), 5))
+			participants = append(participants, "?" + limit(strings.ToUpper(login), 5))
 		}
 	}
 
