@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
+	"io/ioutil"
 	"os"
 	"path"
 	"time"
@@ -27,16 +28,33 @@ func archiveBuilds(outputDir string) error {
 		buildDir := path.Join(outputDir, created.Format("2006/01/02"), runId)
 		log.Info().Msgf("Download artifacts of build %s", runId)
 
-		if _, err := os.Stat(buildDir); os.IsNotExist(err) {
-			_ = os.MkdirAll(buildDir, 0755)
-			err = downloadArtifactsOfRun("apache", mns(run, "id"), buildDir, false)
-			if err != nil {
-				return errors.Wrap(err, "Can't download artifact of the build "+runId)
-			}
-		} else {
-			log.Info().Msgf("%s is already downloaded", buildDir)
+		jobJson := path.Join(buildDir, "job.json")
 
+		//we can skip the download if the job is already downloaded and all the
+		//jobs were finished
+		if _, err := os.Stat(jobJson); os.IsNotExist(err) {
+		} else {
+			jobContent, err := asJson(ioutil.ReadFile(jobJson))
+			if err != nil {
+				return err
+			}
+			allDone := true
+			for _, job := range l(m(jobContent, "jobs")) {
+				if ms(job, "status") != "completed" {
+					allDone = false
+				}
+			}
+			if allDone {
+				continue
+			}
+			log.Print(runId + " is already downloaded but it was in-progress")
 		}
+		_ = os.MkdirAll(buildDir, 0755)
+		err = downloadArtifactsOfRun("apache", mns(run, "id"), buildDir, false)
+		if err != nil {
+			return errors.Wrap(err, "Can't download artifact of the build "+runId)
+		}
+
 	}
 
 	return err
