@@ -252,6 +252,12 @@ func getParticipants(pr interface{}, author string) []string {
 	participants = append(participants, filterReviews(reviews, "APPROVED", "✓")...)
 	participants = append(participants, filterReviews(reviews, "COMMENTED", "")...)
 
+	for _, login := range reviewRequests(pr) {
+		if _, ok := reviews[login]; !ok && login != author {
+			participants = append(participants, limit("?" + strings.ToUpper(login), 5))
+		}
+	}
+
 	for _, participant := range l(m(pr, "participants", "edges")) {
 		login := ms(participant, "node", "login")
 		if _, ok := reviews[login]; !ok && login != author {
@@ -259,6 +265,14 @@ func getParticipants(pr interface{}, author string) []string {
 		}
 	}
 	return participants
+}
+
+func reviewRequests(pr interface{}) []string {
+	requests := make([]string, 0)
+	for _, request := range l(m(pr, "reviewRequests", "edges")) {
+		requests = append(requests, ms(request, "node", "requestedReviewer", "login"))
+	}
+	return requests
 }
 
 func lastReviewsPerUser(pr interface{}) map[string]interface{} {
