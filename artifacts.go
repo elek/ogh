@@ -36,7 +36,6 @@ func downloadArtifacts(org string, buildIdExpression string, destinationDir stri
 		if err == nil {
 			for _, run := range l(m(workflowRuns, "workflow_runs")) {
 				runId := mns(run, "id")
-				println(mns(run, "run_number"))
 				if mns(run, "run_number") == buildIdExpression {
 					return downloadArtifactsOfRun(org, runId, destinationDir+"/"+runId, all)
 				}

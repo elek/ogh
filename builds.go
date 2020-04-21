@@ -31,7 +31,7 @@ func listBuilds(org string, branch string, workflowId int) error {
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"id", "created", "workflow", "branch", "commit", "Checks"})
+	table.SetHeader([]string{"#run", "id", "created", "workflow", "branch", "commit", "Checks"})
 	table.SetAutoWrapText(false)
 	println()
 
@@ -56,6 +56,7 @@ func listBuilds(org string, branch string, workflowId int) error {
 		}
 		table.Append([]string{
 			mns(run, "run_number"),
+			"#" + mns(run, "id"),
 			ms(run, "created_at"),
 			ms(workflow, "name"),
 			ms(run, "head_branch"),
