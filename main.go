@@ -252,18 +252,23 @@ func getParticipants(pr interface{}, author string) []string {
 	participants = append(participants, filterReviews(reviews, "APPROVED", "✓")...)
 	participants = append(participants, filterReviews(reviews, "COMMENTED", "")...)
 
-	for _, login := range reviewRequests(pr) {
-		if _, ok := reviews[login]; !ok && login != author {
-			participants = append(participants, limit("?" + strings.ToUpper(login), 5))
-		}
-	}
-
+	commenters := make(map[string]bool)
 	for _, participant := range l(m(pr, "participants", "edges")) {
 		login := ms(participant, "node", "login")
 		if _, ok := reviews[login]; !ok && login != author {
 			participants = append(participants, limit(login, 5))
+			commenters[login] = true
 		}
 	}
+
+	for _, login := range reviewRequests(pr) {
+		_, reviewed := reviews[login]
+		_, commented := commenters[login]
+		if !reviewed && !commented && login != author {
+			participants = append(participants, limit("?" + strings.ToUpper(login), 5))
+		}
+	}
+
 	return participants
 }
 
