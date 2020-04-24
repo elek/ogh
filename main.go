@@ -98,7 +98,7 @@ func main() {
 		},
 		{
 			Name:    "mine",
-			Aliases: []string{"pr"},
+			Aliases: []string{"m"},
 			Usage:   "Show results of the pr from the current user",
 			Flags: []cli.Flag{
 				cli.StringFlag{
@@ -109,14 +109,7 @@ func main() {
 			},
 			Action: func(c *cli.Context) error {
 				ref := ParseReference(c.Args().Get(1))
-				userName := c.String("user")
-				if userName == "" {
-					user, err := user.Current()
-					if err == nil {
-						userName = user.Username
-					}
-				}
-				return run(true, userName, ref)
+				return run(true, getUser(c), ref)
 			},
 		},
 		{
@@ -195,3 +188,19 @@ func main() {
 
 }
 
+func getUser(c *cli.Context) string {
+	userName := c.String("user")
+
+	if userName == "" {
+		userName = os.Getenv("GITHUB_USER")
+	}
+
+	if userName == "" {
+		user, err := user.Current()
+		if err == nil {
+			userName = user.Username
+		}
+	}
+
+	return userName
+}
