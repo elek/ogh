@@ -12,6 +12,7 @@ import (
 	"os"
 	"os/user"
 	"path"
+	"strings"
 )
 
 
@@ -68,7 +69,7 @@ func readGithubApiV3(url string) ([]byte, error) {
 	return body, nil
 }
 
-func readGithubApiV4() ([]byte, error) {
+func readPrWithGraphql(ref Reference) ([]byte, error) {
 	client := &http.Client{}
 
 	f, err := pkger.Open("/pr.graphql")
@@ -84,8 +85,11 @@ func readGithubApiV4() ([]byte, error) {
 	defer f.Close()
 
 	queryPayload := make(map[string]string)
-	queryPayload["query"] = string(graphql)
-
+	queryString := string(graphql)
+	queryString = strings.Replace(queryString,
+		"owner: \"apache\", name: \"hadoop-ozone\"",
+		"owner: \""+ref.Org+"\", name: \""+ref.Repo+"\"", 1)
+	queryPayload["query"] = queryString
 	query, err := json.Marshal(queryPayload)
 	if err != nil {
 		return nil, err

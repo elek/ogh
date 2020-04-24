@@ -9,11 +9,46 @@ import (
 	"os"
 	"os/user"
 	"strconv"
+	"strings"
 )
 
 var version string
 var commit string
 var date string
+
+//repository object reference in the format org/repo@branch#id
+type Reference struct {
+	Org    string
+	Repo   string
+	Branch string
+	Id     string
+}
+
+func ParseReference(str string) Reference {
+	ref := Reference{
+		Org:    "apache",
+		Repo:   "hadoop-ozone",
+		Branch: "master",
+		Id:     "",
+	}
+	refStr := str
+	if strings.Contains(refStr, "/") {
+		ref.Org = strings.Split(refStr, "/")[0]
+		refStr = refStr[len(ref.Org)+1:]
+	}
+	if strings.Contains(refStr, "#") {
+		ref.Id = strings.Split(refStr, "#")[1]
+		refStr = refStr[0 : len(refStr)-len(ref.Id)-1]
+	}
+	if strings.Contains(refStr, "@") {
+		ref.Branch = strings.Split(refStr, "@")[1]
+		refStr = refStr[0 : len(refStr)-len(ref.Branch)-1]
+	}
+	if len(refStr) > 0 {
+		ref.Repo = refStr
+	}
+	return ref
+}
 
 func main() {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
@@ -41,7 +76,8 @@ func main() {
 			Aliases: []string{"r"},
 			Usage:   "Show the review queue (all READY pull requests)",
 			Action: func(c *cli.Context) error {
-				return run(false, "")
+				ref := ParseReference(c.Args().Get(1))
+				return run(false, "", ref)
 			},
 		},
 		{
@@ -56,7 +92,8 @@ func main() {
 				},
 			},
 			Action: func(c *cli.Context) error {
-				return run(true, c.String("user"))
+				ref := ParseReference(c.Args().Get(0))
+				return run(true, c.String("username"), ref)
 			},
 		},
 		{
@@ -71,6 +108,7 @@ func main() {
 				},
 			},
 			Action: func(c *cli.Context) error {
+				ref := ParseReference(c.Args().Get(1))
 				userName := c.String("user")
 				if userName == "" {
 					user, err := user.Current()
@@ -78,7 +116,7 @@ func main() {
 						userName = user.Username
 					}
 				}
-				return run(true, userName)
+				return run(true, userName, ref)
 			},
 		},
 		{

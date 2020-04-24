@@ -9,14 +9,18 @@ import (
 	"time"
 )
 
-func run(all bool, authorFilter string) error {
+func run(all bool, authorFilter string, reference Reference) error {
 	var key string
+	key = reference.Org + "-" + reference.Repo + "-"
 	if all {
-		key = "pr"
+		key += "pr"
 	} else {
-		key = "review"
+		key += "review"
 	}
-	body, err := cachedGet3min(readGithubApiV4, key)
+	apiCall := func() ([]byte, error) {
+		return readPrWithGraphql(reference)
+	}
+	body, err := cachedGet3min(apiCall, key)
 	if err != nil {
 		return err
 	}
