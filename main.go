@@ -65,7 +65,7 @@ func main() {
 		},
 		{
 			Name:    "mine",
-			Aliases: []string{"pr"},
+			Aliases: []string{"m"},
 			Usage:   "Show results of the pr from the current user",
 			Flags: []cli.Flag{
 				cli.StringFlag{
@@ -75,14 +75,7 @@ func main() {
 				},
 			},
 			Action: func(c *cli.Context) error {
-				userName := c.String("user")
-				if userName == "" {
-					user, err := user.Current()
-					if err == nil {
-						userName = user.Username
-					}
-				}
-				return run(true, userName)
+				return run(true, getUser(c))
 			},
 		},
 		{
@@ -324,6 +317,23 @@ func filterReviews(reviews map[string]interface{}, status string, symbol string)
 
 func prAuthor(pr interface{}) string {
 	return ms(pr, "author", "login")
+}
+
+func getUser(c *cli.Context) string {
+	userName := c.String("user")
+
+	if userName == "" {
+		userName = os.Getenv("GITHUB_USER")
+	}
+
+	if userName == "" {
+		user, err := user.Current()
+		if err == nil {
+			userName = user.Username
+		}
+	}
+
+	return userName
 }
 
 type statusTransform struct {
