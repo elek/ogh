@@ -31,7 +31,7 @@ func run(all bool, authorFilter string, reference Reference) error {
 	json.Unmarshal(body, &result)
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ID", "Age", "Author", "Summary", "Participants", "Check"})
+	table.SetHeader([]string{"ID", "Upd", "Author", "Summary", "Participants", "Check"})
 	table.SetAutoWrapText(false)
 	prs := m(result, "data", "repository", "pullRequests", "edges")
 
