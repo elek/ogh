@@ -87,7 +87,7 @@ func main() {
 		},
 		{
 			Name:  "artifacts",
-			Usage: "Download build arfitacts",
+			Usage: "Download build artifacts",
 			Flags: []cli.Flag{
 				cli.StringFlag{
 					Name:  "user",
@@ -193,19 +193,22 @@ func run(all bool, authorFilter string) error {
 
 		author := prAuthor(pr)
 		participants := getParticipants(pr, author)
-		mergeableMark := ""
+		statusMark := ""
 		destMark := ""
 		if ms(pr, "baseRefName") != "master" {
 			destMark = "(->" + ms(pr, "baseRefName") + ")"
 		}
 		if ms(pr, "mergeable") == "CONFLICTING" {
-			mergeableMark = "[C] "
+			statusMark = "[C] "
+		}
+		if m(pr, "isDraft") == true {
+			statusMark += "[D]"
 		}
 		if authorFilter == "" || authorFilter == author {
 			table.Append([]string{
 				fmt.Sprintf("%d", int(m(pr, "number").(float64))),
 				">" + limit(author, 12),
-				limit(mergeableMark+destMark+ms(pr, "title"), 50),
+				limit(statusMark+destMark+ms(pr, "title"), 50),
 				limit(strings.Join(participants, ","), 35),
 				buildStatus(pr),
 			})

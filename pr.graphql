@@ -11,6 +11,7 @@
                         login
                     }
                     updatedAt
+                    isDraft
                     reviews(last:100) {
                         nodes {
                             updatedAt,
