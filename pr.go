@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/olekukonko/tablewriter"
+	"github.com/pkg/errors"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -29,7 +31,7 @@ func run(all bool, authorFilter string, reference Reference) error {
 	json.Unmarshal(body, &result)
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ID", "Author", "Summary", "Participants", "Check"})
+	table.SetHeader([]string{"ID", "Age", "Author", "Summary", "Participants", "Check"})
 	table.SetAutoWrapText(false)
 	prs := m(result, "data", "repository", "pullRequests", "edges")
 
@@ -54,9 +56,18 @@ func run(all bool, authorFilter string, reference Reference) error {
 		if m(pr, "isDraft") == true {
 			statusMark += "[D]"
 		}
+
+		updated, err := time.Parse(time.RFC3339, ms(pr, "updatedAt"))
+		if err != nil {
+			return errors.Wrap(err, "Can't parse updateAt field of PR:  "+ms(pr, "number"))
+		}
+
+		inactiveTime := time.Now().Sub(updated)
+
 		if authorFilter == "" || authorFilter == author {
 			table.Append([]string{
 				fmt.Sprintf("%d", int(m(pr, "number").(float64))),
+				shortDuration(inactiveTime),
 				">" + limit(author, 12),
 				limit(statusMark+destMark+ms(pr, "title"), 50),
 				limit(strings.Join(participants, ","), 35),
@@ -69,7 +80,17 @@ func run(all bool, authorFilter string, reference Reference) error {
 	return nil
 }
 
+func shortDuration(duration time.Duration) string {
+	hours := int(duration.Hours())
 
+	if hours > 24*30 {
+		return strconv.Itoa(hours/24/30) + "m"
+	} else if hours > 24 {
+		return strconv.Itoa(hours/24) + "d"
+	} else {
+		return strconv.Itoa(hours) + "h"
+	}
+}
 
 func ready(pr interface{}) bool {
 	if ms(pr, "mergeable") == "CONFLICTING" {
