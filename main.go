@@ -76,7 +76,7 @@ func main() {
 			Aliases: []string{"r"},
 			Usage:   "Show the review queue (all READY pull requests)",
 			Action: func(c *cli.Context) error {
-				ref := ParseReference(c.Args().Get(1))
+				ref := ParseReference(c.Args().Get(0))
 				return run(false, "", ref)
 			},
 		},
@@ -108,7 +108,7 @@ func main() {
 				},
 			},
 			Action: func(c *cli.Context) error {
-				ref := ParseReference(c.Args().Get(1))
+				ref := ParseReference(c.Args().Get(0))
 				return run(true, getUser(c), ref)
 			},
 		},
