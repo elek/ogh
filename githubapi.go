@@ -19,7 +19,7 @@ func GetWorkflowRunsOfBranch(org string, repo string, workflowId string, branch 
 	url := "https://api.github.com/repos/" + org + "/" + repo + "/actions/workflows/" + workflowId + "/runs?per_page=100"
 	if branch != "" {
 		cacheKey += "-" + branch
-		url += url + "&branch=" + branch
+		url += "&branch=" + branch
 	}
 	apiGetter := func() ([]byte, error) {
 		return readGithubApiV3(url)
@@ -30,6 +30,13 @@ func GetWorkflowRunsOfBranch(org string, repo string, workflowId string, branch 
 
 func GetWorkflowRuns(org string, repo string, workflowId string) (map[string]interface{}, error) {
 	return GetWorkflowRunsOfBranch(org, repo, workflowId, "")
+}
+
+func GetPr(org string, repo string, pullId string) (map[string]interface{}, error) {
+	apiGetter := func() ([]byte, error) {
+		return readGithubApiV3("https://api.github.com/repos/" + org + "/" + repo + "/pulls/" + pullId)
+	}
+	return asJson(cachedGet3min(apiGetter, org+"-"+repo+"-pulls-"+pullId))
 }
 
 func GetPrCommits(org string, repo string, pullId string) ([]interface{}, error) {

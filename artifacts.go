@@ -15,19 +15,18 @@ import (
 func downloadArtifacts(org string, buildIdExpression string, destinationDir string, all bool) error {
 
 	if strings.HasPrefix(buildIdExpression, "pr/") {
-		commits, err := GetPrCommits(org, "hadoop-ozone", buildIdExpression[3:])
+		pr, err := GetPr(org, "hadoop-ozone", buildIdExpression[3:])
 		if err != nil {
 			return err
 		}
-		lastCommit := ms(commits[len(commits)-1], "sha")
+		branch := ms(pr, "head", "ref")
 
-		workflowRuns, err := GetAllWorkflowRuns(org, "hadoop-ozone")
-		for _, workflowRun := range l(m(workflowRuns, "workflow_runs")) {
-			if ms(workflowRun, "head_sha") == lastCommit {
-				return downloadArtifactsOfRun(org, mns(workflowRun, "id"), destinationDir+"/"+buildIdExpression, false)
-			}
+		workflowRuns, err := GetWorkflowRunsOfBranch(org, "hadoop-ozone", "4453", branch)
+		if err != nil {
+			return err
 		}
-		return errors.New("Couldn't find recent workflow run with the SHA of the last commit in the PR " + lastCommit)
+		id := mns(l(m(workflowRuns, "workflow_runs"))[0], "id")
+		return downloadArtifactsOfRun(org, id, destinationDir+"/"+buildIdExpression, false)
 	} else if strings.HasPrefix(buildIdExpression, "#") {
 		return downloadArtifactsOfRun(org, buildIdExpression[1:], destinationDir+"/"+buildIdExpression[1:], all)
 	} else {
