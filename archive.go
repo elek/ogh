@@ -1,12 +1,14 @@
 package main
 
 import (
-	"github.com/pkg/errors"
-	"github.com/rs/zerolog/log"
+	"encoding/json"
 	"io/ioutil"
 	"os"
 	"path"
 	"time"
+
+	"github.com/pkg/errors"
+	"github.com/rs/zerolog/log"
 )
 
 func archiveBuilds(outputDir string) error {
@@ -28,8 +30,16 @@ func archiveBuilds(outputDir string) error {
 		buildDir := path.Join(outputDir, created.Format("2006/01/02"), runId)
 		log.Info().Msgf("Download artifacts of build %s", runId)
 
-		jobJson := path.Join(buildDir, "job.json")
+		runJson := path.Join(buildDir, "run.json")
+		if _, err := os.Stat(runJson); os.IsNotExist(err) {
+			niceJobJson, err := json.MarshalIndent(run, "", "   ")
+			if err != nil {
+				return errors.Wrap(err, "Can't parse job API, runId="+runId)
+			}
+			err = ioutil.WriteFile(runJson, niceJobJson, 0755)
+		}
 
+		jobJson := path.Join(buildDir, "job.json")
 		//we can skip the download if the job is already downloaded and all the
 		//jobs were finished
 		if _, err := os.Stat(jobJson); os.IsNotExist(err) {

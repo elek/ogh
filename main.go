@@ -2,14 +2,16 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/user"
+	"path/filepath"
+	"strconv"
+	"strings"
+
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/skratchdot/open-golang/open"
 	"github.com/urfave/cli"
-	"os"
-	"os/user"
-	"strconv"
-	"strings"
 )
 
 var version string
@@ -170,6 +172,22 @@ func main() {
 					dir = c.Args().Get(0)
 				}
 				return archiveBuilds(dir)
+			},
+		},
+		{
+			Name:  "report",
+			Usage: "Generate HTML report from archived directory structure.",
+			Action: func(c *cli.Context) error {
+				ex, err := os.Executable()
+				if err != nil {
+					return err
+				}
+				dir := filepath.Dir(ex)
+
+				if c.NArg() > 0 {
+					dir = c.Args().Get(0)
+				}
+				return generateReport(dir)
 			},
 		},
 		{
