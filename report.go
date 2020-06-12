@@ -1,19 +1,27 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
 	"os"
 	"path"
+	"path/filepath"
 	"sort"
 	"strconv"
 	"strings"
 )
 
+type TestFailure struct {
+	ClassTimeout bool
+	Method       string
+	Unknown      bool
+}
 type TestResult struct {
-	Name string
+	Name     string
+	Failures []TestFailure
 }
 
 type JobResult struct {
@@ -32,6 +40,54 @@ type BuildResult struct {
 	TestResults  map[string]JobResult
 }
 
+type TestSuite struct {
+	TestCase []TestCase `xml:"testcase"`
+}
+
+type TestCase struct {
+	Name  string  `xml:"name,attr"`
+	Error []Error `xml:"error"`
+}
+
+type Error struct {
+	Message string `xml:"message,attr"`
+}
+
+func readFailuresFromJUnitReport(filePath string) ([]TestFailure, error) {
+	results := make([]TestFailure, 0)
+
+	report := TestSuite{}
+	content, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return results, err
+	}
+	xml.Unmarshal(content, &report)
+	for _, testcase := range report.TestCase {
+		if len(testcase.Error) > 0 {
+			results = append(results, TestFailure{Method: testcase.Name})
+		}
+	}
+	return results, nil
+
+}
+
+//try to find failure reports in a root dir based on the FQDN name of the test
+func findFailures(dir string, testName string) ([]TestFailure, error) {
+	results := make([]TestFailure, 0)
+	testFileName := "TEST-" + testName + ".xml"
+	err := filepath.Walk(dir, func(filePath string, info os.FileInfo, err error) error {
+		if err == nil && !info.IsDir() && info.Name() == testFileName {
+			failures, err := readFailuresFromJUnitReport(filePath)
+			if err != nil {
+				return err
+			}
+			results = append(results, failures...)
+		}
+		return nil
+	})
+	return results, err
+}
+
 func readFailingTests(dir string) ([]TestResult, error) {
 	results := make([]TestResult, 0)
 	summaryFile := path.Join(dir, "summary.txt")
@@ -43,7 +99,15 @@ func readFailingTests(dir string) ([]TestResult, error) {
 		for _, line := range strings.Split(string(summary), "\n") {
 			trimmedLine := strings.Trim(line, " ")
 			if len(trimmedLine) > 0 {
-				results = append(results, TestResult{Name: trimmedLine})
+				failures, err := findFailures(dir, trimmedLine)
+				if err != nil {
+					return results, err
+				}
+				testResult := TestResult{
+					Name:     trimmedLine,
+					Failures: failures,
+				}
+				results = append(results, testResult)
 			}
 		}
 	}

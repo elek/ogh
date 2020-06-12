@@ -1,0 +1,223 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Detecting the operating system and CPU architecture
+[INFO] ------------------------------------------------------------------------
+[INFO] os.detected.name: linux
+[INFO] os.detected.arch: x86_64
+[INFO] os.detected.version: 5.3
+[INFO] os.detected.version.major: 5
+[INFO] os.detected.version.minor: 3
+[INFO] os.detected.release: centos
+[INFO] os.detected.release.version: 7
+[INFO] os.detected.release.like.centos: true
+[INFO] os.detected.release.like.rhel: true
+[INFO] os.detected.release.like.fedora: true
+[INFO] os.detected.classifier: linux-x86_64
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] Apache Hadoop Ozone Integration Tests                              [jar]
+[INFO] Apache Hadoop Ozone Mini Ozone Chaos Tests                         [jar]
+[INFO] 
+[INFO] ----------< org.apache.hadoop:hadoop-ozone-integration-test >-----------
+[INFO] Building Apache Hadoop Ozone Integration Tests 0.6.0-SNAPSHOT      [1/2]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.3:run (create-testdirs) @ hadoop-ozone-integration-test ---
+[INFO] Executing tasks
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.5:prepare-agent (default-prepare-agent) @ hadoop-ozone-integration-test ---
+[INFO] argLine set to -javaagent:/home/user/.m2/repository/org/jacoco/org.jacoco.agent/0.8.5/org.jacoco.agent-0.8.5-runtime.jar=destfile=/github/workspace/mnt/ozone/hadoop-ozone/integration-test/target/jacoco.exec,includes=org.apache.hadoop.hdds.*:org.apache.hadoop.ozone.*
+[INFO] 
+[INFO] --- maven-remote-resources-plugin:1.5:process (default) @ hadoop-ozone-integration-test ---
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ hadoop-ozone-integration-test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /github/workspace/mnt/ozone/hadoop-ozone/integration-test/src/main/resources
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ hadoop-ozone-integration-test ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ hadoop-ozone-integration-test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 21 resources
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ hadoop-ozone-integration-test ---
+[INFO] Compiling 10 source files to /github/workspace/mnt/ozone/hadoop-ozone/integration-test/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.0.0-M1:test (default-test) @ hadoop-ozone-integration-test ---
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit4/3.0.0-M1/surefire-junit4-3.0.0-M1.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit4/3.0.0-M1/surefire-junit4-3.0.0-M1.jar (17 kB at 44 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit4/3.0.0-M1/surefire-junit4-3.0.0-M1.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit4/3.0.0-M1/surefire-junit4-3.0.0-M1.pom (1.7 kB at 58 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-providers/3.0.0-M1/surefire-providers-3.0.0-M1.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-providers/3.0.0-M1/surefire-providers-3.0.0-M1.pom (2.5 kB at 79 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit4/3.0.0-M1/common-junit4-3.0.0-M1.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit4/3.0.0-M1/common-junit4-3.0.0-M1.pom (2.1 kB at 82 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit3/3.0.0-M1/common-junit3-3.0.0-M1.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit3/3.0.0-M1/common-junit3-3.0.0-M1.pom (1.6 kB at 49 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.0.0-M1/common-java5-3.0.0-M1.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.0.0-M1/common-java5-3.0.0-M1.pom (3.1 kB at 118 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit3/3.0.0-M1/common-junit3-3.0.0-M1.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.0.0-M1/common-java5-3.0.0-M1.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit4/3.0.0-M1/common-junit4-3.0.0-M1.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit3/3.0.0-M1/common-junit3-3.0.0-M1.jar (12 kB at 247 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit4/3.0.0-M1/common-junit4-3.0.0-M1.jar (28 kB at 552 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.0.0-M1/common-java5-3.0.0-M1.jar (32 kB at 594 kB/s)
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.apache.hadoop.ozone.om.TestOmSQLCli
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.152 s - in org.apache.hadoop.ozone.om.TestOmSQLCli
+[INFO] Running org.apache.hadoop.ozone.om.TestSecureOzoneManager
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.158 s - in org.apache.hadoop.ozone.om.TestSecureOzoneManager
+[INFO] Running org.apache.hadoop.ozone.om.TestOzoneManagerRestart
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.028 s - in org.apache.hadoop.ozone.om.TestOzoneManagerRestart
+[INFO] Running org.apache.hadoop.ozone.om.TestOzoneManagerListVolumes
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 110.227 s - in org.apache.hadoop.ozone.om.TestOzoneManagerListVolumes
+[INFO] Running org.apache.hadoop.ozone.om.TestOmAcls
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 28.713 s - in org.apache.hadoop.ozone.om.TestOmAcls
+[INFO] Running org.apache.hadoop.ozone.om.TestOMDbCheckpointServlet
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 57.223 s - in org.apache.hadoop.ozone.om.TestOMDbCheckpointServlet
+[INFO] Running org.apache.hadoop.ozone.om.parser.TestOMRatisLogParser
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 28.671 s - in org.apache.hadoop.ozone.om.parser.TestOMRatisLogParser
+[INFO] Running org.apache.hadoop.ozone.om.TestOzoneManagerHAWithData
+[ERROR] Tests run: 11, Failures: 0, Errors: 1, Skipped: 1, Time elapsed: 289.544 s <<< FAILURE! - in org.apache.hadoop.ozone.om.TestOzoneManagerHAWithData
+[ERROR] testMultipartUploadWithOneOmNodeDown(org.apache.hadoop.ozone.om.TestOzoneManagerHAWithData)  Time elapsed: 47.378 s  <<< ERROR!
+org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.ozone.om.exceptions.OMLeaderNotReadyException): omNode-2@group-523986131536 is in LEADER state but not ready yet.
+	at org.apache.hadoop.ozone.om.ratis.OzoneManagerRatisServer.processReply(OzoneManagerRatisServer.java:177)
+	at org.apache.hadoop.ozone.om.ratis.OzoneManagerRatisServer.submitRequest(OzoneManagerRatisServer.java:136)
+	at org.apache.hadoop.ozone.protocolPB.OzoneManagerProtocolServerSideTranslatorPB.submitRequestToRatis(OzoneManagerProtocolServerSideTranslatorPB.java:177)
+	at org.apache.hadoop.ozone.protocolPB.OzoneManagerProtocolServerSideTranslatorPB.processRequest(OzoneManagerProtocolServerSideTranslatorPB.java:134)
+	at org.apache.hadoop.hdds.server.OzoneProtocolMessageDispatcher.processRequest(OzoneProtocolMessageDispatcher.java:74)
+	at org.apache.hadoop.ozone.protocolPB.OzoneManagerProtocolServerSideTranslatorPB.submitRequest(OzoneManagerProtocolServerSideTranslatorPB.java:113)
+	at org.apache.hadoop.ozone.protocol.proto.OzoneManagerProtocolProtos$OzoneManagerService$2.callBlockingMethod(OzoneManagerProtocolProtos.java)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:528)
+	at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1070)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:999)
+	at org.apache.hadoop.ipc.Server$RpcCall.run(Server.java:927)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:422)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1730)
+	at org.apache.hadoop.ipc.Server$Handler.run(Server.java:2915)
+
+	at org.apache.hadoop.ipc.Client.getRpcResponse(Client.java:1545)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1491)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1388)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:233)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:118)
+	at com.sun.proxy.$Proxy39.submitRequest(Unknown Source)
+	at sun.reflect.GeneratedMethodAccessor40.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:422)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeMethod(RetryInvocationHandler.java:165)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invoke(RetryInvocationHandler.java:157)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler$Call.invokeOnce(RetryInvocationHandler.java:95)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:359)
+	at com.sun.proxy.$Proxy39.submitRequest(Unknown Source)
+	at org.apache.hadoop.ozone.om.protocolPB.Hadoop3OmTransport.submitRequest(Hadoop3OmTransport.java:86)
+	at org.apache.hadoop.ozone.om.protocolPB.OzoneManagerProtocolClientSideTranslatorPB.submitRequest(OzoneManagerProtocolClientSideTranslatorPB.java:209)
+	at org.apache.hadoop.ozone.om.protocolPB.OzoneManagerProtocolClientSideTranslatorPB.openKey(OzoneManagerProtocolClientSideTranslatorPB.java:580)
+	at org.apache.hadoop.ozone.client.rpc.RpcClient.createMultipartKey(RpcClient.java:851)
+	at org.apache.hadoop.ozone.client.OzoneBucket.createMultipartKey(OzoneBucket.java:431)
+	at org.apache.hadoop.ozone.om.TestOzoneManagerHAWithData.createMultipartKeyAndReadKey(TestOzoneManagerHAWithData.java:331)
+	at org.apache.hadoop.ozone.om.TestOzoneManagerHAWithData.testMultipartUploadWithOneOmNodeDown(TestOzoneManagerHAWithData.java:272)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.rules.ExpectedException$ExpectedExceptionStatement.evaluate(ExpectedException.java:168)
+	at org.junit.internal.runners.statements.FailOnTimeout$StatementThread.run(FailOnTimeout.java:74)
+
+[INFO] Running org.apache.hadoop.ozone.om.TestKeyManagerImpl
+[WARNING] Tests run: 19, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 51.86 s - in org.apache.hadoop.ozone.om.TestKeyManagerImpl
+[INFO] Running org.apache.hadoop.ozone.om.TestScmSafeMode
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.037 s - in org.apache.hadoop.ozone.om.TestScmSafeMode
+[INFO] Running org.apache.hadoop.ozone.om.TestOMRatisSnapshots
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.038 s - in org.apache.hadoop.ozone.om.TestOMRatisSnapshots
+[INFO] Running org.apache.hadoop.ozone.om.TestOzoneManagerHAWithACL
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 231.999 s - in org.apache.hadoop.ozone.om.TestOzoneManagerHAWithACL
+[INFO] Running org.apache.hadoop.ozone.om.TestOzoneManagerRocksDBLogging
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 38.181 s - in org.apache.hadoop.ozone.om.TestOzoneManagerRocksDBLogging
+[INFO] Running org.apache.hadoop.ozone.om.TestOzoneManagerConfiguration
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 174.852 s - in org.apache.hadoop.ozone.om.TestOzoneManagerConfiguration
+[INFO] Running org.apache.hadoop.ozone.om.TestContainerReportWithKeys
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 29.298 s - in org.apache.hadoop.ozone.om.TestContainerReportWithKeys
+[INFO] Running org.apache.hadoop.ozone.om.TestOmMetrics
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 86.232 s - in org.apache.hadoop.ozone.om.TestOmMetrics
+[INFO] Running org.apache.hadoop.ozone.om.TestOmInit
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 28.715 s - in org.apache.hadoop.ozone.om.TestOmInit
+[INFO] Running org.apache.hadoop.ozone.om.TestOzoneManagerHAMetadataOnly
+[WARNING] Tests run: 9, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 182.891 s - in org.apache.hadoop.ozone.om.TestOzoneManagerHAMetadataOnly
+[INFO] Running org.apache.hadoop.ozone.om.TestKeyPurging
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 31.286 s - in org.apache.hadoop.ozone.om.TestKeyPurging
+[INFO] Running org.apache.hadoop.ozone.om.TestOmBlockVersioning
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 35.239 s - in org.apache.hadoop.ozone.om.TestOmBlockVersioning
+[INFO] Running org.apache.hadoop.ozone.om.TestOzoneManagerRestInterface
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 34.463 s - in org.apache.hadoop.ozone.om.TestOzoneManagerRestInterface
+[INFO] Running org.apache.hadoop.ozone.om.snapshot.TestOzoneManagerSnapshotProvider
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 29.818 s - in org.apache.hadoop.ozone.om.snapshot.TestOzoneManagerSnapshotProvider
+[INFO] Running org.apache.hadoop.hdds.scm.container.TestContainerStateManagerIntegration
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.045 s - in org.apache.hadoop.hdds.scm.container.TestContainerStateManagerIntegration
+[INFO] Running org.apache.hadoop.hdds.scm.container.metrics.TestSCMContainerManagerMetrics
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 36.771 s - in org.apache.hadoop.hdds.scm.container.metrics.TestSCMContainerManagerMetrics
+[INFO] Running org.apache.hadoop.hdds.scm.TestRatisPipelineLeader
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.032 s - in org.apache.hadoop.hdds.scm.TestRatisPipelineLeader
+[INFO] Running org.apache.hadoop.hdds.scm.pipeline.TestSCMRestart
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 31.028 s - in org.apache.hadoop.hdds.scm.pipeline.TestSCMRestart
+[INFO] Running org.apache.hadoop.hdds.scm.pipeline.TestNodeFailure
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 59.161 s - in org.apache.hadoop.hdds.scm.pipeline.TestNodeFailure
+[INFO] Running org.apache.hadoop.hdds.scm.pipeline.TestPipelineClose
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 102.001 s - in org.apache.hadoop.hdds.scm.pipeline.TestPipelineClose
+[INFO] Running org.apache.hadoop.hdds.scm.pipeline.TestRatisPipelineCreateAndDestroy
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.036 s - in org.apache.hadoop.hdds.scm.pipeline.TestRatisPipelineCreateAndDestroy
+[INFO] Running org.apache.hadoop.hdds.scm.pipeline.TestNode2PipelineMap
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.981 s - in org.apache.hadoop.hdds.scm.pipeline.TestNode2PipelineMap
+[INFO] Running org.apache.hadoop.hdds.scm.safemode.TestSCMSafeModeWithPipelineRules
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.044 s - in org.apache.hadoop.hdds.scm.safemode.TestSCMSafeModeWithPipelineRules
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Errors: 
+[ERROR]   TestOzoneManagerHAWithData.testMultipartUploadWithOneOmNodeDown:272->createMultipartKeyAndReadKey:331 ? Remote
+[INFO] 
+[ERROR] Tests run: 96, Failures: 0, Errors: 1, Skipped: 12
+[INFO] 
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Skipping Apache Hadoop Ozone Mini Ozone Chaos Tests
+[INFO] This project has been banned from the build due to previous failures.
+[INFO] ------------------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for Apache Hadoop Ozone Integration Tests 0.6.0-SNAPSHOT:
+[INFO] 
+[INFO] Apache Hadoop Ozone Integration Tests .............. FAILURE [29:34 min]
+[INFO] Apache Hadoop Ozone Mini Ozone Chaos Tests ......... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  29:35 min
+[INFO] Finished at: 2020-06-11T21:11:26Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M1:test (default-test) on project hadoop-ozone-integration-test: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /github/workspace/mnt/ozone/hadoop-ozone/integration-test/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

@@ -1,0 +1,118 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Detecting the operating system and CPU architecture
+[INFO] ------------------------------------------------------------------------
+[INFO] os.detected.name: linux
+[INFO] os.detected.arch: x86_64
+[INFO] os.detected.version: 5.3
+[INFO] os.detected.version.major: 5
+[INFO] os.detected.version.minor: 3
+[INFO] os.detected.release: centos
+[INFO] os.detected.release.version: 7
+[INFO] os.detected.release.like.centos: true
+[INFO] os.detected.release.like.rhel: true
+[INFO] os.detected.release.like.fedora: true
+[INFO] os.detected.classifier: linux-x86_64
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] Apache Hadoop Ozone Integration Tests                              [jar]
+[INFO] Apache Hadoop Ozone Mini Ozone Chaos Tests                         [jar]
+[INFO] 
+[INFO] ----------< org.apache.hadoop:hadoop-ozone-integration-test >-----------
+[INFO] Building Apache Hadoop Ozone Integration Tests 0.6.0-SNAPSHOT      [1/2]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.3:run (create-testdirs) @ hadoop-ozone-integration-test ---
+[INFO] Executing tasks
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.5:prepare-agent (default-prepare-agent) @ hadoop-ozone-integration-test ---
+[INFO] argLine set to -javaagent:/home/user/.m2/repository/org/jacoco/org.jacoco.agent/0.8.5/org.jacoco.agent-0.8.5-runtime.jar=destfile=/github/workspace/mnt/ozone/hadoop-ozone/integration-test/target/jacoco.exec,includes=org.apache.hadoop.hdds.*:org.apache.hadoop.ozone.*
+[INFO] 
+[INFO] --- maven-remote-resources-plugin:1.5:process (default) @ hadoop-ozone-integration-test ---
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ hadoop-ozone-integration-test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /github/workspace/mnt/ozone/hadoop-ozone/integration-test/src/main/resources
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ hadoop-ozone-integration-test ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ hadoop-ozone-integration-test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 21 resources
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ hadoop-ozone-integration-test ---
+[INFO] Compiling 10 source files to /github/workspace/mnt/ozone/hadoop-ozone/integration-test/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.0.0-M1:test (default-test) @ hadoop-ozone-integration-test ---
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit4/3.0.0-M1/surefire-junit4-3.0.0-M1.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit4/3.0.0-M1/surefire-junit4-3.0.0-M1.jar (17 kB at 47 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit4/3.0.0-M1/surefire-junit4-3.0.0-M1.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-junit4/3.0.0-M1/surefire-junit4-3.0.0-M1.pom (1.7 kB at 67 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-providers/3.0.0-M1/surefire-providers-3.0.0-M1.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/surefire-providers/3.0.0-M1/surefire-providers-3.0.0-M1.pom (2.5 kB at 133 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit4/3.0.0-M1/common-junit4-3.0.0-M1.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit4/3.0.0-M1/common-junit4-3.0.0-M1.pom (2.1 kB at 114 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit3/3.0.0-M1/common-junit3-3.0.0-M1.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit3/3.0.0-M1/common-junit3-3.0.0-M1.pom (1.6 kB at 83 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.0.0-M1/common-java5-3.0.0-M1.pom
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.0.0-M1/common-java5-3.0.0-M1.pom (3.1 kB at 140 kB/s)
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit4/3.0.0-M1/common-junit4-3.0.0-M1.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit3/3.0.0-M1/common-junit3-3.0.0-M1.jar
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.0.0-M1/common-java5-3.0.0-M1.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit4/3.0.0-M1/common-junit4-3.0.0-M1.jar (28 kB at 1.0 MB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-java5/3.0.0-M1/common-java5-3.0.0-M1.jar (32 kB at 698 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/surefire/common-junit3/3.0.0-M1/common-junit3-3.0.0-M1.jar (12 kB at 242 kB/s)
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.apache.hadoop.ozone.freon.TestFreonWithPipelineDestroy
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.07 s - in org.apache.hadoop.ozone.freon.TestFreonWithPipelineDestroy
+[INFO] Running org.apache.hadoop.ozone.freon.TestDataValidateWithUnsafeByteOperations
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 48.463 s - in org.apache.hadoop.ozone.freon.TestDataValidateWithUnsafeByteOperations
+[INFO] Running org.apache.hadoop.ozone.freon.TestFreonWithDatanodeFastRestart
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 32.963 s - in org.apache.hadoop.ozone.freon.TestFreonWithDatanodeFastRestart
+[INFO] Running org.apache.hadoop.ozone.freon.TestFreonWithDatanodeRestart
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 61.947 s - in org.apache.hadoop.ozone.freon.TestFreonWithDatanodeRestart
+[INFO] Running org.apache.hadoop.ozone.freon.TestRandomKeyGenerator
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.034 s - in org.apache.hadoop.ozone.freon.TestRandomKeyGenerator
+[INFO] Running org.apache.hadoop.ozone.freon.TestDataValidateWithSafeByteOperations
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 48.362 s - in org.apache.hadoop.ozone.freon.TestDataValidateWithSafeByteOperations
+[INFO] Running org.apache.hadoop.ozone.freon.TestHadoopDirTreeGenerator
+[INFO] Running org.apache.hadoop.ozone.freon.TestDataValidateWithDummyContainers
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 38.273 s - in org.apache.hadoop.ozone.freon.TestDataValidateWithDummyContainers
+[INFO] Running org.apache.hadoop.ozone.freon.TestOzoneClientKeyGenerator
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.024 s - in org.apache.hadoop.ozone.freon.TestOzoneClientKeyGenerator
+[INFO] 
+[INFO] Results:
+[INFO] 
+[WARNING] Tests run: 11, Failures: 0, Errors: 0, Skipped: 4
+[INFO] 
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Skipping Apache Hadoop Ozone Mini Ozone Chaos Tests
+[INFO] This project has been banned from the build due to previous failures.
+[INFO] ------------------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for Apache Hadoop Ozone Integration Tests 0.6.0-SNAPSHOT:
+[INFO] 
+[INFO] Apache Hadoop Ozone Integration Tests .............. FAILURE [19:06 min]
+[INFO] Apache Hadoop Ozone Mini Ozone Chaos Tests ......... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  19:07 min
+[INFO] Finished at: 2020-06-11T20:59:40Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.0.0-M1:test (default-test) on project hadoop-ozone-integration-test: There was a timeout or other error in the fork -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
