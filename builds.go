@@ -92,6 +92,13 @@ var transmap = map[string]statusTransform{
 	"it-hdds-om":             statusTransform{12, 'm'},
 	"it-om":                  statusTransform{12, 'm'},
 	"it-ozone":               statusTransform{13, 'o'},
+	"integration (freon)":               statusTransform{8, 'f'},
+	"integration (filesystem)":          statusTransform{9, 's'},
+	"integration (filesystem-contract)": statusTransform{10, 'c'},
+	"integration (client)":              statusTransform{11, 'c'},
+	"integration (hdds-om)":             statusTransform{12, 'm'},
+	"integration (ozone)":               statusTransform{13, 'o'},
+	"coverage":               statusTransform{15, 'c'},
 }
 
 func stepsAsString(jobs []interface{}) string {
@@ -118,7 +125,7 @@ func stepsAsString(jobs []interface{}) string {
 }
 
 func buildStatus(pr interface{}) string {
-	result := []byte("....... ......")
+	result := []byte("....... ...... .")
 
 	for _, commitEdge := range l(m(pr, "commits", "edges")) {
 		commit := m(commitEdge, "node", "commit")
