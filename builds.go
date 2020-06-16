@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/olekukonko/tablewriter"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/olekukonko/tablewriter"
 )
 
 func listBuilds(org string, branch string, workflowId int) error {
@@ -77,33 +78,33 @@ func part(s string, i int) string {
 }
 
 var transmap = map[string]statusTransform{
-	"compile":                statusTransform{0, 'b'},
-	"rat":                    statusTransform{1, 'r'},
-	"author":                 statusTransform{2, 'r'},
-	"checkstyle":             statusTransform{3, 'c'},
-	"findbugs":               statusTransform{4, 'f'},
-	"unit":                   statusTransform{5, 'u'},
-	"acceptance":             statusTransform{6, 'a'},
-	"it-freon":               statusTransform{8, 'f'},
-	"it-filesystem":          statusTransform{9, 's'},
-	"it-filesystem-contract": statusTransform{10, 'c'},
-	"it-client-and-hdds":     statusTransform{11, 'h'},
-	"it-client":              statusTransform{11, 'c'},
-	"it-hdds-om":             statusTransform{12, 'm'},
-	"it-om":                  statusTransform{12, 'm'},
-	"it-ozone":               statusTransform{13, 'o'},
+	"compile":                           statusTransform{0, 'b'},
+	"rat":                               statusTransform{1, 'r'},
+	"author":                            statusTransform{2, 'a'},
+	"checkstyle":                        statusTransform{3, 'c'},
+	"findbugs":                          statusTransform{4, 'f'},
+	"unit":                              statusTransform{5, 'u'},
+	"acceptance":                        statusTransform{6, 'a'},
+	"it-freon":                          statusTransform{8, 'f'},
+	"it-filesystem":                     statusTransform{9, 's'},
+	"it-filesystem-contract":            statusTransform{10, 'c'},
+	"it-client-and-hdds":                statusTransform{11, 'h'},
+	"it-client":                         statusTransform{11, 'c'},
+	"it-hdds-om":                        statusTransform{12, 'm'},
+	"it-om":                             statusTransform{12, 'm'},
+	"it-ozone":                          statusTransform{13, 'o'},
 	"integration (freon)":               statusTransform{8, 'f'},
 	"integration (filesystem)":          statusTransform{9, 's'},
-	"integration (filesystem-contract)": statusTransform{10, 'c'},
+	"integration (filesystem-contract)": statusTransform{10, 't'},
 	"integration (client)":              statusTransform{11, 'c'},
 	"integration (hdds-om)":             statusTransform{12, 'm'},
 	"integration (ozone)":               statusTransform{13, 'o'},
-	"coverage":               statusTransform{15, 'c'},
+	"coverage":                          statusTransform{15, 'c'},
 }
 
 func stepsAsString(jobs []interface{}) string {
-	result := []byte("....... ......")
-	for _, job := range (jobs) {
+	result := []byte("....... ...... .")
+	for _, job := range jobs {
 		name := m(job, "name").(string)
 		conclusion := nilsafe(m(job, "conclusion"))
 		status := m(job, "status").(string)
