@@ -12,6 +12,15 @@ import (
 	"strings"
 )
 
+var artifactMap = map[string]string {
+	"integration (freon)":               "it-freon",
+	"integration (filesystem)":          "it-filesystem",
+	"integration (filesystem-contract)": "it-filesystem-contract",
+	"integration (client)":              "it-client",
+	"integration (hdds-om)":             "it-hdds-om",
+	"integration (ozone)":               "it-ozone",
+}
+
 func downloadArtifacts(org string, buildIdExpression string, destinationDir string, all bool) error {
 
 	if strings.HasPrefix(buildIdExpression, "pr/") {
@@ -65,7 +74,11 @@ func downloadArtifactsOfRun(org string, runId string, destinationDir string, all
 		return err
 	}
 	for _, job := range l(m(jobs, "jobs")) {
-		results[ms(job, "name")] = ms(job, "conclusion")
+		name := ms(job, "name")
+		if artifact, ok := artifactMap[name]; ok {
+			name = artifact
+		}
+		results[name] = ms(job, "conclusion")
 	}
 
 	_ = os.RemoveAll(destinationDir)
