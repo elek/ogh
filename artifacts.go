@@ -3,23 +3,15 @@ package main
 import (
 	"archive/zip"
 	"encoding/json"
-	"github.com/pkg/errors"
 	"io"
 	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
-)
 
-var artifactMap = map[string]string {
-	"integration (freon)":               "it-freon",
-	"integration (filesystem)":          "it-filesystem",
-	"integration (filesystem-contract)": "it-filesystem-contract",
-	"integration (client)":              "it-client",
-	"integration (hdds-om)":             "it-hdds-om",
-	"integration (ozone)":               "it-ozone",
-}
+	"github.com/pkg/errors"
+)
 
 func downloadArtifacts(org string, buildIdExpression string, destinationDir string, all bool) error {
 
@@ -74,11 +66,7 @@ func downloadArtifactsOfRun(org string, runId string, destinationDir string, all
 		return err
 	}
 	for _, job := range l(m(jobs, "jobs")) {
-		name := ms(job, "name")
-		if artifact, ok := artifactMap[name]; ok {
-			name = artifact
-		}
-		results[name] = ms(job, "conclusion")
+		results[JobToArtifactName(ms(job, "name"))] = ms(job, "conclusion")
 	}
 
 	_ = os.RemoveAll(destinationDir)
@@ -99,7 +87,11 @@ func downloadArtifactsOfRun(org string, runId string, destinationDir string, all
 
 	for _, artifact := range l(m(artifacts, "artifacts")) {
 		name := ms(artifact, "name")
-		if all || results[name] == "failure" {
+		result, found := results[name]
+		if !found {
+			return errors.New("Job result for the artifact" + name + " is unknown")
+		}
+		if all || result == "failure" {
 
 			println("Downloading results of " + name + " to " + destinationDir)
 			err = downloadAndExtract(name, ms(artifact, "archive_download_url"), destinationDir)

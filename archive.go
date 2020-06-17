@@ -18,8 +18,12 @@ func archiveBuilds(outputDir string) error {
 		return err
 	}
 
+	limit := 50
 	for _, run := range l(m(runs, "workflow_runs")) {
-
+		limit = limit - 1
+		if limit == 0 {
+			break
+		}
 		createdString := ms(run, "created_at")
 		created, err := time.Parse(time.RFC3339, createdString)
 		if err != nil {
@@ -37,6 +41,9 @@ func archiveBuilds(outputDir string) error {
 				return errors.Wrap(err, "Can't parse job API, runId="+runId)
 			}
 			err = ioutil.WriteFile(runJson, niceJobJson, 0755)
+			if err != nil {
+				return errors.Wrap(err, "Can't write out run json file"+runJson)
+			}
 		}
 
 		jobJson := path.Join(buildDir, "job.json")

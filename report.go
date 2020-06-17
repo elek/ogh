@@ -25,6 +25,8 @@ type TestResult struct {
 }
 
 type JobResult struct {
+	Name         string
+	Artifact     string
 	Status       string
 	Conclusion   string
 	FailingTests []TestResult
@@ -132,11 +134,14 @@ func parseBuildResults(root string, buildPath string) (BuildResult, error) {
 	b.ID = mns(run, "run_number")
 	b.Link = ms(run, "html_url")
 	for _, job := range l(m(jobs, "jobs")) {
-		failingTests, err := readFailingTests(path.Join(root, buildPath, ms(job, "name")))
+
+		failingTests, err := readFailingTests(path.Join(root, buildPath, JobToArtifactName(ms(job, "name"))))
 		if err != nil {
 			return b, err
 		}
 		jobResult := JobResult{
+			Name:         ms(job, "name"),
+			Artifact:     JobToArtifactName(ms(job, "name")),
 			Status:       ms(job, "status"),
 			Conclusion:   ms(job, "conclusion"),
 			FailingTests: failingTests,
