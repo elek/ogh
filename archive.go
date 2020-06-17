@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"path/filepath"
 	"time"
 
 	"github.com/pkg/errors"
@@ -40,6 +41,7 @@ func archiveBuilds(outputDir string) error {
 			if err != nil {
 				return errors.Wrap(err, "Can't parse job API, runId="+runId)
 			}
+			_ = os.MkdirAll(filepath.Dir(runJson), 0755)
 			err = ioutil.WriteFile(runJson, niceJobJson, 0755)
 			if err != nil {
 				return errors.Wrap(err, "Can't write out run json file"+runJson)

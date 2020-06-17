@@ -69,7 +69,6 @@ func downloadArtifactsOfRun(org string, runId string, destinationDir string, all
 		results[JobToArtifactName(ms(job, "name"))] = ms(job, "conclusion")
 	}
 
-	_ = os.RemoveAll(destinationDir)
 	err = os.MkdirAll(destinationDir, 0755)
 	if err != nil {
 		return errors.Wrap(err, "Can't created destination directory: "+destinationDir)

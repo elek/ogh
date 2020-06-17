@@ -18,6 +18,7 @@ type TestFailure struct {
 	ClassTimeout bool
 	Method       string
 	Unknown      bool
+	ResultFile   string //relative reference to the result file
 }
 type TestResult struct {
 	Name     string
