@@ -36,16 +36,14 @@ func archiveBuilds(outputDir string) error {
 		log.Info().Msgf("Download artifacts of build %s", runId)
 
 		runJson := path.Join(buildDir, "run.json")
-		if _, err := os.Stat(runJson); os.IsNotExist(err) {
-			niceJobJson, err := json.MarshalIndent(run, "", "   ")
-			if err != nil {
-				return errors.Wrap(err, "Can't parse job API, runId="+runId)
-			}
-			_ = os.MkdirAll(filepath.Dir(runJson), 0755)
-			err = ioutil.WriteFile(runJson, niceJobJson, 0755)
-			if err != nil {
-				return errors.Wrap(err, "Can't write out run json file"+runJson)
-			}
+		niceJobJson, err := json.MarshalIndent(run, "", "   ")
+		if err != nil {
+			return errors.Wrap(err, "Can't parse job API, runId="+runId)
+		}
+		_ = os.MkdirAll(filepath.Dir(runJson), 0755)
+		err = ioutil.WriteFile(runJson, niceJobJson, 0755)
+		if err != nil {
+			return errors.Wrap(err, "Can't write out run json file"+runJson)
 		}
 
 		jobJson := path.Join(buildDir, "job.json")
