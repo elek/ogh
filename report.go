@@ -175,7 +175,20 @@ func renderIndex(templateDir string, destinationDir string, results []BuildResul
 	if err != nil {
 		return err
 	}
-	template := template.Must(template.New("index").Parse(string(indexTemplate)))
+
+	funcs := template.FuncMap{
+		"max": func(length int, content string) string {
+			if len(content) > length {
+				return content[0:length]
+			} else {
+				return content
+			}
+		},
+		"shortPackage": func(content string) string {
+			return strings.Replace(content, "org.apache.hadoop", "o.a.h", -1)
+		},
+	}
+	template := template.Must(template.New("index").Funcs(funcs).Parse(string(indexTemplate)))
 
 	destFile := path.Join(destinationDir, "index.html")
 	destWriter, err := os.Create(destFile)
