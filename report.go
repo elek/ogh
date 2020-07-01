@@ -121,7 +121,8 @@ func readRobotFailingTests(dir string) ([]TestResult, error) {
 	results := make([]TestResult, 0)
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
-		return results, errors.Wrap(err, "Couldn't read directory "+dir)
+		//acceptance dir exists only in case of errors
+		return results, nil
 	}
 	for _, file := range files {
 		if strings.HasSuffix(file.Name(), "xml") {
