@@ -297,7 +297,13 @@ func listBuildDirs(dir string) ([]string, error) {
 		for _, month := range getSortedNumberSubdirs(path.Join(dir, year)) {
 			for _, day := range getSortedNumberSubdirs(path.Join(dir, year, month)) {
 				for _, build := range getSortedNumberSubdirs(path.Join(dir, year, month, day)) {
-					buildDirs = append(buildDirs, path.Join(year, month, day, build))
+
+					buildDir := path.Join(year, month, day, build)
+					excludeFile := path.Join(dir, buildDir, "exclude")
+					//with an empty exclude file, we can ignore any dir
+					if _, err := os.Stat(excludeFile); os.IsNotExist(err) {
+						buildDirs = append(buildDirs, buildDir)
+					}
 				}
 			}
 		}
