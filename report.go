@@ -236,9 +236,16 @@ func renderIndex(templateDir string, destinationDir string, results []BuildResul
 	}
 
 	funcs := template.FuncMap{
-		"max": func(length int, content string) string {
+		"limitEnd": func(length int, content string) string {
 			if len(content) > length {
-				return content[0:length]
+				return "..." + content[len(content)-length:len(content)]
+			} else {
+				return content
+			}
+		},
+		"limit": func(length int, content string) string {
+			if len(content) > length {
+				return content[0:length] + "..."
 			} else {
 				return content
 			}
