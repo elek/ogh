@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generated="20200630 13:26:58.836" generator="Robot 3.1.1 (Python 2.7.5 on linux2)">
+<suite source="/opt/ozone/smoketest/mapreduce.robot" id="s1" name="ozonesecure-mr-mapreduce">
+<test id="s1-t1" name="Execute PI calculation">
+<kw name="Find example jar">
+<assign>
+<var>${exampleJar}</var>
+</assign>
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>find /opt/hadoop/share/hadoop/mapreduce/ -name "*.jar" | grep mapreduce-examples | grep -v sources | grep -v test</arg>
+</arguments>
+<assign>
+<var>${jar}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:26:58.880" level="INFO">Running command 'find /opt/hadoop/share/hadoop/mapreduce/ -name "*.jar" | grep mapreduce-examples | grep -v sources | grep -v test 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:26:58.885" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:26:58.886" level="INFO">${output} = /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar</msg>
+<status status="PASS" endtime="20200630 13:26:58.886" starttime="20200630 13:26:58.879"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:26:58.887" level="INFO">/opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar</msg>
+<status status="PASS" endtime="20200630 13:26:58.887" starttime="20200630 13:26:58.886"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:26:58.887" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20200630 13:26:58.888" starttime="20200630 13:26:58.887"></status>
+</kw>
+<msg timestamp="20200630 13:26:58.888" level="INFO">${jar} = /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar</msg>
+<status status="PASS" endtime="20200630 13:26:58.888" starttime="20200630 13:26:58.878"></status>
+</kw>
+<msg timestamp="20200630 13:26:58.888" level="INFO">${exampleJar} = /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar</msg>
+<status status="PASS" endtime="20200630 13:26:58.888" starttime="20200630 13:26:58.878"></status>
+</kw>
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>yarn jar ${exampleJar} pi 3 3</arg>
+</arguments>
+<assign>
+<var>${output}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:26:58.891" level="INFO">Running command 'yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar pi 3 3 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:27:42.412" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:27:42.412" level="INFO">${output} = Number of Maps  = 3
+Samples per Map = 3
+2020-06-30 13:27:00 INFO  MetricsConfig:118 - Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:27:01 INFO  MetricsSystemImpl:374 - Scheduled Metr...</msg>
+<status status="PASS" endtime="20200630 13:27:42.412" starttime="20200630 13:26:58.889"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:27:42.413" level="INFO">Number of Maps  = 3
+Samples per Map = 3
+2020-06-30 13:27:00 INFO  MetricsConfig:118 - Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:27:01 INFO  MetricsSystemImpl:374 - Scheduled Metric snapshot period at 10 second(s).
+2020-06-30 13:27:01 INFO  MetricsSystemImpl:191 - XceiverClientMetrics metrics system started
+Wrote input for Map #0
+Wrote input for Map #1
+Wrote input for Map #2
+Starting Job
+2020-06-30 13:27:02 INFO  RMProxy:133 - Connecting to ResourceManager at rm/172.25.0.12:8032
+2020-06-30 13:27:03 INFO  AHSProxy:42 - Connecting to Application History server at jhs/172.25.0.3:10200
+2020-06-30 13:27:03 INFO  KMSClientProvider:1041 - New token created: (Kind: kms-dt, Service: kms://http@kms:9600/kms, Ident: (kms-dt owner=hadoop, renewer=rm, realUser=, issueDate=1593523623386, maxDate=1594128423386, sequenceNumber=1, masterKeyId=2))
+2020-06-30 13:27:03 INFO  TokenCache:147 - Got dt for o3fs://bucket1.volume1; Kind: OzoneToken, Service: 172.25.0.2:9862, Ident: 08 01 1a 15 68 61 64 6f 6f 70 2f 72 6d 40 45 58 41 4d 50 4c 45 2e 43 4f 4d 22 02 72 6d 2a 00 30 bd a9 a3 ab b0 2e 38 bd b1 d5 cb b2 2e 40 01 48 01 5a 0d 33 30 31 33 34 35 33 31 35 33 33 38 39 7a 12 6f 6d 53 65 72 76 69 63 65 49 64 44 65 66 61 75 6c 74
+2020-06-30 13:27:03 INFO  TokenCache:147 - Got dt for o3fs://bucket1.volume1; Kind: kms-dt, Service: kms://http@kms:9600/kms, Ident: (kms-dt owner=hadoop, renewer=rm, realUser=, issueDate=1593523623386, maxDate=1594128423386, sequenceNumber=1, masterKeyId=2)
+2020-06-30 13:27:03 INFO  FileInputFormat:292 - Total input files to process : 3
+2020-06-30 13:27:06 INFO  JobSubmitter:202 - number of splits:3
+2020-06-30 13:27:06 INFO  deprecation:1394 - yarn.resourcemanager.system-metrics-publisher.enabled is deprecated. Instead, use yarn.system-metrics-publisher.enabled
+2020-06-30 13:27:06 INFO  JobSubmitter:298 - Submitting tokens for job: job_1593523535810_0001
+2020-06-30 13:27:06 INFO  JobSubmitter:299 - Executing with tokens: [Kind: OzoneToken, Service: 172.25.0.2:9862, Ident: 08 01 1a 15 68 61 64 6f 6f 70 2f 72 6d 40 45 58 41 4d 50 4c 45 2e 43 4f 4d 22 02 72 6d 2a 00 30 bd a9 a3 ab b0 2e 38 bd b1 d5 cb b2 2e 40 01 48 01 5a 0d 33 30 31 33 34 35 33 31 35 33 33 38 39 7a 12 6f 6d 53 65 72 76 69 63 65 49 64 44 65 66 61 75 6c 74, Kind: kms-dt, Service: kms://http@kms:9600/kms, Ident: (kms-dt owner=hadoop, renewer=rm, realUser=, issueDate=1593523623386, maxDate=1594128423386, sequenceNumber=1, masterKeyId=2)]
+2020-06-30 13:27:07 INFO  Configuration:2752 - resource-types.xml not found
+2020-06-30 13:27:07 INFO  ResourceUtils:419 - Unable to find 'resource-types.xml'.
+2020-06-30 13:27:07 INFO  TimelineClientImpl:129 - Timeline service address: jhs:8188
+2020-06-30 13:27:09 INFO  YarnClientImpl:311 - Submitted application application_1593523535810_0001
+2020-06-30 13:27:09 INFO  Job:1574 - The url to track the job: http://rm:8088/proxy/application_1593523535810_0001/
+2020-06-30 13:27:09 INFO  Job:1619 - Running job: job_1593523535810_0001
+2020-06-30 13:27:20 INFO  Job:1640 - Job job_1593523535810_0001 running in uber mode : false
+2020-06-30 13:27:20 INFO  Job:1647 -  map 0% reduce 0%
+2020-06-30 13:27:30 INFO  Job:1647 -  map 33% reduce 0%
+2020-06-30 13:27:32 INFO  Job:1647 -  map 67% reduce 0%
+2020-06-30 13:27:33 INFO  Job:1647 -  map 100% reduce 0%
+2020-06-30 13:27:37 INFO  Job:1647 -  map 100% reduce 100%
+2020-06-30 13:27:41 INFO  Job:1658 - Job job_1593523535810_0001 completed successfully
+2020-06-30 13:27:41 INFO  Job:1665 - Counters: 53
+	File System Counters
+		FILE: Number of bytes read=72
+		FILE: Number of bytes written=1050605
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		O3FS: Number of bytes read=798
+		O3FS: Number of bytes written=215
+		O3FS: Number of read operations=22
+		O3FS: Number of large read operations=0
+		O3FS: Number of write operations=3
+	Job Counters 
+		Launched map tasks=3
+		Launched reduce tasks=1
+		Rack-local map tasks=3
+		Total time spent by all maps in occupied slots (ms)=47736
+		Total time spent by all reduces in occupied slots (ms)=9590
+		Total time spent by all map tasks (ms)=23868
+		Total time spent by all reduce tasks (ms)=4795
+		Total vcore-milliseconds taken by all map tasks=23868
+		Total vcore-milliseconds taken by all reduce tasks=4795
+		Total megabyte-milliseconds taken by all map tasks=48881664
+		Total megabyte-milliseconds taken by all reduce tasks=9820160
+	Map-Reduce Framework
+		Map input records=3
+		Map output records=6
+		Map output bytes=54
+		Map output materialized bytes=84
+		Input split bytes=444
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=2
+		Reduce shuffle bytes=84
+		Reduce input records=6
+		Reduce output records=0
+		Spilled Records=12
+		Shuffled Maps =3
+		Failed Shuffles=0
+		Merged Map outputs=3
+		GC time elapsed (ms)=989
+		CPU time spent (ms)=8200
+		Physical memory (bytes) snapshot=1398931456
+		Virtual memory (bytes) snapshot=14312308736
+		Total committed heap usage (bytes)=1455423488
+		Peak Map Physical memory (bytes)=376033280
+		Peak Map Virtual memory (bytes)=3579908096
+		Peak Reduce Physical memory (bytes)=359669760
+		Peak Reduce Virtual memory (bytes)=3582693376
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=354
+	File Output Format Counters 
+		Bytes Written=97
+Job Finished in 39.178 seconds
+Estimated value of Pi is 3.55555555555555555556</msg>
+<status status="PASS" endtime="20200630 13:27:42.414" starttime="20200630 13:27:42.413"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:27:42.414" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20200630 13:27:42.414" starttime="20200630 13:27:42.414"></status>
+</kw>
+<msg timestamp="20200630 13:27:42.415" level="INFO">${output} = Number of Maps  = 3
+Samples per Map = 3
+2020-06-30 13:27:00 INFO  MetricsConfig:118 - Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:27:01 INFO  MetricsSystemImpl:374 - Scheduled Metr...</msg>
+<status status="PASS" endtime="20200630 13:27:42.415" starttime="20200630 13:26:58.889"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${output}</arg>
+<arg>completed successfully</arg>
+</arguments>
+<status status="PASS" endtime="20200630 13:27:42.415" starttime="20200630 13:27:42.415"></status>
+</kw>
+<timeout value="4 minutes"></timeout>
+<status status="PASS" endtime="20200630 13:27:42.415" critical="yes" starttime="20200630 13:26:58.877"></status>
+</test>
+<test id="s1-t2" name="Execute WordCount">
+<kw name="Find example jar">
+<assign>
+<var>${exampleJar}</var>
+</assign>
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>find /opt/hadoop/share/hadoop/mapreduce/ -name "*.jar" | grep mapreduce-examples | grep -v sources | grep -v test</arg>
+</arguments>
+<assign>
+<var>${jar}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:27:42.420" level="INFO">Running command 'find /opt/hadoop/share/hadoop/mapreduce/ -name "*.jar" | grep mapreduce-examples | grep -v sources | grep -v test 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:27:42.427" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:27:42.427" level="INFO">${output} = /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar</msg>
+<status status="PASS" endtime="20200630 13:27:42.427" starttime="20200630 13:27:42.418"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:27:42.428" level="INFO">/opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar</msg>
+<status status="PASS" endtime="20200630 13:27:42.428" starttime="20200630 13:27:42.427"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:27:42.428" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20200630 13:27:42.429" starttime="20200630 13:27:42.428"></status>
+</kw>
+<msg timestamp="20200630 13:27:42.429" level="INFO">${jar} = /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar</msg>
+<status status="PASS" endtime="20200630 13:27:42.429" starttime="20200630 13:27:42.418"></status>
+</kw>
+<msg timestamp="20200630 13:27:42.429" level="INFO">${exampleJar} = /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar</msg>
+<status status="PASS" endtime="20200630 13:27:42.429" starttime="20200630 13:27:42.417"></status>
+</kw>
+<kw name="Generate Random String" library="String">
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<arguments>
+<arg>2</arg>
+<arg>[NUMBERS]</arg>
+</arguments>
+<assign>
+<var>${random}</var>
+</assign>
+<msg timestamp="20200630 13:27:42.430" level="INFO">${random} = 96</msg>
+<status status="PASS" endtime="20200630 13:27:42.430" starttime="20200630 13:27:42.429"></status>
+</kw>
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>yarn jar ${exampleJar} wordcount o3fs://bucket1.volume1/key1 o3fs://bucket1.volume1/key1-${random}.count</arg>
+</arguments>
+<assign>
+<var>${output}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:27:42.432" level="INFO">Running command 'yarn jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.0.jar wordcount o3fs://bucket1.volume1/key1 o3fs://bucket1.volume1/key1-96.count 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:28:12.804" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:28:12.804" level="INFO">${output} = 2020-06-30 13:27:44 INFO  RMProxy:133 - Connecting to ResourceManager at rm/172.25.0.12:8032
+2020-06-30 13:27:44 INFO  AHSProxy:42 - Connecting to Application History server at jhs/172.25.0.3:10200
+20...</msg>
+<status status="PASS" endtime="20200630 13:28:12.804" starttime="20200630 13:27:42.431"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:28:12.805" level="INFO">2020-06-30 13:27:44 INFO  RMProxy:133 - Connecting to ResourceManager at rm/172.25.0.12:8032
+2020-06-30 13:27:44 INFO  AHSProxy:42 - Connecting to Application History server at jhs/172.25.0.3:10200
+2020-06-30 13:27:45 INFO  KMSClientProvider:1041 - New token created: (Kind: kms-dt, Service: kms://http@kms:9600/kms, Ident: (kms-dt owner=hadoop, renewer=rm, realUser=, issueDate=1593523665133, maxDate=1594128465133, sequenceNumber=2, masterKeyId=2))
+2020-06-30 13:27:45 INFO  TokenCache:147 - Got dt for o3fs://bucket1.volume1; Kind: OzoneToken, Service: 172.25.0.2:9862, Ident: 08 01 1a 15 68 61 64 6f 6f 70 2f 72 6d 40 45 58 41 4d 50 4c 45 2e 43 4f 4d 22 02 72 6d 2a 00 30 88 f1 a5 ab b0 2e 38 88 f9 d7 cb b2 2e 40 02 48 01 5a 0d 33 30 31 33 34 35 33 31 35 33 33 38 39 7a 12 6f 6d 53 65 72 76 69 63 65 49 64 44 65 66 61 75 6c 74
+2020-06-30 13:27:45 INFO  TokenCache:147 - Got dt for o3fs://bucket1.volume1; Kind: kms-dt, Service: kms://http@kms:9600/kms, Ident: (kms-dt owner=hadoop, renewer=rm, realUser=, issueDate=1593523665133, maxDate=1594128465133, sequenceNumber=2, masterKeyId=2)
+2020-06-30 13:27:45 INFO  JobSubmissionFiles:156 - Permissions on staging directory /user/hadoop/.staging are incorrect: rwxrwxrwx. Fixing permissions to correct value rwx------
+2020-06-30 13:27:45 INFO  MetricsConfig:118 - Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:27:45 INFO  MetricsSystemImpl:374 - Scheduled Metric snapshot period at 10 second(s).
+2020-06-30 13:27:45 INFO  MetricsSystemImpl:191 - XceiverClientMetrics metrics system started
+2020-06-30 13:27:46 INFO  FileInputFormat:292 - Total input files to process : 1
+2020-06-30 13:27:47 INFO  JobSubmitter:202 - number of splits:1
+2020-06-30 13:27:47 INFO  deprecation:1394 - yarn.resourcemanager.system-metrics-publisher.enabled is deprecated. Instead, use yarn.system-metrics-publisher.enabled
+2020-06-30 13:27:47 INFO  JobSubmitter:298 - Submitting tokens for job: job_1593523535810_0002
+2020-06-30 13:27:47 INFO  JobSubmitter:299 - Executing with tokens: [Kind: OzoneToken, Service: 172.25.0.2:9862, Ident: 08 01 1a 15 68 61 64 6f 6f 70 2f 72 6d 40 45 58 41 4d 50 4c 45 2e 43 4f 4d 22 02 72 6d 2a 00 30 88 f1 a5 ab b0 2e 38 88 f9 d7 cb b2 2e 40 02 48 01 5a 0d 33 30 31 33 34 35 33 31 35 33 33 38 39 7a 12 6f 6d 53 65 72 76 69 63 65 49 64 44 65 66 61 75 6c 74, Kind: kms-dt, Service: kms://http@kms:9600/kms, Ident: (kms-dt owner=hadoop, renewer=rm, realUser=, issueDate=1593523665133, maxDate=1594128465133, sequenceNumber=2, masterKeyId=2)]
+2020-06-30 13:27:47 INFO  Configuration:2752 - resource-types.xml not found
+2020-06-30 13:27:47 INFO  ResourceUtils:419 - Unable to find 'resource-types.xml'.
+2020-06-30 13:27:47 INFO  TimelineClientImpl:129 - Timeline service address: jhs:8188
+2020-06-30 13:27:49 INFO  YarnClientImpl:311 - Submitted application application_1593523535810_0002
+2020-06-30 13:27:49 INFO  Job:1574 - The url to track the job: http://rm:8088/proxy/application_1593523535810_0002/
+2020-06-30 13:27:49 INFO  Job:1619 - Running job: job_1593523535810_0002
+2020-06-30 13:27:57 INFO  Job:1640 - Job job_1593523535810_0002 running in uber mode : false
+2020-06-30 13:27:57 INFO  Job:1647 -  map 0% reduce 0%
+2020-06-30 13:28:02 INFO  Job:1647 -  map 100% reduce 0%
+2020-06-30 13:28:11 INFO  Job:1647 -  map 100% reduce 100%
+2020-06-30 13:28:12 INFO  Job:1658 - Job job_1593523535810_0002 completed successfully
+2020-06-30 13:28:12 INFO  Job:1665 - Counters: 53
+	File System Counters
+		FILE: Number of bytes read=14979
+		FILE: Number of bytes written=554465
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		O3FS: Number of bytes read=18154
+		O3FS: Number of bytes written=11810
+		O3FS: Number of read operations=13
+		O3FS: Number of large read operations=0
+		O3FS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Rack-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=6736
+		Total time spent by all reduces in occupied slots (ms)=12732
+		Total time spent by all map tasks (ms)=3368
+		Total time spent by all reduce tasks (ms)=6366
+		Total vcore-milliseconds taken by all map tasks=3368
+		Total vcore-milliseconds taken by all reduce tasks=6366
+		Total megabyte-milliseconds taken by all map tasks=6897664
+		Total megabyte-milliseconds taken by all reduce tasks=13037568
+	Map-Reduce Framework
+		Map input records=435
+		Map output records=1877
+		Map output bytes=23977
+		Map output materialized bytes=14979
+		Input split bytes=92
+		Combine input records=1877
+		Combine output records=798
+		Reduce input groups=798
+		Reduce shuffle bytes=14979
+		Reduce input records=798
+		Reduce output records=798
+		Spilled Records=1596
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=269
+		CPU time spent (ms)=3680
+		Physical memory (bytes) snapshot=625950720
+		Virtual memory (bytes) snapshot=7127842816
+		Total committed heap usage (bytes)=696254464
+		Peak Map Physical memory (bytes)=335847424
+		Peak Map Virtual memory (bytes)=3552903168
+		Peak Reduce Physical memory (bytes)=290103296
+		Peak Reduce Virtual memory (bytes)=3574939648
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=18062
+	File Output Format Counters 
+		Bytes Written=11810</msg>
+<status status="PASS" endtime="20200630 13:28:12.805" starttime="20200630 13:28:12.805"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:28:12.806" level="INFO">Argument types are:
+&lt;type 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" endtime="20200630 13:28:12.806" starttime="20200630 13:28:12.806"></status>
+</kw>
+<msg timestamp="20200630 13:28:12.806" level="INFO">${output} = 2020-06-30 13:27:44 INFO  RMProxy:133 - Connecting to ResourceManager at rm/172.25.0.12:8032
+2020-06-30 13:27:44 INFO  AHSProxy:42 - Connecting to Application History server at jhs/172.25.0.3:10200
+20...</msg>
+<status status="PASS" endtime="20200630 13:28:12.807" starttime="20200630 13:27:42.430"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${output}</arg>
+<arg>completed successfully</arg>
+</arguments>
+<status status="PASS" endtime="20200630 13:28:12.807" starttime="20200630 13:28:12.807"></status>
+</kw>
+<timeout value="4 minutes"></timeout>
+<status status="PASS" endtime="20200630 13:28:12.807" critical="yes" starttime="20200630 13:27:42.416"></status>
+</test>
+<doc>Execute MR jobs</doc>
+<status status="PASS" endtime="20200630 13:28:12.809" starttime="20200630 13:26:58.837"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="2">Critical Tests</stat>
+<stat fail="0" pass="2">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="ozonesecure-mr-mapreduce" pass="2">ozonesecure-mr-mapreduce</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

@@ -1,0 +1,1322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.1.2 (Python 3.6.8 on linux)" generated="20200630 13:05:59.188" rpa="false">
+<suite id="s1" name="ozone-lib" source="/opt/hadoop/smoketest/lib">
+<suite id="s1-s1" name="Fs Tests" source="/opt/hadoop/smoketest/lib/fs_tests.robot">
+<test id="s1-s1-t1" name="Format o3fs URL without path">
+<kw name="Format o3fs URL" library="fs">
+<arguments>
+<arg>vol1</arg>
+<arg>bucket1</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${om}' != '${EMPTY}'</arg>
+<arg>Ensure Leading</arg>
+<arg>.</arg>
+<arg>${om}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${om_with_leading}</var>
+</assign>
+<kw name="Ensure Leading" library="string">
+<arguments>
+<arg>.</arg>
+<arg>${om}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>0</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${first}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.229" level="INFO">${first} = o</msg>
+<status status="PASS" starttime="20200630 13:05:59.228" endtime="20200630 13:05:59.229"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${first}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${char}${string}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.229" level="INFO">${result} = .om</msg>
+<status status="PASS" starttime="20200630 13:05:59.229" endtime="20200630 13:05:59.229"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.228" endtime="20200630 13:05:59.229"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.229" level="INFO">${om_with_leading} = .om</msg>
+<status status="PASS" starttime="20200630 13:05:59.227" endtime="20200630 13:05:59.230"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.230" level="INFO">${result} = o3fs://bucket1.vol1.om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.227" endtime="20200630 13:05:59.230"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>o3fs://bucket1.vol1.om/</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.230" endtime="20200630 13:05:59.231"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.226" endtime="20200630 13:05:59.231" critical="yes"></status>
+</test>
+<test id="s1-s1-t2" name="Format o3fs URL with path">
+<kw name="Format o3fs URL" library="fs">
+<arguments>
+<arg>vol1</arg>
+<arg>bucket1</arg>
+<arg>dir/file</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${om}' != '${EMPTY}'</arg>
+<arg>Ensure Leading</arg>
+<arg>.</arg>
+<arg>${om}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${om_with_leading}</var>
+</assign>
+<kw name="Ensure Leading" library="string">
+<arguments>
+<arg>.</arg>
+<arg>${om}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>0</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${first}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.233" level="INFO">${first} = o</msg>
+<status status="PASS" starttime="20200630 13:05:59.233" endtime="20200630 13:05:59.233"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${first}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${char}${string}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.233" level="INFO">${result} = .om</msg>
+<status status="PASS" starttime="20200630 13:05:59.233" endtime="20200630 13:05:59.233"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.232" endtime="20200630 13:05:59.234"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.234" level="INFO">${om_with_leading} = .om</msg>
+<status status="PASS" starttime="20200630 13:05:59.232" endtime="20200630 13:05:59.234"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.234" level="INFO">${result} = o3fs://bucket1.vol1.om/dir/file</msg>
+<status status="PASS" starttime="20200630 13:05:59.231" endtime="20200630 13:05:59.234"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>o3fs://bucket1.vol1.om/dir/file</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.234" endtime="20200630 13:05:59.234"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.231" endtime="20200630 13:05:59.235" critical="yes"></status>
+</test>
+<test id="s1-s1-t3" name="Format o3fs URL with OM">
+<kw name="Format o3fs URL" library="fs">
+<arguments>
+<arg>vol1</arg>
+<arg>bucket1</arg>
+<arg>dir/file</arg>
+<arg>omservice</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${om}' != '${EMPTY}'</arg>
+<arg>Ensure Leading</arg>
+<arg>.</arg>
+<arg>${om}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${om_with_leading}</var>
+</assign>
+<kw name="Ensure Leading" library="string">
+<arguments>
+<arg>.</arg>
+<arg>${om}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>0</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${first}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.237" level="INFO">${first} = o</msg>
+<status status="PASS" starttime="20200630 13:05:59.237" endtime="20200630 13:05:59.237"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${first}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${char}${string}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.238" level="INFO">${result} = .omservice</msg>
+<status status="PASS" starttime="20200630 13:05:59.238" endtime="20200630 13:05:59.238"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.237" endtime="20200630 13:05:59.238"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.238" level="INFO">${om_with_leading} = .omservice</msg>
+<status status="PASS" starttime="20200630 13:05:59.236" endtime="20200630 13:05:59.238"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.239" level="INFO">${result} = o3fs://bucket1.vol1.omservice/dir/file</msg>
+<status status="PASS" starttime="20200630 13:05:59.235" endtime="20200630 13:05:59.239"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>o3fs://bucket1.vol1.omservice/dir/file</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.239" endtime="20200630 13:05:59.239"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.235" endtime="20200630 13:05:59.239" critical="yes"></status>
+</test>
+<test id="s1-s1-t4" name="Format ofs URL without path">
+<kw name="Format ofs URL" library="fs">
+<arguments>
+<arg>vol1</arg>
+<arg>bucket1</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${om}' != '${EMPTY}'</arg>
+<arg>Ensure Trailing</arg>
+<arg>/</arg>
+<arg>${om}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${om_with_trailing}</var>
+</assign>
+<kw name="Ensure Trailing" library="string">
+<arguments>
+<arg>/</arg>
+<arg>${om}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>-1</arg>
+</arguments>
+<assign>
+<var>${last}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.241" level="INFO">${last} = m</msg>
+<status status="PASS" starttime="20200630 13:05:59.241" endtime="20200630 13:05:59.241"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${last}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${string}${char}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.242" level="INFO">${result} = om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.241" endtime="20200630 13:05:59.242"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.241" endtime="20200630 13:05:59.242"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.242" level="INFO">${om_with_trailing} = om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.240" endtime="20200630 13:05:59.242"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${path}' != '${EMPTY}'</arg>
+<arg>Ensure Leading</arg>
+<arg>/</arg>
+<arg>${path}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${path_with_leading}</var>
+</assign>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${EMPTY}</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.243" endtime="20200630 13:05:59.243"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.243" level="INFO">${path_with_leading} = </msg>
+<status status="PASS" starttime="20200630 13:05:59.242" endtime="20200630 13:05:59.243"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.243" level="INFO">${result} = ofs://om/vol1/bucket1</msg>
+<status status="PASS" starttime="20200630 13:05:59.240" endtime="20200630 13:05:59.243"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>ofs://om/vol1/bucket1</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.243" endtime="20200630 13:05:59.244"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.239" endtime="20200630 13:05:59.244" critical="yes"></status>
+</test>
+<test id="s1-s1-t5" name="Format ofs URL with path">
+<kw name="Format ofs URL" library="fs">
+<arguments>
+<arg>vol1</arg>
+<arg>bucket1</arg>
+<arg>dir/file</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${om}' != '${EMPTY}'</arg>
+<arg>Ensure Trailing</arg>
+<arg>/</arg>
+<arg>${om}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${om_with_trailing}</var>
+</assign>
+<kw name="Ensure Trailing" library="string">
+<arguments>
+<arg>/</arg>
+<arg>${om}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>-1</arg>
+</arguments>
+<assign>
+<var>${last}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.246" level="INFO">${last} = m</msg>
+<status status="PASS" starttime="20200630 13:05:59.245" endtime="20200630 13:05:59.246"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${last}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${string}${char}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.246" level="INFO">${result} = om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.246" endtime="20200630 13:05:59.246"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.245" endtime="20200630 13:05:59.246"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.247" level="INFO">${om_with_trailing} = om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.245" endtime="20200630 13:05:59.247"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${path}' != '${EMPTY}'</arg>
+<arg>Ensure Leading</arg>
+<arg>/</arg>
+<arg>${path}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${path_with_leading}</var>
+</assign>
+<kw name="Ensure Leading" library="string">
+<arguments>
+<arg>/</arg>
+<arg>${path}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>0</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${first}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.248" level="INFO">${first} = d</msg>
+<status status="PASS" starttime="20200630 13:05:59.247" endtime="20200630 13:05:59.248"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${first}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${char}${string}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.248" level="INFO">${result} = /dir/file</msg>
+<status status="PASS" starttime="20200630 13:05:59.248" endtime="20200630 13:05:59.248"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.247" endtime="20200630 13:05:59.248"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.248" level="INFO">${path_with_leading} = /dir/file</msg>
+<status status="PASS" starttime="20200630 13:05:59.247" endtime="20200630 13:05:59.249"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.249" level="INFO">${result} = ofs://om/vol1/bucket1/dir/file</msg>
+<status status="PASS" starttime="20200630 13:05:59.244" endtime="20200630 13:05:59.249"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>ofs://om/vol1/bucket1/dir/file</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.249" endtime="20200630 13:05:59.249"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.244" endtime="20200630 13:05:59.249" critical="yes"></status>
+</test>
+<test id="s1-s1-t6" name="Format ofs URL with OM">
+<kw name="Format ofs URL" library="fs">
+<arguments>
+<arg>vol1</arg>
+<arg>bucket1</arg>
+<arg>dir/file</arg>
+<arg>om:1234</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${om}' != '${EMPTY}'</arg>
+<arg>Ensure Trailing</arg>
+<arg>/</arg>
+<arg>${om}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${om_with_trailing}</var>
+</assign>
+<kw name="Ensure Trailing" library="string">
+<arguments>
+<arg>/</arg>
+<arg>${om}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>-1</arg>
+</arguments>
+<assign>
+<var>${last}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.251" level="INFO">${last} = 4</msg>
+<status status="PASS" starttime="20200630 13:05:59.251" endtime="20200630 13:05:59.252"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${last}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${string}${char}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.252" level="INFO">${result} = om:1234/</msg>
+<status status="PASS" starttime="20200630 13:05:59.252" endtime="20200630 13:05:59.252"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.251" endtime="20200630 13:05:59.252"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.252" level="INFO">${om_with_trailing} = om:1234/</msg>
+<status status="PASS" starttime="20200630 13:05:59.250" endtime="20200630 13:05:59.252"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${path}' != '${EMPTY}'</arg>
+<arg>Ensure Leading</arg>
+<arg>/</arg>
+<arg>${path}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${path_with_leading}</var>
+</assign>
+<kw name="Ensure Leading" library="string">
+<arguments>
+<arg>/</arg>
+<arg>${path}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>0</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${first}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.254" level="INFO">${first} = d</msg>
+<status status="PASS" starttime="20200630 13:05:59.253" endtime="20200630 13:05:59.254"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${first}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${char}${string}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.254" level="INFO">${result} = /dir/file</msg>
+<status status="PASS" starttime="20200630 13:05:59.254" endtime="20200630 13:05:59.254"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.253" endtime="20200630 13:05:59.254"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.255" level="INFO">${path_with_leading} = /dir/file</msg>
+<status status="PASS" starttime="20200630 13:05:59.253" endtime="20200630 13:05:59.255"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.255" level="INFO">${result} = ofs://om:1234/vol1/bucket1/dir/file</msg>
+<status status="PASS" starttime="20200630 13:05:59.250" endtime="20200630 13:05:59.255"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>ofs://om:1234/vol1/bucket1/dir/file</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.255" endtime="20200630 13:05:59.255"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.249" endtime="20200630 13:05:59.255" critical="yes"></status>
+</test>
+<test id="s1-s1-t7" name="Format FS URL with ofs scheme">
+<kw name="Format FS URL" library="fs">
+<arguments>
+<arg>ofs</arg>
+<arg>vol1</arg>
+<arg>bucket1</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${scheme}' == 'o3fs'</arg>
+<arg>Format o3fs URL</arg>
+<arg>${volume}</arg>
+<arg>${bucket}</arg>
+<arg>${path}</arg>
+<arg>ELSE IF</arg>
+<arg>'${scheme}' == 'ofs'</arg>
+<arg>Format ofs URL</arg>
+<arg>${volume}</arg>
+<arg>${bucket}</arg>
+<arg>${path}</arg>
+<arg>ELSE</arg>
+<arg>Fail</arg>
+<arg>Unsupported FS scheme: ${scheme}</arg>
+</arguments>
+<assign>
+<var>${url}</var>
+</assign>
+<kw name="Format ofs URL" library="fs">
+<arguments>
+<arg>${volume}</arg>
+<arg>${bucket}</arg>
+<arg>${path}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${om}' != '${EMPTY}'</arg>
+<arg>Ensure Trailing</arg>
+<arg>/</arg>
+<arg>${om}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${om_with_trailing}</var>
+</assign>
+<kw name="Ensure Trailing" library="string">
+<arguments>
+<arg>/</arg>
+<arg>${om}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>-1</arg>
+</arguments>
+<assign>
+<var>${last}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.259" level="INFO">${last} = m</msg>
+<status status="PASS" starttime="20200630 13:05:59.258" endtime="20200630 13:05:59.259"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${last}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${string}${char}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.259" level="INFO">${result} = om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.259" endtime="20200630 13:05:59.259"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.258" endtime="20200630 13:05:59.259"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.259" level="INFO">${om_with_trailing} = om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.258" endtime="20200630 13:05:59.260"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${path}' != '${EMPTY}'</arg>
+<arg>Ensure Leading</arg>
+<arg>/</arg>
+<arg>${path}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${path_with_leading}</var>
+</assign>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${EMPTY}</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.260" endtime="20200630 13:05:59.260"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.260" level="INFO">${path_with_leading} = </msg>
+<status status="PASS" starttime="20200630 13:05:59.260" endtime="20200630 13:05:59.260"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.257" endtime="20200630 13:05:59.261"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.261" level="INFO">${url} = ofs://om/vol1/bucket1</msg>
+<status status="PASS" starttime="20200630 13:05:59.256" endtime="20200630 13:05:59.261"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.261" level="INFO">${result} = ofs://om/vol1/bucket1</msg>
+<status status="PASS" starttime="20200630 13:05:59.256" endtime="20200630 13:05:59.261"></status>
+</kw>
+<kw name="Format ofs URL" library="fs">
+<arguments>
+<arg>vol1</arg>
+<arg>bucket1</arg>
+</arguments>
+<assign>
+<var>${expected}</var>
+</assign>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${om}' != '${EMPTY}'</arg>
+<arg>Ensure Trailing</arg>
+<arg>/</arg>
+<arg>${om}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${om_with_trailing}</var>
+</assign>
+<kw name="Ensure Trailing" library="string">
+<arguments>
+<arg>/</arg>
+<arg>${om}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>-1</arg>
+</arguments>
+<assign>
+<var>${last}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.262" level="INFO">${last} = m</msg>
+<status status="PASS" starttime="20200630 13:05:59.262" endtime="20200630 13:05:59.262"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${last}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${string}${char}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.263" level="INFO">${result} = om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.263" endtime="20200630 13:05:59.263"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.262" endtime="20200630 13:05:59.263"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.263" level="INFO">${om_with_trailing} = om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.261" endtime="20200630 13:05:59.263"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${path}' != '${EMPTY}'</arg>
+<arg>Ensure Leading</arg>
+<arg>/</arg>
+<arg>${path}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${path_with_leading}</var>
+</assign>
+<kw name="Set Variable" library="BuiltIn">
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<arguments>
+<arg>${EMPTY}</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.264" endtime="20200630 13:05:59.264"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.264" level="INFO">${path_with_leading} = </msg>
+<status status="PASS" starttime="20200630 13:05:59.264" endtime="20200630 13:05:59.264"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.265" level="INFO">${expected} = ofs://om/vol1/bucket1</msg>
+<status status="PASS" starttime="20200630 13:05:59.261" endtime="20200630 13:05:59.265"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>${expected}</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.265" endtime="20200630 13:05:59.265"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.256" endtime="20200630 13:05:59.265" critical="yes"></status>
+</test>
+<test id="s1-s1-t8" name="Format FS URL with o3fs scheme">
+<kw name="Format FS URL" library="fs">
+<arguments>
+<arg>o3fs</arg>
+<arg>vol1</arg>
+<arg>bucket1</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${scheme}' == 'o3fs'</arg>
+<arg>Format o3fs URL</arg>
+<arg>${volume}</arg>
+<arg>${bucket}</arg>
+<arg>${path}</arg>
+<arg>ELSE IF</arg>
+<arg>'${scheme}' == 'ofs'</arg>
+<arg>Format ofs URL</arg>
+<arg>${volume}</arg>
+<arg>${bucket}</arg>
+<arg>${path}</arg>
+<arg>ELSE</arg>
+<arg>Fail</arg>
+<arg>Unsupported FS scheme: ${scheme}</arg>
+</arguments>
+<assign>
+<var>${url}</var>
+</assign>
+<kw name="Format o3fs URL" library="fs">
+<arguments>
+<arg>${volume}</arg>
+<arg>${bucket}</arg>
+<arg>${path}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${om}' != '${EMPTY}'</arg>
+<arg>Ensure Leading</arg>
+<arg>.</arg>
+<arg>${om}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${om_with_leading}</var>
+</assign>
+<kw name="Ensure Leading" library="string">
+<arguments>
+<arg>.</arg>
+<arg>${om}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>0</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${first}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.268" level="INFO">${first} = o</msg>
+<status status="PASS" starttime="20200630 13:05:59.268" endtime="20200630 13:05:59.268"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${first}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${char}${string}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.269" level="INFO">${result} = .om</msg>
+<status status="PASS" starttime="20200630 13:05:59.268" endtime="20200630 13:05:59.269"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.268" endtime="20200630 13:05:59.269"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.269" level="INFO">${om_with_leading} = .om</msg>
+<status status="PASS" starttime="20200630 13:05:59.267" endtime="20200630 13:05:59.269"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.267" endtime="20200630 13:05:59.269"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.269" level="INFO">${url} = o3fs://bucket1.vol1.om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.266" endtime="20200630 13:05:59.269"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.269" level="INFO">${result} = o3fs://bucket1.vol1.om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.266" endtime="20200630 13:05:59.269"></status>
+</kw>
+<kw name="Format o3fs URL" library="fs">
+<arguments>
+<arg>vol1</arg>
+<arg>bucket1</arg>
+</arguments>
+<assign>
+<var>${expected}</var>
+</assign>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${om}' != '${EMPTY}'</arg>
+<arg>Ensure Leading</arg>
+<arg>.</arg>
+<arg>${om}</arg>
+<arg>ELSE</arg>
+<arg>Set Variable</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${om_with_leading}</var>
+</assign>
+<kw name="Ensure Leading" library="string">
+<arguments>
+<arg>.</arg>
+<arg>${om}</arg>
+</arguments>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>0</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${first}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.271" level="INFO">${first} = o</msg>
+<status status="PASS" starttime="20200630 13:05:59.271" endtime="20200630 13:05:59.271"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${first}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${char}${string}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.272" level="INFO">${result} = .om</msg>
+<status status="PASS" starttime="20200630 13:05:59.271" endtime="20200630 13:05:59.272"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.271" endtime="20200630 13:05:59.272"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.272" level="INFO">${om_with_leading} = .om</msg>
+<status status="PASS" starttime="20200630 13:05:59.270" endtime="20200630 13:05:59.272"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.272" level="INFO">${expected} = o3fs://bucket1.vol1.om/</msg>
+<status status="PASS" starttime="20200630 13:05:59.270" endtime="20200630 13:05:59.272"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>${expected}</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.272" endtime="20200630 13:05:59.273"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.265" endtime="20200630 13:05:59.273" critical="yes"></status>
+</test>
+<test id="s1-s1-t9" name="Format FS URL with unsupported scheme">
+<kw name="Run Keyword And Expect Error" library="BuiltIn">
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<arguments>
+<arg>*</arg>
+<arg>Format FS URL</arg>
+<arg>http</arg>
+<arg>org</arg>
+<arg>apache</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Format FS URL" library="fs">
+<arguments>
+<arg>http</arg>
+<arg>org</arg>
+<arg>apache</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${scheme}' == 'o3fs'</arg>
+<arg>Format o3fs URL</arg>
+<arg>${volume}</arg>
+<arg>${bucket}</arg>
+<arg>${path}</arg>
+<arg>ELSE IF</arg>
+<arg>'${scheme}' == 'ofs'</arg>
+<arg>Format ofs URL</arg>
+<arg>${volume}</arg>
+<arg>${bucket}</arg>
+<arg>${path}</arg>
+<arg>ELSE</arg>
+<arg>Fail</arg>
+<arg>Unsupported FS scheme: ${scheme}</arg>
+</arguments>
+<assign>
+<var>${url}</var>
+</assign>
+<kw name="Fail" library="BuiltIn">
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<arguments>
+<arg>Unsupported FS scheme: ${scheme}</arg>
+</arguments>
+<msg timestamp="20200630 13:05:59.275" level="FAIL">Unsupported FS scheme: http</msg>
+<status status="FAIL" starttime="20200630 13:05:59.275" endtime="20200630 13:05:59.275"></status>
+</kw>
+<status status="FAIL" starttime="20200630 13:05:59.274" endtime="20200630 13:05:59.275"></status>
+</kw>
+<status status="FAIL" starttime="20200630 13:05:59.274" endtime="20200630 13:05:59.275"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.276" level="INFO">${result} = Unsupported FS scheme: http</msg>
+<status status="PASS" starttime="20200630 13:05:59.273" endtime="20200630 13:05:59.276"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>http</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.276" endtime="20200630 13:05:59.276"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>nsupported</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.276" endtime="20200630 13:05:59.277"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.273" endtime="20200630 13:05:59.277" critical="yes"></status>
+</test>
+<status status="PASS" starttime="20200630 13:05:59.215" endtime="20200630 13:05:59.277"></status>
+</suite>
+<suite id="s1-s2" name="String Tests" source="/opt/hadoop/smoketest/lib/string_tests.robot">
+<test id="s1-s2-t1" name="Ensure Leading without Leading">
+<kw name="Ensure Leading" library="string">
+<arguments>
+<arg>/</arg>
+<arg>a/b</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>0</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${first}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.281" level="INFO">${first} = a</msg>
+<status status="PASS" starttime="20200630 13:05:59.281" endtime="20200630 13:05:59.281"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${first}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${char}${string}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.282" level="INFO">${result} = /a/b</msg>
+<status status="PASS" starttime="20200630 13:05:59.282" endtime="20200630 13:05:59.282"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.282" level="INFO">${result} = /a/b</msg>
+<status status="PASS" starttime="20200630 13:05:59.281" endtime="20200630 13:05:59.282"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>/a/b</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.282" endtime="20200630 13:05:59.283"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.280" endtime="20200630 13:05:59.283" critical="yes"></status>
+</test>
+<test id="s1-s2-t2" name="Ensure Leading with Leading">
+<kw name="Ensure Leading" library="string">
+<arguments>
+<arg>_</arg>
+<arg>_a_b_c</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>0</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${first}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.284" level="INFO">${first} = _</msg>
+<status status="PASS" starttime="20200630 13:05:59.284" endtime="20200630 13:05:59.284"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${first}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${char}${string}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.284" level="INFO">${result} = _a_b_c</msg>
+<status status="PASS" starttime="20200630 13:05:59.284" endtime="20200630 13:05:59.284"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.285" level="INFO">${result} = _a_b_c</msg>
+<status status="PASS" starttime="20200630 13:05:59.283" endtime="20200630 13:05:59.285"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>_a_b_c</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.285" endtime="20200630 13:05:59.285"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.283" endtime="20200630 13:05:59.285" critical="yes"></status>
+</test>
+<test id="s1-s2-t3" name="Ensure Leading for empty">
+<kw name="Ensure Leading" library="string">
+<arguments>
+<arg>|</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>0</arg>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${first}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.289" level="INFO">${first} = </msg>
+<status status="PASS" starttime="20200630 13:05:59.287" endtime="20200630 13:05:59.289"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${first}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${char}${string}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.289" level="INFO">${result} = |</msg>
+<status status="PASS" starttime="20200630 13:05:59.289" endtime="20200630 13:05:59.289"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.290" level="INFO">${result} = |</msg>
+<status status="PASS" starttime="20200630 13:05:59.286" endtime="20200630 13:05:59.290"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>|</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.290" endtime="20200630 13:05:59.290"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.285" endtime="20200630 13:05:59.290" critical="yes"></status>
+</test>
+<test id="s1-s2-t4" name="Ensure Trailing without Trailing">
+<kw name="Ensure Trailing" library="string">
+<arguments>
+<arg>.</arg>
+<arg>x.y.z</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>-1</arg>
+</arguments>
+<assign>
+<var>${last}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.292" level="INFO">${last} = z</msg>
+<status status="PASS" starttime="20200630 13:05:59.291" endtime="20200630 13:05:59.292"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${last}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${string}${char}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.292" level="INFO">${result} = x.y.z.</msg>
+<status status="PASS" starttime="20200630 13:05:59.292" endtime="20200630 13:05:59.292"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.292" level="INFO">${result} = x.y.z.</msg>
+<status status="PASS" starttime="20200630 13:05:59.291" endtime="20200630 13:05:59.292"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>x.y.z.</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.293" endtime="20200630 13:05:59.293"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.291" endtime="20200630 13:05:59.293" critical="yes"></status>
+</test>
+<test id="s1-s2-t5" name="Ensure Trailing with Trailing">
+<kw name="Ensure Trailing" library="string">
+<arguments>
+<arg>x</arg>
+<arg>axbxcx</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>-1</arg>
+</arguments>
+<assign>
+<var>${last}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.294" level="INFO">${last} = x</msg>
+<status status="PASS" starttime="20200630 13:05:59.294" endtime="20200630 13:05:59.294"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${last}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${string}${char}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.295" level="INFO">${result} = axbxcx</msg>
+<status status="PASS" starttime="20200630 13:05:59.295" endtime="20200630 13:05:59.295"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.295" level="INFO">${result} = axbxcx</msg>
+<status status="PASS" starttime="20200630 13:05:59.294" endtime="20200630 13:05:59.295"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>axbxcx</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.295" endtime="20200630 13:05:59.296"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.293" endtime="20200630 13:05:59.296" critical="yes"></status>
+</test>
+<test id="s1-s2-t6" name="Ensure Trailing for empty">
+<kw name="Ensure Trailing" library="string">
+<arguments>
+<arg>=</arg>
+<arg>${EMPTY}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Get Substring" library="String">
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<arguments>
+<arg>${string}</arg>
+<arg>-1</arg>
+</arguments>
+<assign>
+<var>${last}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.297" level="INFO">${last} = </msg>
+<status status="PASS" starttime="20200630 13:05:59.297" endtime="20200630 13:05:59.297"></status>
+</kw>
+<kw name="Set Variable If" library="BuiltIn">
+<doc>Sets variable based on the given condition.</doc>
+<arguments>
+<arg>'${last}' == '${char}'</arg>
+<arg>${string}</arg>
+<arg>${string}${char}</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20200630 13:05:59.298" level="INFO">${result} = =</msg>
+<status status="PASS" starttime="20200630 13:05:59.297" endtime="20200630 13:05:59.298"></status>
+</kw>
+<msg timestamp="20200630 13:05:59.298" level="INFO">${result} = =</msg>
+<status status="PASS" starttime="20200630 13:05:59.296" endtime="20200630 13:05:59.298"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>=</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:05:59.298" endtime="20200630 13:05:59.298"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:05:59.296" endtime="20200630 13:05:59.298" critical="yes"></status>
+</test>
+<status status="PASS" starttime="20200630 13:05:59.278" endtime="20200630 13:05:59.299"></status>
+</suite>
+<status status="PASS" starttime="20200630 13:05:59.189" endtime="20200630 13:05:59.300"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="15" fail="0">Critical Tests</stat>
+<stat pass="15" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="15" fail="0" id="s1" name="ozone-lib">ozone-lib</stat>
+<stat pass="9" fail="0" id="s1-s1" name="Fs Tests">ozone-lib.Fs Tests</stat>
+<stat pass="6" fail="0" id="s1-s2" name="String Tests">ozone-lib.String Tests</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

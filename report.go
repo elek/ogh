@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
+	"github.com/pkg/errors"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -13,6 +14,23 @@ import (
 	"strconv"
 	"strings"
 )
+
+type RobotReport struct {
+	Statistics RobotStatistics `xml:"statistics"`
+}
+
+type RobotStatistics struct {
+	Suite RobotSuite `xml:"suite"`
+}
+
+type RobotSuite struct {
+	Stat []RobotStat `xml:"stat"`
+}
+type RobotStat struct {
+	Name string `xml:"name,attr"`
+	Pass int    `xml:"pass,attr"`
+	Fail int    `xml:"fail,attr"`
+}
 
 type TestFailure struct {
 	ClassTimeout bool
@@ -92,6 +110,46 @@ func findFailures(dir string, testName string) ([]TestFailure, error) {
 }
 
 func readFailingTests(dir string) ([]TestResult, error) {
+	if path.Base(dir) == "acceptance" {
+		return readRobotFailingTests(dir)
+	} else {
+		return readJunitFailingTests(dir)
+	}
+}
+
+func readRobotFailingTests(dir string) ([]TestResult, error) {
+	results := make([]TestResult, 0)
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		return results, errors.Wrap(err, "Couldn't read directory "+dir)
+	}
+	for _, file := range files {
+		if strings.HasSuffix(file.Name(), "xml") {
+
+			reportFile := path.Join(dir, file.Name())
+			content, err := ioutil.ReadFile(reportFile)
+			if err != nil {
+				return results, errors.Wrap(err, "Can't open "+reportFile)
+			}
+
+			robot := RobotReport{}
+			err = xml.Unmarshal(content, &robot)
+			if err != nil {
+				return results, errors.Wrap(err, "Can't parse XML of "+reportFile)
+			}
+
+			for _, suite := range robot.Statistics.Suite.Stat {
+				if suite.Fail > 0 {
+					results = append(results, TestResult{Name: suite.Name})
+				}
+			}
+
+		}
+	}
+	return results, nil
+}
+
+func readJunitFailingTests(dir string) ([]TestResult, error) {
 	results := make([]TestResult, 0)
 	summaryFile := path.Join(dir, "summary.txt")
 	if _, err := os.Stat(summaryFile); err == nil {
@@ -116,6 +174,7 @@ func readFailingTests(dir string) ([]TestResult, error) {
 	}
 	return results, nil
 }
+
 func parseBuildResults(root string, buildPath string) (BuildResult, error) {
 	b := BuildResult{}
 	jobs, err := asJson(ioutil.ReadFile(path.Join(root, buildPath, "job.json")))

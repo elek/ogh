@@ -20,3 +20,10 @@ func TestReadFailuresFromJUnitReport(t *testing.T) {
 	assert.Len(t, failures, 1)
 	assert.Equal(t, "testMultipartUploadWithOneOmNodeDown", failures[0].Method)
 }
+
+func TestReadRobotFailingTests(t *testing.T) {
+	testReport := "testdata/2020/06/30/1335/acceptance"
+	failures, err := readRobotFailingTests(testReport)
+	assert.Nil(t, err)
+	assert.Len(t, failures, 3)
+}

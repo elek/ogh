@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.1.2 (Python 3.6.8 on linux)" generated="20200630 13:00:44.373" rpa="false">
+<suite id="s1" name="ozone-om-ha-s3-freon" source="/opt/hadoop/smoketest/freon">
+<suite id="s1-s1" name="Freon" source="/opt/hadoop/smoketest/freon/freon.robot">
+<test id="s1-s1-t1" name="Freon Randomkey Generator">
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>ozone freon rk ${OM_HA_PARAM} --numOfVolumes=1 --numOfBuckets=1 --numOfKeys=1 --numOfThreads=1</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:00:44.432" level="INFO">Running command 'ozone freon rk --om-service-id=id1 --numOfVolumes=1 --numOfBuckets=1 --numOfKeys=1 --numOfThreads=1 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:00:53.007" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:00:53.007" level="INFO">${output} = 2020-06-30 13:00:45,929 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:00:46,182 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period a...</msg>
+<status status="PASS" starttime="20200630 13:00:44.427" endtime="20200630 13:00:53.007"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:00:53.009" level="INFO">2020-06-30 13:00:45,929 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:00:46,182 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period at 10 second(s).
+2020-06-30 13:00:46,185 [main] INFO impl.MetricsSystemImpl: ozone-freon metrics system started
+2020-06-30 13:00:47,402 [main] INFO freon.RandomKeyGenerator: Number of Threads: 1
+2020-06-30 13:00:47,403 [main] INFO freon.RandomKeyGenerator: Number of Volumes: 1.
+2020-06-30 13:00:47,403 [main] INFO freon.RandomKeyGenerator: Number of Buckets per Volume: 1.
+2020-06-30 13:00:47,403 [main] INFO freon.RandomKeyGenerator: Number of Keys per Bucket: 1.
+2020-06-30 13:00:47,403 [main] INFO freon.RandomKeyGenerator: Key size: 10240 bytes
+2020-06-30 13:00:47,403 [main] INFO freon.RandomKeyGenerator: Buffer size: 4096 bytes
+2020-06-30 13:00:47,403 [main] INFO freon.RandomKeyGenerator: validateWrites : false
+2020-06-30 13:00:47,408 [main] INFO freon.RandomKeyGenerator: Starting progress bar Thread.
+2020-06-30 13:00:47,427 [Thread-6] INFO freon.ProgressBar: Progress: 0.00 % (0 out of 1)
+2020-06-30 13:00:47,540 [pool-2-thread-1] INFO rpc.RpcClient: Creating Volume: vol-0-56454, with hadoop as owner.
+2020-06-30 13:00:47,641 [pool-2-thread-1] INFO rpc.RpcClient: Creating Bucket: vol-0-56454/bucket-0-64272, with Versioning false and Storage Type set to DISK and Encryption set to false 
+2020-06-30 13:00:48,262 [pool-2-thread-1] WARN impl.MetricsSystemImpl: ozone-freon metrics system already initialized!
+2020-06-30 13:00:48,431 [Thread-6] INFO freon.ProgressBar: Progress: 0.00 % (0 out of 1)
+2020-06-30 13:00:49,431 [Thread-6] INFO freon.ProgressBar: Progress: 100.00 % (1 out of 1)
+
+***************************************************
+Status: Success
+Git Base Revision: b3cbbb467e22ea829b3808f4b7b01d07e0bf3842
+Number of Volumes created: 1
+Number of Buckets created: 1
+Number of Keys added: 1
+Ratis replication factor: ONE
+Ratis replication type: STAND_ALONE
+Average Time spent in volume creation: 00:00:00,158
+Average Time spent in bucket creation: 00:00:00,064
+Average Time spent in key creation: 00:00:00,082
+Average Time spent in key write: 00:00:00,683
+Total bytes written: 10240
+Total Execution time: 00:00:06,153
+***************************************************</msg>
+<status status="PASS" starttime="20200630 13:00:53.008" endtime="20200630 13:00:53.009"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:00:53.009" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200630 13:00:53.009" endtime="20200630 13:00:53.010"></status>
+</kw>
+<msg timestamp="20200630 13:00:53.010" level="INFO">${result} = 2020-06-30 13:00:45,929 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:00:46,182 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period a...</msg>
+<status status="PASS" starttime="20200630 13:00:44.427" endtime="20200630 13:00:53.010"></status>
+</kw>
+<kw name="Wait Until Keyword Succeeds" library="BuiltIn">
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<arguments>
+<arg>3min</arg>
+<arg>10sec</arg>
+<arg>Should contain</arg>
+<arg>${result}</arg>
+<arg>Number of Keys added: 1</arg>
+</arguments>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Number of Keys added: 1</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:00:53.011" endtime="20200630 13:00:53.011"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:00:53.010" endtime="20200630 13:00:53.011"></status>
+</kw>
+<timeout value="5 minutes"></timeout>
+<status status="PASS" starttime="20200630 13:00:44.426" endtime="20200630 13:00:53.011" critical="yes"></status>
+</test>
+<test id="s1-s1-t2" name="Freon Ozone Key Generator">
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>ozone freon ockg ${OM_HA_PARAM} -t=1 -n=1</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:00:53.016" level="INFO">Running command 'ozone freon ockg --om-service-id=id1 -t=1 -n=1 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:00:58.926" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:00:58.926" level="INFO">${output} = 2020-06-30 13:00:54,732 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:00:54,953 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period a...</msg>
+<status status="PASS" starttime="20200630 13:00:53.014" endtime="20200630 13:00:58.926"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:00:58.928" level="INFO">2020-06-30 13:00:54,732 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:00:54,953 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period at 10 second(s).
+2020-06-30 13:00:54,958 [main] INFO impl.MetricsSystemImpl: ozone-freon metrics system started
+2020-06-30 13:00:55,157 [main] INFO freon.BaseFreonGenerator: Executing test with prefix ngzticp2w8
+2020-06-30 13:00:55,181 [Thread-5] INFO freon.ProgressBar: Progress: 0.00 % (0 out of 1)
+2020-06-30 13:00:56,181 [Thread-5] INFO freon.ProgressBar: Progress: 0.00 % (0 out of 1)
+2020-06-30 13:00:56,242 [main] INFO rpc.RpcClient: Creating Volume: vol1, with hadoop as owner.
+2020-06-30 13:00:56,359 [main] INFO rpc.RpcClient: Creating Bucket: vol1/bucket1, with Versioning false and Storage Type set to DISK and Encryption set to false 
+2020-06-30 13:00:57,139 [pool-1-thread-1] WARN impl.MetricsSystemImpl: ozone-freon metrics system already initialized!
+2020-06-30 13:00:57,182 [Thread-5] INFO freon.ProgressBar: Progress: 0.00 % (0 out of 1)
+2020-06-30 13:00:58,182 [Thread-5] INFO freon.ProgressBar: Progress: 100.00 % (1 out of 1)
+2020-06-30 13:00:58,582 [Thread-4] INFO metrics: type=TIMER, name=key-create, count=1, min=1618.576584, max=1618.576584, mean=1618.576584, stddev=0.0, median=1618.576584, p75=1618.576584, p95=1618.576584, p98=1618.576584, p99=1618.576584, p999=1618.576584, mean_rate=0.46309216589164126, m1=0.0, m5=0.0, m15=0.0, rate_unit=events/second, duration_unit=milliseconds
+2020-06-30 13:00:58,585 [Thread-4] INFO freon.BaseFreonGenerator: Total execution time (sec): 3
+2020-06-30 13:00:58,594 [Thread-4] INFO freon.BaseFreonGenerator: Failures: 0
+2020-06-30 13:00:58,594 [Thread-4] INFO freon.BaseFreonGenerator: Successful executions: 1</msg>
+<status status="PASS" starttime="20200630 13:00:58.927" endtime="20200630 13:00:58.928"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:00:58.928" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200630 13:00:58.928" endtime="20200630 13:00:58.929"></status>
+</kw>
+<msg timestamp="20200630 13:00:58.929" level="INFO">${result} = 2020-06-30 13:00:54,732 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:00:54,953 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period a...</msg>
+<status status="PASS" starttime="20200630 13:00:53.013" endtime="20200630 13:00:58.929"></status>
+</kw>
+<kw name="Wait Until Keyword Succeeds" library="BuiltIn">
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<arguments>
+<arg>3min</arg>
+<arg>10sec</arg>
+<arg>Should contain</arg>
+<arg>${result}</arg>
+<arg>Successful executions: 1</arg>
+</arguments>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Successful executions: 1</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:00:58.930" endtime="20200630 13:00:58.930"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:00:58.929" endtime="20200630 13:00:58.930"></status>
+</kw>
+<timeout value="5 minutes"></timeout>
+<status status="PASS" starttime="20200630 13:00:53.012" endtime="20200630 13:00:58.931" critical="yes"></status>
+</test>
+<test id="s1-s1-t3" name="Freon OM Key Generator">
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>ozone freon omkg ${OM_HA_PARAM} -t=1 -n=1</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:00:58.935" level="INFO">Running command 'ozone freon omkg --om-service-id=id1 -t=1 -n=1 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:01:03.399" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:01:03.399" level="INFO">${output} = 2020-06-30 13:01:00,489 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:01:00,751 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period a...</msg>
+<status status="PASS" starttime="20200630 13:00:58.933" endtime="20200630 13:01:03.400"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:01:03.401" level="INFO">2020-06-30 13:01:00,489 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:01:00,751 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period at 10 second(s).
+2020-06-30 13:01:00,752 [main] INFO impl.MetricsSystemImpl: ozone-freon metrics system started
+2020-06-30 13:01:00,984 [main] INFO freon.BaseFreonGenerator: Executing test with prefix jduvlzr5zw
+2020-06-30 13:01:01,006 [Thread-5] INFO freon.ProgressBar: Progress: 0.00 % (0 out of 1)
+2020-06-30 13:01:02,020 [Thread-5] INFO freon.ProgressBar: Progress: 0.00 % (0 out of 1)
+2020-06-30 13:01:03,023 [Thread-5] INFO freon.ProgressBar: Progress: 100.00 % (1 out of 1)
+2020-06-30 13:01:03,346 [Thread-4] INFO metrics: type=TIMER, name=key-create, count=1, min=102.795552, max=102.795552, mean=102.795552, stddev=0.0, median=102.795552, p75=102.795552, p95=102.795552, p98=102.795552, p99=102.795552, p999=102.795552, mean_rate=0.8930625153405813, m1=0.0, m5=0.0, m15=0.0, rate_unit=events/second, duration_unit=milliseconds
+2020-06-30 13:01:03,347 [Thread-4] INFO freon.BaseFreonGenerator: Total execution time (sec): 2
+2020-06-30 13:01:03,350 [Thread-4] INFO freon.BaseFreonGenerator: Failures: 0
+2020-06-30 13:01:03,350 [Thread-4] INFO freon.BaseFreonGenerator: Successful executions: 1</msg>
+<status status="PASS" starttime="20200630 13:01:03.400" endtime="20200630 13:01:03.401"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:01:03.401" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200630 13:01:03.401" endtime="20200630 13:01:03.401"></status>
+</kw>
+<msg timestamp="20200630 13:01:03.402" level="INFO">${result} = 2020-06-30 13:01:00,489 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:01:00,751 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period a...</msg>
+<status status="PASS" starttime="20200630 13:00:58.932" endtime="20200630 13:01:03.402"></status>
+</kw>
+<kw name="Wait Until Keyword Succeeds" library="BuiltIn">
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<arguments>
+<arg>3min</arg>
+<arg>10sec</arg>
+<arg>Should contain</arg>
+<arg>${result}</arg>
+<arg>Successful executions: 1</arg>
+</arguments>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Successful executions: 1</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:01:03.402" endtime="20200630 13:01:03.403"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:01:03.402" endtime="20200630 13:01:03.403"></status>
+</kw>
+<timeout value="5 minutes"></timeout>
+<status status="PASS" starttime="20200630 13:00:58.931" endtime="20200630 13:01:03.403" critical="yes"></status>
+</test>
+<test id="s1-s1-t4" name="Freon OM Bucket Generator">
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>ozone freon ombg ${OM_HA_PARAM} -t=1 -n=1</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:01:03.407" level="INFO">Running command 'ozone freon ombg --om-service-id=id1 -t=1 -n=1 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:01:07.896" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:01:07.896" level="INFO">${output} = 2020-06-30 13:01:05,079 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:01:05,334 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period a...</msg>
+<status status="PASS" starttime="20200630 13:01:03.405" endtime="20200630 13:01:07.896"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:01:07.897" level="INFO">2020-06-30 13:01:05,079 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:01:05,334 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period at 10 second(s).
+2020-06-30 13:01:05,334 [main] INFO impl.MetricsSystemImpl: ozone-freon metrics system started
+2020-06-30 13:01:05,537 [main] INFO freon.BaseFreonGenerator: Executing test with prefix uzyqt9uezp
+2020-06-30 13:01:05,566 [Thread-5] INFO freon.ProgressBar: Progress: 0.00 % (0 out of 1)
+2020-06-30 13:01:06,588 [Thread-5] INFO freon.ProgressBar: Progress: 0.00 % (0 out of 1)
+2020-06-30 13:01:07,589 [Thread-5] INFO freon.ProgressBar: Progress: 100.00 % (1 out of 1)
+2020-06-30 13:01:07,852 [Thread-4] INFO metrics: type=TIMER, name=bucket-create, count=1, min=23.174216, max=23.174216, mean=23.174216, stddev=0.0, median=23.174216, p75=23.174216, p95=23.174216, p98=23.174216, p99=23.174216, p999=23.174216, mean_rate=0.8799482246208177, m1=0.0, m5=0.0, m15=0.0, rate_unit=events/second, duration_unit=milliseconds
+2020-06-30 13:01:07,852 [Thread-4] INFO freon.BaseFreonGenerator: Total execution time (sec): 2
+2020-06-30 13:01:07,854 [Thread-4] INFO freon.BaseFreonGenerator: Failures: 0
+2020-06-30 13:01:07,854 [Thread-4] INFO freon.BaseFreonGenerator: Successful executions: 1</msg>
+<status status="PASS" starttime="20200630 13:01:07.896" endtime="20200630 13:01:07.897"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:01:07.898" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200630 13:01:07.897" endtime="20200630 13:01:07.898"></status>
+</kw>
+<msg timestamp="20200630 13:01:07.898" level="INFO">${result} = 2020-06-30 13:01:05,079 [main] INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
+2020-06-30 13:01:05,334 [main] INFO impl.MetricsSystemImpl: Scheduled Metric snapshot period a...</msg>
+<status status="PASS" starttime="20200630 13:01:03.404" endtime="20200630 13:01:07.898"></status>
+</kw>
+<kw name="Wait Until Keyword Succeeds" library="BuiltIn">
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<arguments>
+<arg>3min</arg>
+<arg>10sec</arg>
+<arg>Should contain</arg>
+<arg>${result}</arg>
+<arg>Successful executions: 1</arg>
+</arguments>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Successful executions: 1</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:01:07.899" endtime="20200630 13:01:07.899"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:01:07.898" endtime="20200630 13:01:07.899"></status>
+</kw>
+<timeout value="5 minutes"></timeout>
+<status status="PASS" starttime="20200630 13:01:03.403" endtime="20200630 13:01:07.899" critical="yes"></status>
+</test>
+<doc>Smoketest ozone cluster startup</doc>
+<status status="PASS" starttime="20200630 13:00:44.405" endtime="20200630 13:01:07.900"></status>
+</suite>
+<status status="PASS" starttime="20200630 13:00:44.374" endtime="20200630 13:01:07.903"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="4" fail="0">Critical Tests</stat>
+<stat pass="4" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="4" fail="0" id="s1" name="ozone-om-ha-s3-freon">ozone-om-ha-s3-freon</stat>
+<stat pass="4" fail="0" id="s1-s1" name="Freon">ozone-om-ha-s3-freon.Freon</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

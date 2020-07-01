@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.1.2 (Python 3.6.8 on linux)" generated="20200630 13:18:39.522" rpa="false">
+<suite id="s1" name="ozone-ozone-secure-token" source="/opt/hadoop/smoketest/security/ozone-secure-token.robot">
+<test id="s1-t1" name="Token Test">
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SECURITY_ENABLED}' == 'false'</arg>
+<arg>Token Test in Unsecure Cluster</arg>
+</arguments>
+<kw name="Token Test in Unsecure Cluster">
+<kw name="Get Token in Unsecure Cluster">
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>ozone sh token get</arg>
+</arguments>
+<assign>
+<var>${output}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:18:39.574" level="INFO">Running command 'ozone sh token get 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:18:40.854" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:18:40.854" level="INFO">${output} = Error: 'ozone sh token get' operation works only when security is enabled. To enable security set ozone.security.enabled to true.</msg>
+<status status="PASS" starttime="20200630 13:18:39.569" endtime="20200630 13:18:40.854"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:18:40.855" level="INFO">Error: 'ozone sh token get' operation works only when security is enabled. To enable security set ozone.security.enabled to true.</msg>
+<status status="PASS" starttime="20200630 13:18:40.855" endtime="20200630 13:18:40.855"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:18:40.856" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200630 13:18:40.856" endtime="20200630 13:18:40.856"></status>
+</kw>
+<msg timestamp="20200630 13:18:40.856" level="INFO">${output} = Error: 'ozone sh token get' operation works only when security is enabled. To enable security set ozone.security.enabled to true.</msg>
+<status status="PASS" starttime="20200630 13:18:39.569" endtime="20200630 13:18:40.856"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${output}</arg>
+<arg>ozone sh token get</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:18:40.856" endtime="20200630 13:18:40.857"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${output}</arg>
+<arg>only when security is enabled</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:18:40.857" endtime="20200630 13:18:40.857"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:18:39.569" endtime="20200630 13:18:40.857"></status>
+</kw>
+<kw name="Renew Token in Unsecure Cluster">
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>ozone sh token renew</arg>
+</arguments>
+<assign>
+<var>${output}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:18:40.861" level="INFO">Running command 'ozone sh token renew 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:18:42.261" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:18:42.261" level="INFO">${output} = Error: 'ozone sh token renew' operation works only when security is enabled. To enable security set ozone.security.enabled to true.</msg>
+<status status="PASS" starttime="20200630 13:18:40.858" endtime="20200630 13:18:42.261"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:18:42.262" level="INFO">Error: 'ozone sh token renew' operation works only when security is enabled. To enable security set ozone.security.enabled to true.</msg>
+<status status="PASS" starttime="20200630 13:18:42.261" endtime="20200630 13:18:42.262"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:18:42.263" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200630 13:18:42.262" endtime="20200630 13:18:42.263"></status>
+</kw>
+<msg timestamp="20200630 13:18:42.263" level="INFO">${output} = Error: 'ozone sh token renew' operation works only when security is enabled. To enable security set ozone.security.enabled to true.</msg>
+<status status="PASS" starttime="20200630 13:18:40.858" endtime="20200630 13:18:42.263"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${output}</arg>
+<arg>ozone sh token renew</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:18:42.263" endtime="20200630 13:18:42.263"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${output}</arg>
+<arg>only when security is enabled</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:18:42.264" endtime="20200630 13:18:42.264"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:18:40.857" endtime="20200630 13:18:42.264"></status>
+</kw>
+<kw name="Cancel Token in Unsecure Cluster">
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>ozone sh token cancel</arg>
+</arguments>
+<assign>
+<var>${output}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:18:42.267" level="INFO">Running command 'ozone sh token cancel 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:18:43.634" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:18:43.634" level="INFO">${output} = Error: 'ozone sh token cancel' operation works only when security is enabled. To enable security set ozone.security.enabled to true.</msg>
+<status status="PASS" starttime="20200630 13:18:42.265" endtime="20200630 13:18:43.634"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:18:43.635" level="INFO">Error: 'ozone sh token cancel' operation works only when security is enabled. To enable security set ozone.security.enabled to true.</msg>
+<status status="PASS" starttime="20200630 13:18:43.635" endtime="20200630 13:18:43.635"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:18:43.636" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200630 13:18:43.636" endtime="20200630 13:18:43.636"></status>
+</kw>
+<msg timestamp="20200630 13:18:43.636" level="INFO">${output} = Error: 'ozone sh token cancel' operation works only when security is enabled. To enable security set ozone.security.enabled to true.</msg>
+<status status="PASS" starttime="20200630 13:18:42.264" endtime="20200630 13:18:43.637"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${output}</arg>
+<arg>ozone sh token cancel</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:18:43.637" endtime="20200630 13:18:43.637"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${output}</arg>
+<arg>only when security is enabled</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:18:43.637" endtime="20200630 13:18:43.637"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:18:42.264" endtime="20200630 13:18:43.638"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:18:39.568" endtime="20200630 13:18:43.638"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:18:39.568" endtime="20200630 13:18:43.638"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>'${SECURITY_ENABLED}' == 'true'</arg>
+<arg>Token Test in Secure Cluster</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:18:43.638" endtime="20200630 13:18:43.638"></status>
+</kw>
+<kw name="Print Nonexistent Token File">
+<kw name="Execute" library="commonlib">
+<arguments>
+<arg>ozone sh token print -t /asdf</arg>
+</arguments>
+<assign>
+<var>${output}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:18:43.641" level="INFO">Running command 'ozone sh token print -t /asdf 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:18:44.879" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:18:44.879" level="INFO">${output} = Error: token operation failed as token file: /asdf containing encoded token doesn't exist.</msg>
+<status status="PASS" starttime="20200630 13:18:43.639" endtime="20200630 13:18:44.879"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:18:44.880" level="INFO">Error: token operation failed as token file: /asdf containing encoded token doesn't exist.</msg>
+<status status="PASS" starttime="20200630 13:18:44.879" endtime="20200630 13:18:44.880"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>0</arg>
+</arguments>
+<msg timestamp="20200630 13:18:44.881" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200630 13:18:44.880" endtime="20200630 13:18:44.881"></status>
+</kw>
+<msg timestamp="20200630 13:18:44.881" level="INFO">${output} = Error: token operation failed as token file: /asdf containing encoded token doesn't exist.</msg>
+<status status="PASS" starttime="20200630 13:18:43.639" endtime="20200630 13:18:44.881"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${output}</arg>
+<arg>operation failed as token file: /asdf</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:18:44.881" endtime="20200630 13:18:44.881"></status>
+</kw>
+<status status="PASS" starttime="20200630 13:18:43.638" endtime="20200630 13:18:44.882"></status>
+</kw>
+<timeout value="5 minutes"></timeout>
+<status status="PASS" starttime="20200630 13:18:39.567" endtime="20200630 13:18:44.882" critical="yes"></status>
+</test>
+<doc>Test token operations</doc>
+<status status="PASS" starttime="20200630 13:18:39.523" endtime="20200630 13:18:44.883"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0">Critical Tests</stat>
+<stat pass="1" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" id="s1" name="ozone-ozone-secure-token">ozone-ozone-secure-token</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

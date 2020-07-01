@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.1.2 (Python 3.6.8 on linux)" generated="20200630 13:21:56.475" rpa="false">
+<suite id="s1" name="ozone-om-ratis" source="/opt/hadoop/smoketest/om-ratis">
+<suite id="s1-s1" name="testOMAdminCmd" source="/opt/hadoop/smoketest/om-ratis/testOMAdminCmd.robot">
+<test id="s1-s1-t1" name="Check om admin command">
+<kw name="Execute and checkrc" library="commonlib">
+<arguments>
+<arg>ozone admin om getserviceroles -id=omServiceIdDefault</arg>
+<arg>0</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<kw name="Run And Return Rc And Output" library="OperatingSystem">
+<doc>Runs the given command in the system and returns the RC and output.</doc>
+<arguments>
+<arg>${command}</arg>
+</arguments>
+<assign>
+<var>${rc}</var>
+<var>${output}</var>
+</assign>
+<msg timestamp="20200630 13:21:56.528" level="INFO">Running command 'ozone admin om getserviceroles -id=omServiceIdDefault 2&gt;&amp;1'.</msg>
+<msg timestamp="20200630 13:21:58.085" level="INFO">${rc} = 0</msg>
+<msg timestamp="20200630 13:21:58.085" level="INFO">${output} = Error: This command works only on OzoneManager HA cluster. Service ID specified does not match with ozone.om.service.ids defined in the configuration. Configured ozone.om.service.ids are[]</msg>
+<status status="PASS" starttime="20200630 13:21:56.522" endtime="20200630 13:21:58.085"></status>
+</kw>
+<kw name="Log" library="BuiltIn">
+<doc>Logs the given message with the given level.</doc>
+<arguments>
+<arg>${output}</arg>
+</arguments>
+<msg timestamp="20200630 13:21:58.086" level="INFO">Error: This command works only on OzoneManager HA cluster. Service ID specified does not match with ozone.om.service.ids defined in the configuration. Configured ozone.om.service.ids are[]</msg>
+<status status="PASS" starttime="20200630 13:21:58.085" endtime="20200630 13:21:58.086"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${rc}</arg>
+<arg>${expected_error_code}</arg>
+</arguments>
+<msg timestamp="20200630 13:21:58.086" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20200630 13:21:58.086" endtime="20200630 13:21:58.086"></status>
+</kw>
+<msg timestamp="20200630 13:21:58.087" level="INFO">${result} = Error: This command works only on OzoneManager HA cluster. Service ID specified does not match with ozone.om.service.ids defined in the configuration. Configured ozone.om.service.ids are[]</msg>
+<status status="PASS" starttime="20200630 13:21:56.522" endtime="20200630 13:21:58.087"></status>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>This command works only on OzoneManager HA cluster.</arg>
+</arguments>
+<status status="PASS" starttime="20200630 13:21:58.087" endtime="20200630 13:21:58.087"></status>
+</kw>
+<timeout value="5 minutes"></timeout>
+<status status="PASS" starttime="20200630 13:21:56.521" endtime="20200630 13:21:58.087" critical="yes"></status>
+</test>
+<doc>Smoketest ozone cluster startup</doc>
+<status status="PASS" starttime="20200630 13:21:56.501" endtime="20200630 13:21:58.088"></status>
+</suite>
+<status status="PASS" starttime="20200630 13:21:56.476" endtime="20200630 13:21:58.089"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0">Critical Tests</stat>
+<stat pass="1" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" id="s1" name="ozone-om-ratis">ozone-om-ratis</stat>
+<stat pass="1" fail="0" id="s1-s1" name="testOMAdminCmd">ozone-om-ratis.testOMAdminCmd</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
