@@ -301,8 +301,12 @@ func listBuildDirs(dir string) ([]string, error) {
 
 					buildDir := path.Join(year, month, day, build)
 					excludeFile := path.Join(dir, buildDir, "exclude")
+
+					buildNo, _ := strconv.Atoi(build)
+
 					//with an empty exclude file, we can ignore any dir
-					if _, err := os.Stat(excludeFile); os.IsNotExist(err) {
+					//builds older than 872 doesn't have good descriptors
+					if _, err := os.Stat(excludeFile); os.IsNotExist(err) && buildNo > 872 {
 						buildDirs = append(buildDirs, buildDir)
 					}
 				}
