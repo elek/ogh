@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/rs/zerolog/log"
 	"os"
 	"strconv"
 	"strings"
@@ -95,15 +96,19 @@ var transmap = map[string]statusTransform{
 	"it-ozone":                          statusTransform{13, 'o'},
 	"integration (freon)":               statusTransform{8, 'f'},
 	"integration (filesystem)":          statusTransform{9, 's'},
+	"integration (filesystem-hdds)":     statusTransform{9, 's'},
 	"integration (filesystem-contract)": statusTransform{10, 't'},
 	"integration (client)":              statusTransform{11, 'c'},
 	"integration (hdds-om)":             statusTransform{12, 'm'},
 	"integration (ozone)":               statusTransform{13, 'o'},
-	"coverage":                          statusTransform{15, 'c'},
+	"coverage":                          statusTransform{19, 'c'},
+	"acceptance (secure)":               statusTransform{15, 'm'},
+	"acceptance (unsecure)":             statusTransform{16, 'm'},
+	"acceptance (misc)":                 statusTransform{17, 'm'},
 }
 
 func stepsAsString(jobs []interface{}) string {
-	result := []byte("....... ...... .")
+	result := []byte("....... ...... ... .")
 	for _, job := range jobs {
 		name := m(job, "name").(string)
 		conclusion := nilsafe(m(job, "conclusion"))
@@ -120,6 +125,8 @@ func stepsAsString(jobs []interface{}) string {
 				}
 			}
 			result[statusTrafo.position] = statusChr
+		} else {
+			log.Warn().Msg("transformation item is missing for job " + name)
 		}
 	}
 	return string(result)
