@@ -133,7 +133,7 @@ func stepsAsString(jobs []interface{}) string {
 }
 
 func buildStatus(pr interface{}) string {
-	result := []byte("....... ...... .")
+	result := []byte("....... ...... ... .")
 
 	for _, commitEdge := range l(m(pr, "commits", "edges")) {
 		commit := m(commitEdge, "node", "commit")
