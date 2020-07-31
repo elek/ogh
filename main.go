@@ -52,27 +52,16 @@ func ParseReference(str string) Reference {
 	return ref
 }
 
-func main() {
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
-	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-	zerolog.SetGlobalLevel(zerolog.DebugLevel)
-	if len(os.Args) == 2 {
-		_, err := strconv.Atoi(os.Args[1])
-		if err == nil {
-			err := open.Start("http://github.com/apache/hadoop-ozone/pull/" + os.Args[1])
-			if err != nil {
-				panic(err)
-			}
-			return
-		}
-	}
+var app *cli.App = cli.NewApp()
 
-	app := cli.NewApp()
+func init() {
 	app.Name = "ogh"
 	app.Usage = "Helper cli for Apache Hadoop Ozone development"
 	app.Description = "Various helper scripts to query github API to make the development faster."
 	app.Version = fmt.Sprintf("%s (%s, %s)", version, commit, date)
-	app.Commands = []cli.Command{
+
+
+	app.Commands = append(app.Commands,[]cli.Command{
 		{
 			Name:    "review",
 			Aliases: []string{"r"},
@@ -198,7 +187,25 @@ func main() {
 				return rerun("apache", c.Args().Get(0))
 			},
 		},
+	}...)
+}
+
+func main() {
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	if len(os.Args) == 2 {
+		_, err := strconv.Atoi(os.Args[1])
+		if err == nil {
+			err := open.Start("http://github.com/apache/hadoop-ozone/pull/" + os.Args[1])
+			if err != nil {
+				panic(err)
+			}
+			return
+		}
 	}
+
+
 	err := app.Run(os.Args)
 	if err != nil {
 		fmt.Printf("%-v", err)
