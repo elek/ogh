@@ -88,7 +88,7 @@ func downloadArtifactsOfRun(org string, runId string, destinationDir string, all
 		name := ms(artifact, "name")
 		result, found := results[name]
 		if !found {
-			return errors.New("Job result for the artifact" + name + " is unknown")
+			return errors.New("Job result for the artifact " + name + " is unknown")
 		}
 		if all || result == "failure" {
 
