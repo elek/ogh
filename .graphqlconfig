@@ -1,0 +1,17 @@
+{
+  "name": "GitHub API V4 GraphQL Schema",
+  "schemaPath": "github-schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "GitHub API V4 GraphQL Endpoint": {
+        "url": "https://api.github.com/graphql",
+        "headers": {
+          "Authorization": "Bearer ${env:GITHUB-ACCESS-TOKEN}",
+          "user-agent": "JS GraphQL",
+          "Accept" : "application/vnd.github.antiope-preview+json"
+        },
+        "introspect": false
+      }
+    }
+  }
+}
