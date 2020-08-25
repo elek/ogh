@@ -21,6 +21,11 @@ func archiveBuilds(outputDir string) error {
 
 	limit := 50
 	for _, run := range l(m(runs, "workflow_runs")) {
+
+		if (ms(run,"event") == "pull_request") {
+			continue
+		}
+
 		limit = limit - 1
 		if limit == 0 {
 			break
