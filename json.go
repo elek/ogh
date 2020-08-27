@@ -57,6 +57,10 @@ func ms(data interface{}, keys ...string) string {
 	return fmt.Sprintf("%s", m(data, keys...))
 }
 
+func mb(data interface{}, keys ...string) bool {
+	return m(data, keys...).(bool)
+}
+
 func mns(data interface{}, keys ...string) string {
 	return strconv.Itoa(int(m(data, keys...).(float64)))
 

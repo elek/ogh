@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+//list pull requests (all/ready)
 func run(all bool, authorFilter string, reference Reference) error {
 	var key string
 	key = reference.Org + "-" + reference.Repo + "-"
@@ -93,22 +94,9 @@ func shortDuration(duration time.Duration) string {
 }
 
 func ready(pr interface{}) bool {
-	if ms(pr, "mergeable") == "CONFLICTING" {
+	if mb(pr, "isDraft") {
 		return false
 	}
-	for _, commitEdge := range l(m(pr, "commits", "edges")) {
-		commit := m(commitEdge, "node", "commit")
-		for _, suite := range l(m(commit, "checkSuites", "edges")) {
-			for _, runs := range l(m(suite, "node", "checkRuns", "edges")) {
-				conclusion := ms(runs, "node", "conclusion")
-				if conclusion == "FAILURE" || conclusion == "CANCELLED" {
-					return false
-				}
-			}
-		}
-		break
-	}
-
 	for _, review := range lastReviewsPerUser(pr) {
 		state := ms(review, "state")
 		if state == "CHANGES_REQUESTED" {
