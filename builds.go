@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/rs/zerolog/log"
 	"os"
 	"strconv"
 	"strings"
@@ -108,28 +107,35 @@ var transmap = map[string]statusTransform{
 }
 
 func stepsAsString(jobs []interface{}) string {
-	result := []byte("....... ...... ... .")
+	groups := make([]string, 4)
+
 	for _, job := range jobs {
 		name := m(job, "name").(string)
 		conclusion := nilsafe(m(job, "conclusion"))
 		status := m(job, "status").(string)
-		if statusTrafo, ok := transmap[name]; ok {
-			statusChr := byte('.')
-			if status != "completed" {
-				statusChr = byte('%')
-			} else {
-				if conclusion == "success" {
-					statusChr = byte('_')
-				} else {
-					statusChr = byte(statusTrafo.abbrev)
-				}
-			}
-			result[statusTrafo.position] = statusChr
+
+		statusChr := "."
+		if status != "completed" {
+			statusChr = "%"
 		} else {
-			log.Warn().Msg("transformation item is missing for job " + name)
+			if conclusion == "success" {
+				statusChr = "_"
+			} else {
+				statusChr = string(name[0])
+			}
 		}
+
+		groupIndex := 0
+		if strings.Contains(name, "integration") {
+			groupIndex = 1
+		} else if strings.Contains(name, "acceptance") {
+			groupIndex = 2
+		} else if strings.Contains(name, "kubernetes") || strings.Contains(name, "kubernetes") {
+			groupIndex = 3
+		}
+		groups[groupIndex] += statusChr
 	}
-	return string(result)
+	return strings.Join(groups, " ")
 }
 
 func buildStatus(pr interface{}) string {
