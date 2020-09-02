@@ -77,34 +77,6 @@ func part(s string, i int) string {
 
 }
 
-var transmap = map[string]statusTransform{
-	"compile":                           statusTransform{0, 'b'},
-	"rat":                               statusTransform{1, 'r'},
-	"author":                            statusTransform{2, 'a'},
-	"checkstyle":                        statusTransform{3, 'c'},
-	"findbugs":                          statusTransform{4, 'f'},
-	"unit":                              statusTransform{5, 'u'},
-	"acceptance":                        statusTransform{6, 'a'},
-	"it-freon":                          statusTransform{8, 'f'},
-	"it-filesystem":                     statusTransform{9, 's'},
-	"it-filesystem-contract":            statusTransform{10, 'c'},
-	"it-client-and-hdds":                statusTransform{11, 'h'},
-	"it-client":                         statusTransform{11, 'c'},
-	"it-hdds-om":                        statusTransform{12, 'm'},
-	"it-om":                             statusTransform{12, 'm'},
-	"it-ozone":                          statusTransform{13, 'o'},
-	"integration (freon)":               statusTransform{8, 'f'},
-	"integration (filesystem)":          statusTransform{9, 's'},
-	"integration (filesystem-hdds)":     statusTransform{9, 's'},
-	"integration (filesystem-contract)": statusTransform{10, 't'},
-	"integration (client)":              statusTransform{11, 'c'},
-	"integration (hdds-om)":             statusTransform{12, 'm'},
-	"integration (ozone)":               statusTransform{13, 'o'},
-	"coverage":                          statusTransform{19, 'c'},
-	"acceptance (secure)":               statusTransform{15, 'm'},
-	"acceptance (unsecure)":             statusTransform{16, 'm'},
-	"acceptance (misc)":                 statusTransform{17, 'm'},
-}
 
 func stepsAsString(jobs []interface{}) string {
 	groups := make([]string, 4)
@@ -115,10 +87,10 @@ func stepsAsString(jobs []interface{}) string {
 		status := m(job, "status").(string)
 
 		statusChr := "."
-		if status != "completed" {
+		if strings.ToLower(status) != "completed" {
 			statusChr = "%"
 		} else {
-			if conclusion == "success" {
+			if strings.ToLower(conclusion.(string)) == "success" {
 				statusChr = "_"
 			} else {
 				statusChr = string(name[0])
@@ -139,47 +111,17 @@ func stepsAsString(jobs []interface{}) string {
 }
 
 func buildStatus(pr interface{}) string {
-	result := []byte("....... ...... ... .")
+	jobs := make([]interface{}, 0)
 
 	for _, commitEdge := range l(m(pr, "commits", "edges")) {
 		commit := m(commitEdge, "node", "commit")
-		for _, context := range l(m(commit, "status", "contexts")) {
-			cx := ms(context, "context")
-			if statusTrafo, ok := transmap[cx]; ok {
-				statusChr := byte('.')
-				switch ms(context, "state") {
-				case "SUCCESS":
-					statusChr = byte('_')
-				case "PENDING":
-					statusChr = byte('%')
-				case "FAILURE":
-					statusChr = statusTrafo.abbrev
-				}
-				result[statusTrafo.position] = statusChr
-			}
-		}
-
 		for _, suite := range l(m(commit, "checkSuites", "edges")) {
 			for _, runs := range l(m(suite, "node", "checkRuns", "edges")) {
-				name := m(runs, "node", "name").(string)
-				conclusion := nilsafe(m(runs, "node", "conclusion"))
-				status := m(runs, "node", "status").(string)
-				if statusTrafo, ok := transmap[name]; ok {
-					statusChr := byte('.')
-					if status != "COMPLETED" {
-						statusChr = byte('%')
-					} else {
-						if conclusion == "SUCCESS" {
-							statusChr = byte('_')
-						} else {
-							statusChr = byte(statusTrafo.abbrev)
-						}
-					}
-					result[statusTrafo.position] = statusChr
-				}
+				node := m(runs, "node")
+				jobs = append(jobs, node)
 			}
 
 		}
 	}
-	return string(result)
+	return stepsAsString(jobs)
 }
