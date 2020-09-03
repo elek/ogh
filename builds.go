@@ -102,7 +102,7 @@ func stepsAsString(jobs []interface{}) string {
 			groupIndex = 1
 		} else if strings.Contains(name, "acceptance") {
 			groupIndex = 2
-		} else if strings.Contains(name, "kubernetes") || strings.Contains(name, "kubernetes") {
+		} else if strings.Contains(name, "kubernetes") || strings.Contains(name, "coverage") {
 			groupIndex = 3
 		}
 		groups[groupIndex] += statusChr
