@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 	"os"
@@ -71,7 +72,7 @@ func run(all bool, authorFilter string, reference Reference) error {
 				shortDuration(inactiveTime),
 				">" + limit(author, 12),
 				limit(statusMark+destMark+ms(pr, "title"), 50),
-				limit(strings.Join(participants, ","), 35),
+				strings.Join(participants, ","),
 				buildStatus(pr),
 			})
 		}
@@ -110,30 +111,77 @@ func ready(pr interface{}) bool {
 func getParticipants(pr interface{}, author string) []string {
 	reviews := lastReviewsPerUser(pr)
 
-	participants := make([]string, 0)
-
-	participants = append(participants, filterReviews(reviews, "CHANGES_REQUESTED", "✕")...)
-	participants = append(participants, filterReviews(reviews, "APPROVED", "✓")...)
-	participants = append(participants, filterReviews(reviews, "COMMENTED", "")...)
-
-	commenters := make(map[string]bool)
-	for _, participant := range l(m(pr, "participants", "edges")) {
-		login := ms(participant, "node", "login")
-		if _, ok := reviews[login]; !ok && login != author {
-			participants = append(participants, limit(login, 5))
-			commenters[login] = true
-		}
-	}
+	participants := make(map[string]string)
 
 	for _, login := range reviewRequests(pr) {
-		_, reviewed := reviews[login]
-		_, commented := commenters[login]
-		if !reviewed && !commented && login != author {
-			participants = append(participants, "?" + limit(strings.ToUpper(login), 5))
-		}
+		participants[limit(login, 5)] = "?"
 	}
 
-	return participants
+	for _, participant := range l(m(pr, "participants", "edges")) {
+		login := ms(participant, "node", "login")
+		participants[limit(login, 5)] = ""
+	}
+
+	for _, name := range filterReviews(reviews, "CHANGES_REQUESTED") {
+		participants[name] = "✕"
+	}
+
+	for _, name := range filterReviews(reviews, "APPROVED") {
+		participants[name] = "✓"
+	}
+
+	for _, name := range filterReviews(reviews, "COMMENTED") {
+		participants[name] = "R"
+	}
+
+	last := ""
+	comments := l(m(pr, "comments", "nodes"))
+	if len(comments) > 0 {
+		last = limit(ms(comments[0], "author", "login"), 5)
+	}
+
+	result := make([]string, 0)
+	ix := 0
+	for _, name := range sortedParticipants(participants) {
+
+		if name == limit(author, 5) || name == "codec" {
+			continue
+		}
+		status := participants[name]
+		if ix > 5 {
+			result = append(result, "...")
+			break
+		}
+		ix++
+
+		symbolAndName := name
+		if symbolAndName == last {
+			symbolAndName = strings.ToUpper(symbolAndName)
+		}
+		if status == "✓" {
+			symbolAndName = status + color.GreenString(name)
+		} else if status == "✕" {
+			symbolAndName = status + color.RedString(name)
+		} else if status == "?" {
+			symbolAndName = status + color.YellowString(name)
+		} else if status == "R" {
+			symbolAndName = name
+		}
+		result = append(result, symbolAndName)
+	}
+	return result
+}
+
+func sortedParticipants(participants map[string]string) []string {
+	result := make([]string, 0)
+	for _, symbol := range []string{"✕", "✓", "R", "", "?"} {
+		for k, v := range participants {
+			if v == symbol {
+				result = append(result, k)
+			}
+		}
+	}
+	return result
 }
 
 func reviewRequests(pr interface{}) []string {
@@ -172,12 +220,12 @@ func lastReviewsPerUser(pr interface{}) map[string]interface{} {
 	return reviewers
 }
 
-func filterReviews(reviews map[string]interface{}, status string, symbol string) []string {
+func filterReviews(reviews map[string]interface{}, status string) []string {
 	result := make([]string, 0)
 	for _, review := range reviews {
 		state := ms(review, "state")
 		if state == status {
-			result = append(result, symbol+limit(strings.ToUpper(ms(review, "author", "login")), 5))
+			result = append(result, limit(ms(review, "author", "login"), 5))
 		}
 	}
 	return result

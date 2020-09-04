@@ -32,6 +32,14 @@
                             }
                         }
                     }
+                    comments(last: 1) {
+                        nodes {
+                            createdAt
+                            author {
+                                login
+                            }
+                        }
+                    }
                     commits(last: 1) {
                         edges {
                             node {

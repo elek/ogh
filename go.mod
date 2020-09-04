@@ -3,6 +3,7 @@ module github.com/elek/ogh
 go 1.12
 
 require (
+	github.com/fatih/color v1.9.0
 	github.com/markbates/pkger v0.14.0
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/olekukonko/tablewriter v0.0.1
