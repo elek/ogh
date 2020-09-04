@@ -47,6 +47,7 @@ func run(all bool, authorFilter string, reference Reference) error {
 
 		author := prAuthor(pr)
 		participants := getParticipants(pr, author)
+		feedback := feedbackCount(participants)
 		statusMark := ""
 		destMark := ""
 		if ms(pr, "baseRefName") != "master" {
@@ -67,11 +68,15 @@ func run(all bool, authorFilter string, reference Reference) error {
 		inactiveTime := time.Now().Sub(updated)
 
 		if authorFilter == "" || authorFilter == author {
+			prTitle := limit(statusMark+destMark+ms(pr, "title"), 50)
+			if feedback == 0 {
+				prTitle = color.YellowString(prTitle)
+			}
 			table.Append([]string{
 				fmt.Sprintf("%d", int(m(pr, "number").(float64))),
 				shortDuration(inactiveTime),
 				">" + limit(author, 12),
-				limit(statusMark+destMark+ms(pr, "title"), 50),
+				prTitle,
 				strings.Join(participants, ","),
 				buildStatus(pr),
 			})
@@ -82,16 +87,30 @@ func run(all bool, authorFilter string, reference Reference) error {
 	return nil
 }
 
+func feedbackCount(participants []string) int {
+	i := 0
+	for _, name := range participants {
+		if !strings.Contains(name, "?") {
+			i++
+		}
+	}
+	return i
+}
+
 func shortDuration(duration time.Duration) string {
 	hours := int(duration.Hours())
-
+	var res string
 	if hours > 24*30 {
-		return strconv.Itoa(hours/24/30) + "m"
+		res = strconv.Itoa(hours/24/30) + "m"
 	} else if hours > 24 {
-		return strconv.Itoa(hours/24) + "d"
+		res = strconv.Itoa(hours/24) + "d"
 	} else {
-		return strconv.Itoa(hours) + "h"
+		res = strconv.Itoa(hours) + "h"
 	}
+	if hours > 168 {
+		res = color.RedString(res)
+	}
+	return res
 }
 
 func ready(pr interface{}) bool {
