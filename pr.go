@@ -153,20 +153,47 @@ func getParticipants(pr interface{}, author string) []string {
 		participants[name] = "R"
 	}
 
-	last := ""
 	comments := l(m(pr, "comments", "nodes"))
-	if len(comments) > 0 {
-		last = limit(ms(comments[0], "author", "login"), 5)
+
+	//find last activity
+	lastActivity := time.Unix(0, 0)
+	lastParticipant := ""
+	for _, review := range reviews {
+		updatedAt, err := time.Parse(time.RFC3339, ms(review, "updatedAt"))
+		if err != nil {
+			println("Unparsable time: " + ms(review, "updatedAt"))
+		}
+		if updatedAt.After(lastActivity) {
+			lastActivity = updatedAt
+			lastParticipant = ms(review, "author", "login")
+		}
+	}
+
+	for _, comment := range comments {
+		createdAt, err := time.Parse(time.RFC3339, ms(comment, "createdAt"))
+		if err != nil {
+			println("Unparsable time: " + ms(comment, "createdAt"))
+		}
+		if createdAt.After(lastActivity) {
+			lastActivity = createdAt
+			lastParticipant = ms(comment, "author", "login")
+		}
 	}
 
 	result := make([]string, 0)
 	ix := 0
 	for _, name := range sortedParticipants(participants) {
 
-		if name == limit(author, 5) || name == "codec" {
+		if name == "codec" {
 			continue
 		}
+
+		if name == limit(author, 5) && name != lastParticipant {
+			continue
+		}
+
 		status := participants[name]
+
 		if ix > 5 {
 			result = append(result, "...")
 			break
@@ -174,17 +201,18 @@ func getParticipants(pr interface{}, author string) []string {
 		ix++
 
 		symbolAndName := name
-		if symbolAndName == last {
+
+		if name == limit(lastParticipant, 5) {
 			symbolAndName = strings.ToUpper(symbolAndName)
 		}
 		if status == "✓" {
-			symbolAndName = status + color.GreenString(name)
+			symbolAndName = status + color.GreenString(symbolAndName)
 		} else if status == "✕" {
-			symbolAndName = status + color.RedString(name)
+			symbolAndName = status + color.RedString(symbolAndName)
 		} else if status == "?" {
-			symbolAndName = status + color.YellowString(name)
+			symbolAndName = status + color.YellowString(symbolAndName)
 		} else if status == "R" {
-			symbolAndName = name
+			//good to go
 		}
 		result = append(result, symbolAndName)
 	}
@@ -212,7 +240,6 @@ func reviewRequests(pr interface{}) []string {
 }
 
 func lastReviewsPerUser(pr interface{}) map[string]interface{} {
-	prAuthor := prAuthor(pr)
 	reviewers := make(map[string]interface{})
 	for _, review := range l(m(pr, "reviews", "nodes")) {
 		author := ms(review, "author", "login")
@@ -232,7 +259,7 @@ func lastReviewsPerUser(pr interface{}) map[string]interface{} {
 				reviewers[author] = review
 			}
 
-		} else if author != prAuthor {
+		} else {
 			reviewers[author] = review
 		}
 	}
