@@ -33,7 +33,7 @@ func run(all bool, authorFilter string, reference Reference) error {
 	json.Unmarshal(body, &result)
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ID", "Upd", "Author", "Summary", "Participants", "Check"})
+	table.SetHeader([]string{"ID", "Cre", "Upd", "Author", "Summary", "Participants", "Check"})
 	table.SetAutoWrapText(false)
 	prs := m(result, "data", "repository", "pullRequests", "edges")
 
@@ -65,6 +65,11 @@ func run(all bool, authorFilter string, reference Reference) error {
 			return errors.Wrap(err, "Can't parse updateAt field of PR:  "+ms(pr, "number"))
 		}
 
+		created, err := time.Parse(time.RFC3339, ms(pr, "createdAt"))
+		if err != nil {
+			return errors.Wrap(err, "Can't parse createdAt field of PR:  "+ms(pr, "number"))
+		}
+
 		inactiveTime := time.Now().Sub(updated)
 
 		if authorFilter == "" || authorFilter == author {
@@ -74,6 +79,7 @@ func run(all bool, authorFilter string, reference Reference) error {
 			}
 			table.Append([]string{
 				fmt.Sprintf("%d", int(m(pr, "number").(float64))),
+				shortDuration(time.Now().Sub(created)),
 				shortDuration(inactiveTime),
 				">" + limit(author, 12),
 				prTitle,

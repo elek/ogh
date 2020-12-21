@@ -10,6 +10,7 @@
                     author {
                         login
                     }
+                    createdAt
                     updatedAt
                     isDraft
                     reviews(last:100) {
