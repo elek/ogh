@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -60,8 +61,7 @@ func init() {
 	app.Description = "Various helper scripts to query github API to make the development faster."
 	app.Version = fmt.Sprintf("%s (%s, %s)", version, commit, date)
 
-
-	app.Commands = append(app.Commands,[]cli.Command{
+	app.Commands = append(app.Commands, []cli.Command{
 		{
 			Name:    "review",
 			Aliases: []string{"r"},
@@ -164,6 +164,34 @@ func init() {
 			},
 		},
 		{
+			Name:  "jira",
+			Usage: "Jira related helper methods",
+			Subcommands: []cli.Command{
+				{
+					Name:  "close",
+					Usage: "Close jira with proper fix version",
+					Action: func(c *cli.Context) error {
+						if c.NArg() > 0 {
+							return CloseJira(c.Args().Get(0))
+						} else {
+							return errors.New("Please specify the jira ID")
+						}
+					},
+				},
+				{
+					Name:  "open",
+					Usage: "Open jira for a specific pull request",
+					Action: func(c *cli.Context) error {
+						if c.NArg() > 0 {
+							return OpenJira(c.Args().Get(0))
+						} else {
+							return errors.New("Please specify the pull request ID")
+						}
+					},
+				},
+			},
+		},
+		{
 			Name:  "report",
 			Usage: "Generate HTML report from archived directory structure.",
 			Action: func(c *cli.Context) error {
@@ -204,7 +232,6 @@ func main() {
 			return
 		}
 	}
-
 
 	err := app.Run(os.Args)
 	if err != nil {

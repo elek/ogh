@@ -2,8 +2,10 @@ module github.com/elek/ogh
 
 go 1.12
 
+replace github.com/elek/go-utils v0.0.0-20200915142946-9f6e0a020ef3 => ../go-utils
+
 require (
-	github.com/elek/go-utils v0.0.0-20200915142946-9f6e0a020ef3 // indirect
+	github.com/elek/go-utils v0.0.0-20200915142946-9f6e0a020ef3
 	github.com/fatih/color v1.9.0
 	github.com/markbates/pkger v0.17.0
 	github.com/mattn/go-runewidth v0.0.4 // indirect
