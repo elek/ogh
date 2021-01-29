@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"github.com/rs/zerolog/log"
 )
 
 func downloadArtifacts(org string, buildIdExpression string, destinationDir string, all bool) error {
@@ -88,11 +89,10 @@ func downloadArtifactsOfRun(org string, runId string, destinationDir string, all
 		name := ms(artifact, "name")
 		result, found := results[name]
 		if !found {
-			return errors.New("Job result for the artifact " + name + " is unknown")
-		}
-		if all || result == "failure" {
+			log.Debug().Msg("Job result for the artifact " + name + " is unknown")
+		} else if all || result == "failure" {
 
-			println("Downloading results of " + name + " to " + destinationDir)
+			log.Info().Msg("Downloading results of " + name + " to " + destinationDir)
 			err = downloadAndExtract(name, ms(artifact, "archive_download_url"), destinationDir)
 			if err != nil {
 				return err
@@ -142,7 +142,7 @@ func downloadAndExtract(name string, url string, destinationDir string) error {
 				return err
 			}
 		} else {
-			println("Extracting " + f.FileInfo().Name() + " to " + destFile)
+			log.Info().Msg("Extracting " + f.FileInfo().Name() + " to " + destFile)
 			err = os.MkdirAll(path.Dir(destFile), 0755)
 			if err != nil {
 				return err
