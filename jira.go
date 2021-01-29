@@ -31,19 +31,22 @@ func CloseJira(jiraId string) error {
 }
 
 func OpenJira(pullRequestId string) error {
+	githubProject := "ozone"
+	jiraProject := "HDDS"
+
 	jiraApi := jira.Jira{
 		Url: "https://issues.apache.org/jira",
 	}
 
-	pr, err := jsonhelper.AsJson(github.ReadGithubApiV3("https://api.github.com/repos/apache/ozone/pulls/" + pullRequestId))
+	pr, err := jsonhelper.AsJson(github.ReadGithubApiV3("https://api.github.com/repos/apache/" + githubProject + "/pulls/" + pullRequestId))
 	if err != nil {
 		return err
 	}
 
 	title := jsonhelper.MS(pr, "title")
 	body := jsonhelper.MS(pr, "body")
-	pullUrl := "https://github.com/apache/ozone/pull/" + pullRequestId
-	issuePattern, err := regexp.Compile("HDDS-[0-9]+")
+	pullUrl := "https://github.com/apache/" + githubProject + "/pull/" + pullRequestId
+	issuePattern, err := regexp.Compile(jiraProject + "-[0-9]+")
 	if err != nil {
 		return err
 	}
@@ -51,7 +54,7 @@ func OpenJira(pullRequestId string) error {
 	if jiraId == "" {
 		issue := map[string]interface{}{
 			"project": map[string]string{
-				"key": "HDDS",
+				"key": jiraProject,
 			},
 			"summary":     title,
 			"description": "Please see: " + pullUrl,
@@ -83,7 +86,7 @@ func OpenJira(pullRequestId string) error {
 		if err != nil {
 			return err
 		}
-		resp, err := github.CallGithubApiV3WithBody("PATCH", "https://api.github.com/repos/apache/ozone/pulls/"+pullRequestId, patchJson)
+		resp, err := github.CallGithubApiV3WithBody("PATCH", "https://api.github.com/repos/apache/"+githubProject+"/pulls/"+pullRequestId, patchJson)
 		if err != nil {
 			return err
 		}
