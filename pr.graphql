@@ -12,6 +12,7 @@
                     }
                     createdAt
                     updatedAt
+                    headRefName
                     isDraft
                     reviews(last:100) {
                         nodes {

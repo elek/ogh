@@ -33,7 +33,7 @@ func run(all bool, authorFilter string, reference Reference) error {
 	json.Unmarshal(body, &result)
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ID", "Cre", "Upd", "Author", "Summary", "Participants", "Check"})
+	table.SetHeader([]string{"ID", "Cre", "Upd", "Author", "Branch", "Summary", "Participants", "Check"})
 	table.SetAutoWrapText(false)
 	prs := m(result, "data", "repository", "pullRequests", "edges")
 
@@ -82,6 +82,7 @@ func run(all bool, authorFilter string, reference Reference) error {
 				shortDuration(time.Now().Sub(created)),
 				shortDuration(inactiveTime),
 				">" + limit(author, 12),
+				ms(pr, "headRefName"),
 				prTitle,
 				strings.Join(participants, ","),
 				buildStatus(pr),
