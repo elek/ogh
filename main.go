@@ -152,6 +152,21 @@ func init() {
 			},
 		},
 		{
+			Name:    "upcomming",
+			Aliases: []string{"uc"},
+			Usage:   "Show builds sent to the local fork",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "user",
+					Usage: "Github user or organization name (can be set by GITHUB_USER, default to the local user)",
+					Value: "",
+				},
+			},
+			Action: func(c *cli.Context) error {
+				return listForkBuilds(getUser(c))
+			},
+		},
+		{
 			Name:      "archive",
 			Usage:     "Save artifacts and build results of master builds to a specific dir.",
 			ArgsUsage: "destination directory to save the artifacts",

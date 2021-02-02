@@ -1,12 +1,43 @@
 package main
 
 import (
+	js "github.com/elek/go-utils/json"
+	"github.com/olekukonko/tablewriter"
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/olekukonko/tablewriter"
 )
+
+func listForkBuilds(user string) error {
+	apiUrl := "https://api.github.com/repos/" + user + "/ozone/actions/workflows/134817/runs?event=push"
+	cacheKey := user + "-ozone-actions-workflows-134817-runs-push"
+	apiGetter := func() ([]byte, error) {
+		return readGithubApiV3(apiUrl)
+	}
+	runs, err := js.AsJson(cachedGet3min(apiGetter, cacheKey))
+	if err != nil {
+		return err
+	}
+
+	handled := make(map[string]bool)
+	lastRuns := make([]interface{}, 0)
+	//only keep the first occurrences
+	for _, run := range js.L(js.M(runs, "workflow_runs")) {
+		key := js.MS(run, "head_branch")
+		if _, found := handled[key]; !found {
+			handled[key] = true
+			lastRuns = append(lastRuns, run)
+
+		}
+	}
+
+
+	err = printWorkflowRuns(user, lastRuns)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 func listBuilds(org string, branch string, workflowId int) error {
 	fork := org
@@ -31,12 +62,22 @@ func listBuilds(org string, branch string, workflowId int) error {
 		return err
 	}
 
+	workflowRuns := js.L(js.M(runs, "workflow_runs"))
+	err2 := printWorkflowRuns(org, workflowRuns)
+	if err2 != nil {
+		return err2
+	}
+
+	return err
+}
+
+func printWorkflowRuns(org string, runs []interface{}) error {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"#run", "id", "created", "workflow", "branch", "commit", "Checks"})
 	table.SetAutoWrapText(false)
 	println()
 
-	for _, run := range l(m(runs, "workflow_runs")) {
+	for _, run := range runs {
 
 		jobsUrl := ms(run, "jobs_url")
 		jobs, err := asJson(cachedGet(func() ([]byte, error) {
@@ -67,8 +108,7 @@ func listBuilds(org string, branch string, workflowId int) error {
 
 	}
 	table.Render()
-
-	return err
+	return nil
 }
 
 func part(s string, i int) string {
