@@ -30,9 +30,8 @@ func CloseJira(jiraId string) error {
 	return err
 }
 
-func OpenJira(pullRequestId string) error {
-	githubProject := "ozone"
-	jiraProject := "HDDS"
+func OpenJira(pullRequestId string, githubProject string) error {
+	jiraProject := JiraNameFromGithubProject(githubProject)
 
 	jiraApi := jira.Jira{
 		Url: "https://issues.apache.org/jira",

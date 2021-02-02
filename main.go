@@ -2,9 +2,15 @@ package main
 
 import (
 	"fmt"
+	"github.com/go-git/go-billy/v5/memfs"
+	"github.com/go-git/go-billy/v5/osfs"
+	git "github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5/plumbing/cache"
+	"github.com/go-git/go-git/v5/storage/filesystem"
 	"github.com/pkg/errors"
 	"os"
 	"os/user"
+	"path"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -198,7 +204,7 @@ func init() {
 					Usage: "Open jira for a specific pull request",
 					Action: func(c *cli.Context) error {
 						if c.NArg() > 0 {
-							return OpenJira(c.Args().Get(0))
+							return OpenJira(c.Args().Get(0), getProject(c))
 						} else {
 							return errors.New("Please specify the pull request ID")
 						}
@@ -271,4 +277,64 @@ func getUser(c *cli.Context) string {
 	}
 
 	return userName
+}
+
+//recursive parent search for a .git directory
+func findGitDir(dir string) string {
+	if _, err := os.Stat(path.Join(dir, ".git")); os.IsNotExist(err) {
+		if dir == "/" {
+			return ""
+		} else {
+			return findGitDir(filepath.Dir(dir))
+		}
+	} else {
+		return path.Join(dir, ".git")
+	}
+}
+
+func JiraNameFromGithubProject(githubProject string) string {
+	if githubProject == "ozone" {
+		return "HDDS"
+	}
+	project := strings.ReplaceAll(githubProject, "incubator-", "")
+	return strings.ToUpper(project)
+}
+
+//return the defined project (or try to auto-detect)
+func getProject(c *cli.Context) string {
+	project := c.String("project")
+
+	if project == "" {
+
+		worktree := memfs.New()
+
+		wd, err := os.Getwd()
+		if err == nil {
+
+			st := filesystem.NewStorage(osfs.New(findGitDir(wd)), cache.NewObjectLRUDefault())
+
+			repository, err := git.Open(st, worktree)
+			if err != nil {
+				log.Err(err)
+			}
+			remotes, err := repository.Remotes()
+			if err != nil {
+				log.Err(err)
+			}
+			for _, remote := range remotes {
+				if remote.Config().Name == "origin" {
+					remoteUrl := remote.Config().URLs[0]
+					parts := strings.Split(remoteUrl, "/")
+					reponame := parts[len(parts)-1]
+					project = strings.ReplaceAll(reponame, ".git", "")
+				}
+			}
+		}
+
+	}
+
+	if project == "" {
+		project = "ozone"
+	}
+	return project
 }

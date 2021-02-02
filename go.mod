@@ -7,6 +7,8 @@ replace github.com/elek/go-utils v0.0.0-20200915142946-9f6e0a020ef3 => ../go-uti
 require (
 	github.com/elek/go-utils v0.0.0-20200915142946-9f6e0a020ef3
 	github.com/fatih/color v1.9.0
+	github.com/go-git/go-billy/v5 v5.0.0
+	github.com/go-git/go-git/v5 v5.2.0
 	github.com/markbates/pkger v0.17.1
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/olekukonko/tablewriter v0.0.1
