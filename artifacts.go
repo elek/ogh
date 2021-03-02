@@ -48,7 +48,9 @@ func downloadArtifacts(org string, buildIdExpression string, destinationDir stri
 		}
 
 	}
-	return errors.New("Build is not found: " + buildIdExpression)
+	return errors.New("Build is not found: " + buildIdExpression + " use pr/NUM or #NUM " +
+		"(where NUM is the number from the url of https://github.com/elek/apache/actions/runs/527828208)" +
+		" or just NUM where NUM is the index of the build")
 }
 
 func downloadArtifactsOfRun(org string, runId string, destinationDir string, all bool) error {

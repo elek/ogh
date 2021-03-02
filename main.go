@@ -133,6 +133,13 @@ func init() {
 			},
 		},
 		{
+			Name:  "profile",
+			Usage: "Profile github run based on downloaded arguments",
+			Action: func(c *cli.Context) error {
+				return profile(c.Args()[0])
+			},
+		},
+		{
 			Name:    "builds",
 			Aliases: []string{"b"},
 			Usage:   "Print results of branch builds.",
