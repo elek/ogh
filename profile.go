@@ -23,11 +23,11 @@ func profile(dir string) error {
 	sum := 0
 	for _, jobrun := range js.L(js.M(job, "jobs")) {
 		name := js.MS(jobrun, "name")
-		end := time.Unix(js.MT(time.RFC3339, jobrun, "completed_at")/1000, 0)
-		start := time.Unix(js.MT(time.RFC3339, jobrun, "started_at")/1000, 0)
+		end := time.Unix(js.ME(time.RFC3339, jobrun, "completed_at")/1000, 0)
+		start := time.Unix(js.ME(time.RFC3339, jobrun, "started_at")/1000, 0)
 		duration := int(end.Sub(start).Seconds())
 		sum += duration
-		println("build;" + name + " " + strconv.Itoa(duration))
+		println("build;" + name + ";" + strconv.Itoa(duration))
 
 	}
 	return nil

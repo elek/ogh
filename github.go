@@ -22,7 +22,7 @@ func callGithubApiV3(method string, url string) (*http.Response, error) {
 
 	req, err := http.NewRequest(method, url, nil)
 	req.Header.Add("Authorization", "token "+GetToken())
-	req.Header.Add("Accept", "application/vnd.github.antiope-preview+json")
+	req.Header.Add("Accept", "application/vnd.github.v3+json")
 	if err != nil {
 		return nil, err
 	}
