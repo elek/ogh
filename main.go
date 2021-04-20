@@ -300,7 +300,7 @@ func findGitDir(dir string) string {
 }
 
 func JiraNameFromGithubProject(githubProject string) string {
-	if githubProject == "ozone" {
+	if strings.HasPrefix(strings.ToLower(githubProject), "ozone-") || strings.ToLower(githubProject) == "ozone" {
 		return "HDDS"
 	}
 	project := strings.ReplaceAll(githubProject, "incubator-", "")
