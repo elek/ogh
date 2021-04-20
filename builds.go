@@ -132,6 +132,10 @@ func stepsAsString(jobs []interface{}) string {
 		} else {
 			if strings.ToLower(conclusion.(string)) == "success" {
 				statusChr = "_"
+			} else if strings.ToLower(conclusion.(string)) == "cancelled" {
+				statusChr = "~"
+			} else if strings.ToLower(conclusion.(string)) == "neutral" {
+				statusChr = " "
 			} else {
 				statusChr = string(name[0])
 			}
