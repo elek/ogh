@@ -1,5 +1,9 @@
 package main
 
+import (
+	"regexp"
+)
+
 var artifactMap = map[string]string{
 	"integration (freon)":               "it-freon",
 	"integration (filesystem)":          "it-filesystem",
@@ -12,10 +16,11 @@ var artifactMap = map[string]string{
 	"acceptance (secure)":               "acceptance-secure",
 	"acceptance (unsecure)":             "acceptance-unsecure",
 }
+var basicRE = regexp.MustCompile(`basic \(([^)]+)\)`)
 
 func JobToArtifactName(job string) string {
 	if artifact, ok := artifactMap[job]; ok {
 		return artifact
 	}
-	return job
+	return basicRE.ReplaceAllString(job, "$1")
 }
