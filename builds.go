@@ -136,6 +136,8 @@ func stepsAsString(jobs []interface{}) string {
 				statusChr = "~"
 			} else if strings.ToLower(conclusion.(string)) == "neutral" {
 				statusChr = " "
+			} else if strings.Contains(name, "(") {
+				statusChr = string(strings.TrimSpace(strings.Split(name, "(")[1])[0])
 			} else {
 				statusChr = string(name[0])
 			}
@@ -151,7 +153,7 @@ func stepsAsString(jobs []interface{}) string {
 		}
 		groups[groupIndex] += statusChr
 	}
-	return strings.Join(groups, " ")
+	return strings.TrimSpace(strings.Join(groups, " "))
 }
 
 func buildStatus(pr interface{}) string {
