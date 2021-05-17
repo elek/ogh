@@ -6,6 +6,8 @@ import (
 	"github.com/elek/go-utils/jira"
 	jsonhelper "github.com/elek/go-utils/json"
 	"github.com/pkg/errors"
+	"os"
+	"os/user"
 	"regexp"
 	"strings"
 )
@@ -30,6 +32,16 @@ func CloseJira(jiraId string) error {
 	return err
 }
 
+func JiraUser() (string, error) {
+	if jiraUser := os.Getenv("JIRA_USER"); jiraUser != "" {
+		return jiraUser, nil
+	}
+	user, err := user.Current()
+	if err != nil {
+		return "", err
+	}
+	return user.Username, nil
+}
 func OpenJira(pullRequestId string, githubProject string) error {
 	jiraProject := JiraNameFromGithubProject(githubProject)
 
@@ -50,12 +62,20 @@ func OpenJira(pullRequestId string, githubProject string) error {
 		return err
 	}
 	jiraId := issuePattern.FindString(title)
+	jiraUser, err := JiraUser()
+	if err != nil {
+		return errors.Wrap(err, "Jira user couldn't be identified")
+	}
+
 	if jiraId == "" {
 		issue := map[string]interface{}{
 			"project": map[string]string{
 				"key": jiraProject,
 			},
-			"summary":     title,
+			"summary": title,
+			"assignee": map[string]string{
+				"name": jiraUser,
+			},
 			"description": "Please see: " + pullUrl,
 			"issuetype": map[string]string{
 				"name": "Improvement",
