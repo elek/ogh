@@ -17,13 +17,13 @@ import (
 func downloadArtifacts(org string, buildIdExpression string, destinationDir string, all bool) error {
 
 	if strings.HasPrefix(buildIdExpression, "pr/") {
-		pr, err := GetPr(org, "hadoop-ozone", buildIdExpression[3:])
+		pr, err := GetPr(org, "ozone", buildIdExpression[3:])
 		if err != nil {
 			return err
 		}
 		branch := ms(pr, "head", "ref")
 
-		workflowRuns, err := GetWorkflowRunsOfBranch(org, "hadoop-ozone", "4453", branch)
+		workflowRuns, err := GetWorkflowRunsOfBranch(org, "ozone", "8247", branch)
 		if err != nil {
 			return err
 		}
