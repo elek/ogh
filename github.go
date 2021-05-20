@@ -87,7 +87,7 @@ func readPrWithGraphql(ref Reference) ([]byte, error) {
 	queryPayload := make(map[string]string)
 	queryString := string(graphql)
 	queryString = strings.Replace(queryString,
-		"owner: \"apache\", name: \"hadoop-ozone\"",
+		"owner: \"apache\", name: \"ozone\"",
 		"owner: \""+ref.Org+"\", name: \""+ref.Repo+"\"", 1)
 	queryPayload["query"] = queryString
 	query, err := json.Marshal(queryPayload)

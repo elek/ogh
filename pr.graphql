@@ -1,5 +1,5 @@
 {
-    repository(owner: "apache", name: "hadoop-ozone") {
+    repository(owner: "apache", name: "ozone") {
         pullRequests(last: 100, states: OPEN, orderBy: {field: UPDATED_AT, direction: DESC}) {
             edges {
                 node {
