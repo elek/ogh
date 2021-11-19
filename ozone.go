@@ -12,6 +12,8 @@ var artifactMap = map[string]string{
 	"integration (client)":              "it-client",
 	"integration (hdds-om)":             "it-hdds-om",
 	"integration (ozone)":               "it-ozone",
+	"acceptance (HA)":                   "acceptance-HA",
+	"acceptance (MR)":                   "acceptance-MR",
 	"acceptance (misc)":                 "acceptance-misc",
 	"acceptance (secure)":               "acceptance-secure",
 	"acceptance (unsecure)":             "acceptance-unsecure",
