@@ -14,7 +14,7 @@ import (
 
 func archiveBuilds(outputDir string) error {
 
-	runs, err := GetWorkflowRunsOfBranch("apache", "hadoop-ozone", "8247", "master")
+	runs, err := GetWorkflowRuns("apache", "hadoop-ozone", "8247")
 	if err != nil {
 		return err
 	}
@@ -23,6 +23,10 @@ func archiveBuilds(outputDir string) error {
 	for _, run := range l(m(runs, "workflow_runs")) {
 
 		if (ms(run,"event") == "pull_request") {
+			continue
+		}
+
+		if (ms(run,"head_branch") != "master") {
 			continue
 		}
 
