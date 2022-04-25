@@ -4,25 +4,19 @@ import (
 	"regexp"
 )
 
-var artifactMap = map[string]string{
-	"integration (freon)":               "it-freon",
-	"integration (filesystem)":          "it-filesystem",
-	"integration (filesystem-hdds)":     "it-filesystem-hdds",
-	"integration (filesystem-contract)": "it-filesystem-contract",
-	"integration (client)":              "it-client",
-	"integration (hdds-om)":             "it-hdds-om",
-	"integration (ozone)":               "it-ozone",
-	"acceptance (HA)":                   "acceptance-HA",
-	"acceptance (MR)":                   "acceptance-MR",
-	"acceptance (misc)":                 "acceptance-misc",
-	"acceptance (secure)":               "acceptance-secure",
-	"acceptance (unsecure)":             "acceptance-unsecure",
-}
+var acceptanceRE = regexp.MustCompile(`acceptance \(([^)]+)\)`)
 var basicRE = regexp.MustCompile(`basic \(([^)]+)\)`)
+var integrationRE = regexp.MustCompile(`integration \(([^)]+)\)`)
 
 func JobToArtifactName(job string) string {
-	if artifact, ok := artifactMap[job]; ok {
-		return artifact
+	if basicRE.MatchString(job) {
+		return basicRE.ReplaceAllString(job, "$1")
 	}
-	return basicRE.ReplaceAllString(job, "$1")
+	if acceptanceRE.MatchString(job) {
+		return acceptanceRE.ReplaceAllString(job, "acceptance-$1")
+	}
+	if integrationRE.MatchString(job) {
+		return integrationRE.ReplaceAllString(job, "it-$1")
+	}
+	return job
 }
